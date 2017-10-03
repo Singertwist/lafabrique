@@ -1,0 +1,170 @@
+.page-connexion {
+	display: flex;
+	height: 100%;
+}
+
+.image-page-connexion {
+	background-image: url(../img/image-connexion.jpg);
+	width: 50%;
+	height: 100%;
+	background-size: cover; 
+	clip-path: polygon(0 100%, 100% 100%, 90% 0, 0 0);
+	position: fixed;
+}
+
+.image-page-inscription {
+	background-image: url(../img/image-inscription.jpg);
+	width: 50%;
+	height: 100%;
+	background-size: cover; 
+	clip-path: polygon(0 100%, 100% 100%, 90% 0, 0 0);
+	position: fixed;
+}
+
+.image-page-connexion img {
+	width: 20%;
+	height: auto;
+	position: absolute;
+    left: 10px;
+    bottom: 10px;
+}
+
+.image-page-inscription img {
+	width: 20%;
+	height: auto;
+	position: absolute;
+    left: 10px;
+    bottom: 10px;
+
+}
+
+.texte-page-connexion {
+	margin-left: 50%;
+	width: 50%;
+}
+
+.texte-page-connexion1 {
+	display: flex;
+	align-items: center;
+	padding-top: 15px;
+}
+
+.texte-page-connexion1-back-image img{
+	width: 15px;
+	height: auto;
+}
+
+.texte-page-connexion1-back {
+	padding-left: 10px;
+}
+
+.texte-page-connexion1-back a {
+	color: grey;
+}
+
+.texte-page-connexion1 div:first-child {
+	width: 15px;
+}
+
+.texte-page-connexion1 div:last-child {
+	min-width: 140px;
+	margin-right: 5px;
+	flex: 1;
+	margin-top: 0;
+}
+
+.texte-page-connexion2 {
+	display: flex;
+	flex-direction: column;
+	margin-top: 50px;
+	padding-left: 25px;
+}
+
+.texte-page-connexion2-texte p {
+	color: grey;
+}
+
+.texte-page-connexion2 input {
+	display: block;
+	width: 300px;
+	height: 60px;
+	margin: 10px 10px 25px 10px;
+	border-radius: 15px;
+	border: solid 1px grey;
+	padding-left: 15px;
+	font-size: 16px;
+
+}
+
+.texte-page-connexion2 input:last-child {
+	width: 250px;
+	height: 55px;
+	padding: 0;
+	background-color: #FFFFFF;
+	color: #CE3734;
+	border-color: #CE3734;
+    transition-duration: 0.3s;
+    border-width: 2px;
+}
+
+.texte-page-connexion2 input:last-child:hover {
+	color: #E98D5E;
+	border-color: #E98D5E;
+    transition-duration: 0.5s;
+}
+
+@media only screen and (max-width: 699px){
+
+.page-connexion {
+	display: flex;
+	flex-direction: column;
+}
+
+.image-page-connexion {
+	width: 100%;
+	min-height: 350px;
+	height: 350px;
+	clip-path: polygon(0 100%, 100% 100%, 100% 0, 0 0);
+	position: relative;
+}
+
+.image-page-inscription {
+	width: 100%;
+	min-height: 350px;
+	height: 350px;
+	clip-path: polygon(0 100%, 100% 100%, 100% 0, 0 0);
+	position: relative;
+}
+
+.texte-page-connexion {
+	width: 100%;
+	margin-left: 0%;
+}
+
+.texte-page-connexion1-back-image {
+	padding-left: 10px;
+}
+
+.texte-page-connexion2 input {
+	width: 80%;
+}
+
+.image-page-connexion img {
+	position: relative;
+	display: block;
+	margin: auto;
+	padding: auto;
+	width: 150px;
+	padding-top: 40px;
+}
+
+.image-page-inscription img {
+	position: relative;
+	display: block;
+	margin: auto;
+	padding: auto;
+	width: 150px;
+	padding-top: 40px;
+}
+
+}

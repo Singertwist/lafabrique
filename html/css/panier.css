@@ -1,0 +1,47 @@
+.panier {
+	max-width: 1500px;
+	margin: auto;
+	min-height: 100%;
+}
+
+.titre-panier {
+	padding-left: 25px;
+	margin-left: 20px;
+	margin-right: 20px;
+	width: calc(100%-45px);
+	border-bottom-style: solid;
+	border-width: 1px;
+	font-weight: normal;
+}
+
+.items-panier {
+	display: flex;
+	width: calc(100%-45px);
+	padding-left: 25px;
+	margin-left: 20px;
+	margin-right: 20px;
+}
+
+.total-prix-panier {
+	display: flex;
+	border-bottom-style: solid;
+	border-width: 1px;
+	padding-left: 25px;
+	margin-left: 20px;
+	margin-right: 20px;
+	width: calc(100%-45px);
+}
+
+.total-prix-panier-suite {
+	flex:1;
+}
+
+.total-prix-panier-suite:nth-child(2) {
+	text-align: right;
+}
+
+.total-prix-panier-suite h1 {
+	margin: 0;
+	padding: 0;
+	font-weight: normal;
+}
