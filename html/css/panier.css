@@ -14,12 +14,13 @@
 	font-weight: normal;
 }
 
-.items-panier {
+.composition-panier-main-items {
 	display: flex;
 	width: calc(100%-45px);
 	padding-left: 25px;
 	margin-left: 20px;
 	margin-right: 20px;
+	border: dashed;
 }
 
 .total-prix-panier {
