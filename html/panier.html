@@ -38,45 +38,27 @@
 </div>
 
 <div class="commander">
-
-	<div class="panier">
-		<h1 class="titre-panier">Panier</h1>
-		<div class="composition-panier">
-                <div class="composition-panier-main-items">
-                    <div class="composition-panier-main-items-image">Image</div>
-                    <div class="composition-panier-main-items-texte">
-                        <div>Nom de l'item</div>
-                        <div>Composition de l'item / ou Description de l'item</div>
-                    </div>
-                    <div class="composition-panier-main-items-quantite">Bouton modification de la quantité</div>
-                    <div class="composition-panier-main-items-supprimer">Bouton supprimer</div>
-                    <div class="composition-panier-main-items-prix">Prix de l'item</div>
-                </div>
-                <div class="composition-panier-main-items">
-                    <div class="composition-panier-main-items-image">Image</div>
-                    <div class="composition-panier-main-items-texte">
-                        <div>Nom de l'item</div>
-                        <div>Composition de l'item / ou Description de l'item</div>
-                    </div>
-                    <div class="composition-panier-main-items-quantite">Bouton modification de la quantité</div>
-                    <div class="composition-panier-main-items-supprimer">Bouton supprimer</div>
-                    <div class="composition-panier-main-items-prix">Prix de l'item</div>
-                </div>
-		<div class="total-prix-panier">
-			<div class="total-prix-panier-suite"><h1>Total</h1></div> 
-			<div class="total-prix-panier-suite"><h1>145.54€</h1></div>
-		</div>
-        <div class="date-commande">
-            <form>
-                <input type="date" />
-            </form>
+    <h1>Mon Panier</h1>
+    <div class="composition-panier-final">
+        <div class="composition-panier-final-item">
+            <div class="composition-panier-final-item-image" style="background-image:url(img/salade2.jpg);"></div>
+            <div class="composition-panier-final-item-description">
+                <div>Une salade composée</div>
+                <div>Notre salade épinards, gorgonzola, oignons et poulets rotis au miel.</div>
+            </div>
+            <div class="composition-panier-final-item-quantite">
+                <div class="button-quantity-cart"><a href="">-</a></div>
+                    <input type="text" value="1" name="quantity-final-cart">
+                <div class="button-quantity-cart"><a href="">&plus;</a></div>
+            </div>
+            <div class="composition-panier-final-item-supprimer">
+                <a href=""><img src="img/icones/cancel.png" alt="Supprimer" title="Supprimer"/></a>
+                <a href=""><img src="img/icones/edit.png" alt="Modifier" title="Modifier"/></a>
+            </div>
+            <div class="composition-panier-final-item-prix">12.50€</div>
         </div>
+    </div>    
 
-	</div>
-
-
-
-        <!-- Début footer -->     
 <footer>
     <div class="footer-trait"></div>
     <div class="top-footer"> 
@@ -88,8 +70,6 @@
         <div class="bottom-footer-annee"> © 2017 - La Fabrique à Sandwiches</div>   
     </div>
 </footer>
-
-</div>
 
 
 </div>
@@ -113,7 +93,8 @@
         easing: 'ease-in-quad'
       });
     </script>
-<!-- Fin pour présentation dynamique "Notre concept" -->    
+<!-- Fin pour présentation dynamique "Notre concept" -->
+<script src="js/quantite-input/quantite.js"></script>    
 <!-- Fin chargement javascript-->
 
 	</body>
