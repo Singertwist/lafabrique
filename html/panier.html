@@ -6,6 +6,8 @@
 	  <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0" /> <!-- Pour les périphériques mobiles afin que la largeur di site s'adapte à la largeur de l'écran mobile -->
 	  <link rel="stylesheet" href="css/styles.css" />
 	  <link rel="stylesheet" href="js/aos-master/aos.css" />
+      <link rel="stylesheet" media="all" type="text/css" href="css/date-picker/jquery-ui.css" />
+      <link rel="stylesheet" media="all" type="text/css" href="js/date-picker/css/jquery-ui-timepicker-addon.css" />
 	</head>
 	<body>
 
@@ -59,10 +61,12 @@
         </div>
         <div class="composition-panier-final-info">
             <div class="composition-panier-final-info-date"> 
-                <div>Date et heure à laquelle je souhaite que le sandwiche soit prêt.</div>
+                <div>Date et heure à laquelle je souhaite que votre commande soit prête :
+                    <input type="text" name="datepicker" id="datepicker" value="" />
+                </div>
                 <div>
                     <p>Si vous avez un code de réduction, c'est le moment de le saisir.</p>
-                    <input type="text" name="discount-code" placeholder="Entrer votre code"><button type="submit">Appliquer le code</button>
+                    <input type="text" name="discount-code" placeholder="Entrer votre code de réduction"><input type="submit" name="soumettre-code" value="Appliquer le code"></input>
                 </div>
             </div>
             <div class="composition-panier-final-info-total">
@@ -71,7 +75,7 @@
                 <div>Dont TVA : <span class="bold-total-panier">2.50€</span></div>
                 <div>Total : <span class="bold-total-panier">12.50€</span></div>
             </div>
-        </div>      
+        </div>    
     </div>  
 
  
@@ -111,7 +115,40 @@
       });
     </script>
 <!-- Fin pour présentation dynamique "Notre concept" -->
-<script src="js/quantite-input/quantite.js"></script>    
+        <script type="text/javascript" src="js/date-picker/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="js/date-picker/jquery-ui-timepicker-addon.js"></script>
+        <script type="text/javascript" src="js/date-picker/i18n/jquery-ui-timepicker-addon-i18n.min.js"></script>
+        <script type="text/javascript" src="js/date-picker/jquery-ui-sliderAccess.js"></script>
+
+        <!--<script type="text/javascript" src="js/date-picker/api_buttons.js"></script>-->
+
+        <script type="text/javascript">
+            
+            $(function(){
+        
+                $('.composition-panier-final-info-date').each(function(i){
+                    $('#datepicker').datetimepicker({
+                        timeFormat: 'HH:mm',
+                        dateFormat: 'dd.mm.yy',
+                        firstDay: 1,
+                        stepHour: 1,
+                        stepMinute: 10,
+                        hourMin: 8,
+                        hourMax: 16,
+                        monthNames: ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
+                        monthNamesShort: ['Jan','Fév','Mar','Avr','Mai','Jui','Jui','Aoû','Sep','Oct','Nov','Déc'],
+                        dayNames: ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'],
+                        dayNamesShort: ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'],
+                        dayNamesMin: ['Di','Lu','Ma','Me','Je','Ve','Sa'],
+                        prevText: 'Précédent',
+                        nextText: 'Suivant',
+                    });
+                });
+            });
+            
+        </script>
+
+
 <!-- Fin chargement javascript-->
 
 	</body>

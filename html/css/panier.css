@@ -158,6 +158,14 @@ div .bold-total-panier {
 	margin-left: 5px;
 }
 
+.composition-panier-final-info-total div:last-child {
+	border-color: #CE3734;
+}
+
+.composition-panier-final-info-total div:last-child .bold-total-panier {
+	color: #CE3734;
+}
+
 @media only screen and (max-width: 699px){ 
 
 
