@@ -59,15 +59,41 @@
             </div>
             <div class="composition-panier-final-item-prix">12.50€</div>
         </div>
+                <div class="composition-panier-final-item">
+            <div class="composition-panier-final-item-image" style="background-image:url(img/salade2.jpg);"></div>
+            <div class="composition-panier-final-item-description">
+                <div>Une salade composée</div>
+                <div>Notre salade épinards, gorgonzola, oignons et poulets rotis au miel.</div>
+            </div>
+            <div class="composition-panier-final-item-quantite">
+                <div class="button-quantity-cart"><a href="">-</a></div>
+                    <input type="text" value="1" name="quantity-final-cart">
+                <div class="button-quantity-cart"><a href="">&plus;</a></div>
+            </div>
+            <div class="composition-panier-final-item-supprimer">
+                <a href=""><img src="img/icones/cancel.png" alt="Supprimer" title="Supprimer"/></a>
+                <a href=""><img src="img/icones/edit.png" alt="Modifier" title="Modifier"/></a>
+            </div>
+            <div class="composition-panier-final-item-prix">12.50€</div>
+        </div>
         <div class="composition-panier-final-info">
             <div class="composition-panier-final-info-date"> 
-                <div>Date et heure à laquelle je souhaite que votre commande soit prête :
-                    <input type="text" name="datepicker" id="datepicker" value="" />
+                <div>
+                    <p>Date et heure de retrait de la commande: </p>
+                    <form>
+                        <input type="text" placeholder="Sélectionner votre jour et heure" name="datepicker" id="datepicker" value="" />
+                        <input type="checkbox" id="date-picker-confirmation" name="date-picker-confirmation" value="ok"/><label for="date-picker-confirmation">Je confirme la date de retrait.</label>
+                    </form>
                 </div>
                 <div>
-                    <p>Si vous avez un code de réduction, c'est le moment de le saisir.</p>
-                    <input type="text" name="discount-code" placeholder="Entrer votre code de réduction"><input type="submit" name="soumettre-code" value="Appliquer le code"></input>
-                </div>
+                    <p>
+                        Si vous avez un code de réduction, c'est le moment de le saisir:
+                        <form>
+                            <input class="composition-panier-final-info-date-style2" type="text" name="discount-code" placeholder="Entrer votre code de réduction">
+                            <input type="submit" name="soumettre-code" value="Appliquer le code" class="composition-panier-final-info-date-style3"></input>
+                        </form>    
+                    </p>
+                </div>  
             </div>
             <div class="composition-panier-final-info-total">
                 <div>Discount : <span class="bold-total-panier">0.00€</span></div>
@@ -75,10 +101,18 @@
                 <div>Dont TVA : <span class="bold-total-panier">2.50€</span></div>
                 <div>Total : <span class="bold-total-panier">12.50€</span></div>
             </div>
-        </div>    
+        </div> 
+        <div class="bouton-validation-panier">
+            <div>
+                <a href="">Continuer vos Achats</a>
+            </div>
+            <div>
+                <form method="post" action="">
+                    <input type="submit" name="cart-validation" value="Valider le Panier" class="composition-panier-final-info-date-style1">
+                </form>
+            </div>
+        </div>     
     </div>  
-
- 
 
 <footer>
     <div class="footer-trait"></div>
@@ -91,8 +125,6 @@
         <div class="bottom-footer-annee"> © 2017 - La Fabrique à Sandwiches</div>   
     </div>
 </footer>
-
-
 </div>
 </div>    <!-- Nécessaire pour permettre de rentrer le menu en cliquant n'importe où sur la page -->
 
@@ -107,14 +139,6 @@
 <script type="text/javascript" src="js/menu-commander/menu-produits.js"></script>
 <script type="text/javascript" src="js/menu-commander/classie.js"></script>
 <!-- Fin script menu responsive -->
-<!-- Script pour présentation dynamique "Notre concept" -->
-<script src="js/aos-master/aos.js"></script>
-    <script>
-      AOS.init({
-        easing: 'ease-in-quad'
-      });
-    </script>
-<!-- Fin pour présentation dynamique "Notre concept" -->
         <script type="text/javascript" src="js/date-picker/jquery-ui.min.js"></script>
         <script type="text/javascript" src="js/date-picker/jquery-ui-timepicker-addon.js"></script>
         <script type="text/javascript" src="js/date-picker/i18n/jquery-ui-timepicker-addon-i18n.min.js"></script>

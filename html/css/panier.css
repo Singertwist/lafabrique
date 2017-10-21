@@ -125,7 +125,6 @@
 }
 
 .composition-panier-final-info-date {
-	width: 50%;
 	border: solid 1px lightgrey;
 	margin-right: 5px;
 	width: calc(50% - 5px);
@@ -142,6 +141,7 @@
 
 .composition-panier-final-info-total > div {
 	width: 40%;
+	min-width: 100px;
 	max-width: 200px;
 	height: 60px;
 	border: solid 1px lightgrey;
@@ -159,12 +159,119 @@ div .bold-total-panier {
 }
 
 .composition-panier-final-info-total div:last-child {
-	border-color: #CE3734;
+	border: #CE3734 solid 2px;
+	font-size: 20px;
+	color: #CE3734;
+	font-weight: bold;
 }
 
 .composition-panier-final-info-total div:last-child .bold-total-panier {
 	color: #CE3734;
 }
+
+.composition-panier-final-info-date {
+	display: flex;
+	flex-direction: column;
+}
+
+.composition-panier-final-info-date p {
+	font-size: 18px;
+	letter-spacing: 1px;
+	margin: 0;
+	padding: 0;
+}
+
+.composition-panier-final-info-date div {
+	margin: 0px;
+	padding: 0px 0px 0px 5px;
+}
+
+.composition-panier-final-info-date div:first-child form {
+	display: flex;
+	align-items: center;
+}
+
+.composition-panier-final-info-date div form input[type=text] {
+	width: 50%;
+	height: 40px;
+	min-width: 180px;
+	box-sizing: border-box;
+  	padding: 0px 5px 2px 5px;
+  	border: 1px solid lightgrey;
+}
+.composition-panier-final-info-date div:first-child form label {
+	text-align: center;
+	color: #CE3734;
+}
+
+.composition-panier-final-info-date div:first-child form input[type=text] {
+  background-image: url("../img/icones/clock.png");
+  background-size: 20px 20px;
+  background-repeat: no-repeat;
+  background-position: right;
+  margin-top: 10px;
+}
+
+input[type=text]:focus {
+  outline: none;
+}
+
+.composition-panier-final-info-date div:nth-child(2) input[type=submit] {
+	word-wrap: break-word;
+    word-break: break-all;
+    height: 40px;
+    background-color: #FFFFFF;
+    color: #CE3734;
+    border: solid 1px #CE3734;
+}
+
+.composition-panier-final-info-date div:nth-child(2) input[type=submit]:hover {
+	cursor: pointer;
+}
+
+.bouton-validation-panier {
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+	padding: 15px;
+}
+
+.bouton-validation-panier div:first-child {
+	border: solid 1px grey;
+	width: 300px;
+	height: 60px;
+	margin: 10px 10px 10px 10px;
+	border-radius: 15px;
+	font-size: 16px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.bouton-validation-panier div:first-child:hover {
+	cursor: pointer;
+}
+
+.bouton-validation-panier div:first-child a {
+	color: grey;
+}
+
+.bouton-validation-panier form input {
+	background-color: #FFFFFF;
+	color: #CE3734;
+	border: solid 1px #CE3734;
+    transition-duration: 0.3s;
+	width: 300px;
+	height: 60px;
+	margin: 10px 10px 10px 10px;
+	border-radius: 15px;
+	font-size: 16px;
+}
+
+.bouton-validation-panier form input:hover {
+	cursor: pointer;
+}
+
 
 @media only screen and (max-width: 699px){ 
 
@@ -194,15 +301,27 @@ div .bold-total-panier {
 	font-size: 20px;
 }
 
-
 .composition-panier-final-info-total > div {
 	flex-direction: column;
 	text-align: center;
 }
 
-div .bold-total-panier {
-	font-weight: bold;
-	letter-spacing: 1px;
+.composition-panier-final-info{
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+}
+
+.composition-panier-final-info-date {
+	width: 100%;
+	margin-bottom: 30px;
+	margin-right: 0px;
+
+}
+
+.composition-panier-final-info-total {
+	width: 100%;
+	margin-bottom: 30px;
 	margin-left: 0px;
 }
 

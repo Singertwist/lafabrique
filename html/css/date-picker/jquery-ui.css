@@ -735,6 +735,7 @@ button.ui-button::-moz-focus-inner {
 	cursor: default;
 	-ms-touch-action: none;
 	touch-action: none;
+	outline: none;
 }
 .ui-slider .ui-slider-range {
 	position: absolute;
@@ -982,7 +983,7 @@ a.ui-button:focus {
 a.ui-button:active,
 .ui-button:active,
 .ui-button.ui-state-active:hover {
-	background: #007fff;
+	background: #CE3734;
 	font-weight: normal;
 	color: #ffffff;
 }
