@@ -19,5 +19,4 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^accueil/', include('accueil.urls')),
-    url(r'^commander/', include('categories_produits.urls')),
 ]
