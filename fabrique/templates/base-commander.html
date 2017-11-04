@@ -1,0 +1,88 @@
+{% load static %}
+
+<html lang="fr">
+	<head>
+	  <meta charset="utf-8">
+	  <title>La Fabrique à Sandwiches - Repas sur le pouce, sains et sur mesure.</title>
+	  <link rel="stylesheet" href="{% static 'css/index.css' %}">
+	  <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0" /> <!-- Pour les périphériques mobiles afin que la largeur di site s'adapte à la largeur de l'écran mobile -->
+	  <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+	  <link rel="stylesheet" href="{% static 'js/aos-master/aos.css' %}" />
+	</head>
+	<body>
+
+<div class="site-pusher"> <!-- nécessaire pour pousser le site quand menu petite résolution -->
+<div class="container"> <!-- Nécessaire pour flex box -->
+
+    <header class="header">
+		<a href="" class="header__icon"></a>
+		<a href="" class="header__logo"></a>
+		<nav class="menu">
+                <a href="{% url 'home' %}"><img class="logo" src="{% static 'img/icones/logo-white.png' %}"></a>
+				<a href="{% url 'home' %}"><img class="icone-menu" src="{% static 'img/icones/home-white.png' %}">Accueil</a>
+                <a href=""><img class="icone-menu" src="{% static 'img/icones/online-shopping-cart-white.png' %}">Commander</a>
+				<a href=""><img class="icone-menu" src="{% static 'img/icones/farm-white.png' %}">Producteurs</a>
+				<a href=""><img class="icone-menu" src="{% static 'img/icones/you-are-here.png' %}">Nous Situer</a>
+		</nav>
+    </header>
+
+<div class="site-content">
+
+<div class="menu-top-commander">
+    <div class="menu-top-commander-texte">Menu</div>
+    <div class="menu-top-commander-texte">
+        {% for nom_categorie in menu_commander_categories %}
+        <div class="menu-top-commander-texte-lien"><p><a href="{% url 'articles_plats' nom_categorie.slug nom_categorie.ordre %}">{{nom_categorie|title}}</a></p></div>
+        {% endfor %}
+        <div class="menu-top-commander-texte-lien"><p><a href=""><img src="{% static 'img/icones/shopping-cart.png' %}" alt="shopping cart"></a></p></div>
+    </div> 
+</div>
+
+<div class="commander">
+
+	{% block commander %} {% endblock %}
+        <!-- Début footer -->     
+<footer>
+    <div class="footer-trait"></div>
+    <div class="top-footer"> 
+        <div class="top-logo-footer"> <img src="{% static 'img/icones/logo-noir-clair.png' %}" alt="logo footer"/></div>
+        <div class="nom-top-logo-footer">La Fabrique à Sandwiches</div>
+    </div>
+    <div class="bottom-footer">
+        <div class="bottom-footer-categories"> <a href="">Contact</a> <a href="">CGV</a> <a href="">Mentions légales</a> <a href="">Presse</a>   </div>
+        <div class="bottom-footer-annee"> © 2017 - La Fabrique à Sandwiches</div>   
+    </div>
+</footer> 
+
+</div>
+
+
+
+
+</div>
+</div>    <!-- Nécessaire pour permettre de rentrer le menu en cliquant n'importe où sur la page -->
+
+</div>
+
+    <div class="site-cache" id="site-cache"></div>
+</div>
+<!-- Début chargement javascript -->
+<!-- Script pour le menu responsive -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/responsive-menu/app.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/menu-commander/menu-produits.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/menu-commander/classie.js' %}"></script>
+<!-- Fin script menu responsive -->
+<!-- Script pour présentation dynamique "Notre concept" -->
+<script src="{% static 'js/aos-master/aos.js' %}"></script>
+    <script>
+      AOS.init({
+        easing: 'ease-in-quad'
+      });
+    </script>
+<!-- Fin pour présentation dynamique "Notre concept" -->  
+  
+<!-- Fin chargement javascript-->
+
+	</body>
+</html>

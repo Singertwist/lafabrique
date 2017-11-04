@@ -1,0 +1,241 @@
+.choix-composer-non-composer {
+	display: flex;
+	justify-content: center;
+	text-align: center;
+	max-width: 1500px;
+	margin: auto;
+}
+
+.choix-composer-non-composer-choix {
+	display: flex;
+	margin: 0px 50px 50px 50px;
+	height: 75px;
+	align-items: center;
+	padding: 0px 10px 0px 10px;
+	border: solid 2px grey;
+	background-color: #FFFFFF;
+	border-radius: 5px;
+	width: 250px;
+}
+
+.choix-composer-non-composer-choix1 {
+	flex-grow: 1;
+}
+
+.choix-composer-non-composer-choix1 > a {
+	color: #000000;
+	display: flex;
+	align-items: center;
+	height: 75px;
+}
+
+.choix-composer-non-composer-choix img {
+	width: 35px;
+	margin-left: 15px;
+}
+
+.plat-composer {
+	display: flex;
+	max-width: 1500px;
+	margin: auto;
+}
+
+.plat-composer-choix {
+	margin-left: 10px;
+	min-width: calc(100% - 255px); /*255px pour tenir compte des différentes marges */
+}
+
+.plat-composer-panier {
+	width: 225px;
+	min-width: 225px;
+	position: -webkit-sticky;
+	position: sticky;
+	top: 90px;
+	align-self: flex-start;
+	margin-right: 10px;
+	margin-left: 10px;
+	background-color: #F5F3F4;
+	min-height: 200px;
+	border-radius: 10px;
+}
+
+.plat-composer-panier-entete {
+	display: flex;
+	background-color: #CE3734;
+	padding: 10px;
+	padding-top: 15px;
+	color: #FFFFFF;
+	border-bottom: solid;
+	border-radius: 10px 10px 0px 0px;
+}
+
+.plat-composer-panier-entete1 {
+	width: 200px;
+}
+
+.plat-composer-panier-entete2 img {
+	width: 25px;
+	display: block;
+}
+
+.plat-composer-panier-item {
+	display: flex;
+	padding: 5px;
+	align-items: center;
+}
+
+.plat-composer-panier-item-image {
+	width: 70px;
+	height: 55px;
+	background-size: cover;
+ 	display: block;
+ 	border: 2px solid #FFFFFF;
+ 	border-radius: 50%;
+}
+
+.plat-composer-panier-item {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+.plat-composer-panier-item-nom {
+	padding-left: 10px;
+	padding-right: 5px;
+}
+
+.plat-composer-panier-item-nom2 {
+	font-size: 12px;
+	color: grey;
+}
+
+.plat-composer-panier-item-image img {
+	width: 70px;
+	border: 2px solid #FFFFFF;
+   	border-radius: 50%;
+}
+
+.plat-composer-panier-item-delete img {
+	width: 20px;
+	display: block;
+	transition-duration: 0.5s;
+}
+
+.plat-composer-panier-item-delete img:hover {
+	filter: blur(0.5px);
+	transition-duration: 0.5s;
+}
+
+.requirements h2 {
+	font-size: 15px;
+	padding-left: 10px;
+	letter-spacing: 1px;
+	font-weight: normal;
+}
+
+.requirements textarea {
+	width: 200px;
+	min-height: 85px;
+	display: block;
+	font-style: italic;
+	margin: auto;
+	padding: auto;
+	outline: none;
+	resize: none;
+	border: solid 1px grey;
+	border-radius: 5px;
+	color: grey;
+}
+
+.plat-composer-panier-boutton {
+	display: flex;
+	justify-content: space-around;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+.plat-composer-panier-boutton > div {
+	width: 90px;
+	height: 40px;
+	font-size: 12px;
+	display: flex;
+	align-items: center;
+	text-align: center;
+}
+
+.plat-composer-panier-boutton-continue {
+	border-radius: 5px;
+	background-color: #FFFFFF;
+	border: solid 2px grey;
+	font-weight: bold;
+}
+
+.plat-composer-panier-boutton-checkout {
+	border-radius: 5px;
+	background-color: #CE3734;
+	border: solid 2px #CE3734;
+	transition-duration: 0.5s;
+}
+
+.plat-composer-panier-boutton-checkout:hover{
+	background-color: #FFFFFF;
+	border: solid 2px #CE3734;
+	transition-duration: 1s;
+}
+
+
+.plat-composer-panier-boutton a {
+	letter-spacing: 1px;
+	display: block;
+	padding: 5px;
+}
+
+.plat-composer-panier-boutton-continue a {
+	color: grey;
+}
+
+.plat-composer-panier-boutton-checkout a {
+	color: #FFFFFF;
+}
+
+.plat-composer-panier-boutton-checkout a:hover {
+	color: grey;
+}
+
+summary {
+	font-size: 25px;
+	border-bottom-style: solid;
+	padding-bottom: 5px;
+	border-width: 1px;
+	outline: none;
+}
+
+@media only screen and (max-width: 699px){
+
+.choix-composer-non-composer {
+	flex-direction: column;
+	justify-content: center;
+}
+
+.choix-composer-non-composer-choix {
+	width: 50%;
+	min-width: 0px;
+	margin: auto;
+	margin-top: 15px;
+	margin-bottom: 15px;
+}
+
+.plat-composer {
+	flex-direction: column-reverse;
+}
+
+.plat-composer-panier {
+	position: relative;
+	top: 0px;
+	margin: auto;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+
+}

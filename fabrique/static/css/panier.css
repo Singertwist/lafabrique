@@ -1,0 +1,332 @@
+.panier {
+	max-width: 1500px;
+	margin: auto;
+}
+
+.commander > h1 {
+	text-align: center;
+	width: 300px;
+	margin: auto;
+	padding: auto;
+	letter-spacing: 1px;
+	font-weight: normal;
+	border-bottom: solid 1px;
+}
+
+.composition-panier-final {
+	margin: auto;
+	padding: auto;
+	width: calc(100% - 50px);
+	background-color: #FFFFFF;
+	padding: 15px;
+	border: solid 1px lightgrey;
+	margin-top: 25px;
+}
+
+.composition-panier-final-item {
+	display: flex;
+	min-height: 125px;
+	padding-bottom: 5px;
+	border-bottom: solid 1px lightgrey;
+	margin-top: 5px;
+	justify-content: space-around;
+}
+
+.composition-panier-final-item-image {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 125px;
+	background-size: cover;
+	border-radius: 5px;
+}
+
+.composition-panier-final-item-description {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	width: 35%;
+	padding: 5px;
+}
+
+.composition-panier-final-item-description > div:first-child {
+	font-size: 20px;
+}
+
+.composition-panier-final-item-description > div:nth-child(2) {
+	color: grey;
+	font-size: 14px;
+}
+
+.composition-panier-final-item-quantite {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 100px;
+}
+
+.composition-panier-final-item-quantite * {
+	box-sizing: border-box;
+}
+
+.composition-panier-final-item-quantite > div {
+	height: 40px;
+	width: 40px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: #CE3734;
+	border: solid 1px lightgrey;
+}
+
+.composition-panier-final-item-quantite > div a {
+	color: #FFFFFF;
+}
+
+.composition-panier-final-item-quantite > div:first-child {
+	border-right: none; 
+}
+
+.composition-panier-final-item-quantite > div:nth-child(3) {
+	border-left: none; 
+}
+
+.composition-panier-final-item-quantite input {
+	width: 60px;
+	height: 40px;
+	border: solid 1px lightgrey;
+	text-align: center;
+}
+
+.composition-panier-final-item-supprimer { 
+	display:  flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 100px;
+}
+
+.composition-panier-final-item-supprimer img {
+	width: 30px;
+	padding: 10px;
+}
+
+.composition-panier-final-item-prix {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding-left: 15px;
+	justify-content: center;
+	border-left: solid 1px lightgrey;
+}
+
+.composition-panier-final-info {
+	display: flex;
+	padding-top: 15px;
+}
+
+.composition-panier-final-info-date {
+	border: solid 1px lightgrey;
+	margin-right: 5px;
+	width: calc(50% - 5px);
+}
+
+.composition-panier-final-info-total {
+	border: solid 1px lightgrey;
+	margin-left: 5px;
+	width: calc(50% - 5px);
+	display: flex;
+	flex-flow: wrap;
+	justify-content: center;
+}
+
+.composition-panier-final-info-total > div {
+	width: 40%;
+	min-width: 100px;
+	max-width: 200px;
+	height: 60px;
+	border: solid 1px lightgrey;
+	margin: 15px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-flow: wrap;
+}
+
+div .bold-total-panier {
+	font-weight: bold;
+	letter-spacing: 1px;
+	margin-left: 5px;
+}
+
+.composition-panier-final-info-total div:last-child {
+	border: #CE3734 solid 2px;
+	font-size: 20px;
+	color: #CE3734;
+	font-weight: bold;
+}
+
+.composition-panier-final-info-total div:last-child .bold-total-panier {
+	color: #CE3734;
+}
+
+.composition-panier-final-info-date {
+	display: flex;
+	flex-direction: column;
+}
+
+.composition-panier-final-info-date p {
+	font-size: 18px;
+	letter-spacing: 1px;
+	margin: 0;
+	padding: 0;
+}
+
+.composition-panier-final-info-date p:first-child {
+	padding-top: 10px;
+}
+
+.composition-panier-final-info-date div {
+	margin: 0px;
+	padding: 0px 0px 0px 5px;
+}
+
+.composition-panier-final-info-date div:first-child form {
+	display: flex;
+	align-items: center;
+}
+
+.composition-panier-final-info-date div form input[type=text] {
+	width: 50%;
+	height: 40px;
+	min-width: 180px;
+	box-sizing: border-box;
+  	padding: 0px 5px 2px 5px;
+  	border: 1px solid lightgrey;
+}
+.composition-panier-final-info-date div:first-child form label {
+	text-align: center;
+	color: #CE3734;
+}
+
+.composition-panier-final-info-date div:first-child form input[type=text] {
+  background-image: url("../img/icones/clock.png");
+  background-size: 20px 20px;
+  background-repeat: no-repeat;
+  background-position: right;
+  margin-top: 10px;
+}
+
+input[type=text]:focus {
+  outline: none;
+}
+
+.composition-panier-final-info-date div:nth-child(2) input[type=submit] {
+	word-wrap: break-word;
+    word-break: break-all;
+    height: 40px;
+    background-color: #FFFFFF;
+    color: #CE3734;
+    border: solid 1px #CE3734;
+}
+
+.composition-panier-final-info-date div:nth-child(2) input[type=submit]:hover {
+	cursor: pointer;
+}
+
+.bouton-validation-panier {
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+	padding: 15px;
+}
+
+.bouton-validation-panier div:first-child {
+	border: solid 1px grey;
+	width: 300px;
+	height: 60px;
+	margin: 10px 10px 10px 10px;
+	border-radius: 15px;
+	font-size: 16px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.bouton-validation-panier div:first-child:hover {
+	cursor: pointer;
+}
+
+.bouton-validation-panier div:first-child a {
+	color: grey;
+}
+
+.bouton-validation-panier form input {
+	background-color: #FFFFFF;
+	color: #CE3734;
+	border: solid 1px #CE3734;
+    transition-duration: 0.3s;
+	width: 300px;
+	height: 60px;
+	margin: 10px 10px 10px 10px;
+	border-radius: 15px;
+	font-size: 16px;
+}
+
+.bouton-validation-panier form input:hover {
+	cursor: pointer;
+}
+
+
+@media only screen and (max-width: 699px){ 
+
+
+.composition-panier-final-item {
+	flex-direction: column;
+	align-items: center;
+}
+
+.composition-panier-final-item-image {
+	height: 250px;
+	width: 80%;
+}
+
+.composition-panier-final-item-description {
+	width: 80%;
+	text-align: center;
+}
+
+.composition-panier-final-item-prix {
+	border-top: solid 1px lightgrey;
+	border-left: none;
+	width: 50%;
+	padding-top: 15px;
+	padding-left: 0px;
+	text-align: center;
+	font-size: 20px;
+}
+
+.composition-panier-final-info-total > div {
+	flex-direction: column;
+	text-align: center;
+}
+
+.composition-panier-final-info{
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+}
+
+.composition-panier-final-info-date {
+	width: 100%;
+	margin-bottom: 30px;
+	margin-right: 0px;
+
+}
+
+.composition-panier-final-info-total {
+	width: 100%;
+	margin-bottom: 30px;
+	margin-left: 0px;
+}
+
+}

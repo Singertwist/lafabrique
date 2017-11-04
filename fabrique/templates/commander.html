@@ -1,0 +1,42 @@
+{% extends "base-commander.html" %}
+{% load static %}
+
+{% block commander %}
+		<div class="titre-concept"><h1>Notre spécial de la semaine</h1></div>
+		<div class="special-semaine" style="background-image:url({% static 'img/salade2.jpg' %});">
+			<div>
+				<a href=""><p>Notre salade épinards, gorgonzola, oignons et poulets rotis au miel.</p></a>
+			</div>	
+		</div>
+	<div class="titre-concept"><h1>Aujourd'hui, je voudrais manger.... </h1></div>
+
+		<div class="selection-plat">
+			{% for categorie_articles in sous_categories_articles %}
+			<div class="article-selection-plat">
+				<div class="image-article-selection-plat"><img src="{{ categorie_articles.image.url }}" alt="sandwiches"/></div>
+				<div class="texte-article-selection-plat">
+					<div class="titre-texte-article-selection-plat"><h1>{{ categorie_articles.nom|title }}</h1></div>
+					<div class="texte-texte-article-selection-plat"><p>{{ categorie_articles.description }}</p></div>
+				</div>
+				<div class="prix-texte-article-selection-plat">
+					{% if categorie_articles.prix_min == None %}
+					<div class="sous-catprix-texte-article-selection-plat">{{ categorie_articles.prix_unitaire }} €</div>
+					{% else %}
+					<div class="sous-catprix-texte-article-selection-plat">A partir de {{ categorie_articles.prix_min }} €</div>
+					{% endif %}
+					<div class="sous-catprix-texte-article-selection-plat"><a href=""><img src="{% static 'img/icones/shopping-cart.png' %}" alt="shopping-cart"/></a></div>
+				</div>	
+			</div>
+
+			{% empty %}
+
+			<p>Aucune catégorie</p>
+
+			{% endfor %}
+
+		</div>
+
+		<script type="text/javascript" src="{% static 'js/menu-commander/menu-produits.js' %}"></script>
+		<script type="text/javascript" src="{% static 'js/menu-commander/classie.js' %}"></script>
+
+{% endblock %}
