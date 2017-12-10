@@ -194,6 +194,7 @@
 	font-size: 18px;
 	line-height: 150%;
 	color: grey;
+	margin: 0;
 }
 
 .info-plat-popup {
@@ -205,6 +206,7 @@
 
 .infos-plat-popup {
 	border-style: solid;
+	text-align: center;
 	border-radius: 5px;
 	border-width: 1px;
 	border-color: #414141;
@@ -225,12 +227,20 @@
 }
 
 .infos-plat-popup h1 {
-	text-align: center;
 	font-size: 18px;
 	margin: 0;
 	border-bottom-style: solid;
 	border-width: 1px;
+}
 
+.image-info-rapide {
+	padding: 5px;
+}
+
+.image-info-rapide img {
+	width: 25px;
+	height: auto;
+	padding: 5px;
 }
 
 

@@ -1,65 +1,103 @@
 {% load static %}
 
 <html lang="fr">
-	<head>
-	  <meta charset="utf-8">
-	  <title>La Fabrique à Sandwiches - Repas sur le pouce, sains et sur mesure.</title>
-	  <link rel="stylesheet" href="{% static 'css/index.css' %}">
-	  <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0" /> <!-- Pour les périphériques mobiles afin que la largeur di site s'adapte à la largeur de l'écran mobile -->
-	  <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
-	  <link rel="stylesheet" href="{% static 'js/aos-master/aos.css' %}" />
-	</head>
-	<body>
+    <head>
+      <meta charset="utf-8">
+      <title>La Fabrique à Sandwiches - Repas sur le pouce, sains et sur mesure.</title>
+      <link rel="stylesheet" href="{% static 'css/index.css' %}">
+      <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0" /> <!-- Pour les périphériques mobiles afin que la largeur di site s'adapte à la largeur de l'écran mobile -->
+      <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+      <link rel="stylesheet" href="{% static 'js/aos-master/aos.css' %}" />
+    </head>
+    <body>
 
 <div class="site-pusher"> <!-- nécessaire pour pousser le site quand menu petite résolution -->
 <div class="container"> <!-- Nécessaire pour flex box -->
 
-    <header class="header">
-		<a href="" class="header__icon"></a>
-		<a href="" class="header__logo"></a>
-		<nav class="menu">
-                <a href="{% url 'home' %}"><img class="logo" src="{% static 'img/icones/logo-white.png' %}"></a>
-				<a href="{% url 'home' %}"><img class="icone-menu" src="{% static 'img/icones/home-white.png' %}">Accueil</a>
-                <a href=""><img class="icone-menu" src="{% static 'img/icones/online-shopping-cart-white.png' %}">Commander</a>
-				<a href=""><img class="icone-menu" src="{% static 'img/icones/farm-white.png' %}">Producteurs</a>
-				<a href=""><img class="icone-menu" src="{% static 'img/icones/you-are-here.png' %}">Nous Situer</a>
-		</nav>
-    </header>
+        <header class="header">
+            <a href="" class="header__icon"></a>
+            <a href="" class="header__logo"></a>
+            <nav class="menu">
+                    <a href="{% url 'home' %}"><img class="logo" src="{% static 'img/icones/logo-white.png' %}"></a>
+                    <a href="{% url 'home' %}"><img class="icone-menu" src="{% static 'img/icones/home-white.png' %}">Accueil</a>
+                    {% if menu_commander_categories.0.slug == None %}
+                    {% else %}
+                    <a href="{% url 'articles_plats' menu_commander_categories.0.slug menu_commander_categories.0.ordre %}"><img class="icone-menu" src="{% static 'img/icones/online-shopping-cart-white.png' %}">Commander</a>
+                    {% endif %}
+                    {% if menu_producteurs_categories.0.slug == None %}
+                    {% else %}
+                    <a href="{% url 'producteurs' menu_producteurs_categories.0.slug menu_producteurs_categories.0.ordre %}"><img class="icone-menu" src="{% static 'img/icones/farm-white.png' %}">Producteurs</a>
+                    {% endif %}
+                    <a href=""><img class="icone-menu" src="{% static 'img/icones/you-are-here.png' %}">Nous Situer</a>
+            </nav>
+        </header>
 
 <div class="site-content">
+                <div class="menu-top-commander">
+                    <div class="menu-top-commander-texte">Menu</div>
+                    <div class="menu-top-commander-texte">
+                        {% for nom_categorie in menu_commander_categories %}
+                        <div class="menu-top-commander-texte-lien"><p><a href="{% url 'articles_plats' nom_categorie.slug nom_categorie.ordre %}">{{nom_categorie|title}}</a></p></div>
+                        {% endfor %}
+                        <div class="menu-top-commander-texte-lien"><p><a href=""><img src="{% static 'img/icones/shopping-cart.png' %}" alt="shopping cart"></a></p>
+                            <div class="fixed-cart">
+                                <div class="fixed-cart-suite">
+                                    <div class="fixed-cart-items">
+                                        <div class="fixed-cart-item">
+                                            <div class="fixed-cart-item-image" style="background-image:url({% static 'img/salade2.jpg' %});"></div>
+                                            <div class="fixed-cart-item-texte">
+                                                <div>Salade parmesan, poulet et miel.</div>
+                                                <div><a href=""><img src="{% static 'img/icones/plus-2.png' %}" alt="Ajouter"/></a><a href=""><img src="{% static 'img/icones/remove.png' %}" alt="Enlever"/></a><p>x2</div>
+                                            </div>
+                                            <div class="fixed-cart-item-prix">12.55€</div>
+                                        </div>
+                                        <div class="fixed-cart-item">
+                                            <div class="fixed-cart-item-image" style="background-image:url({% static 'img/salade2.jpg' %});"></div>
+                                            <div class="fixed-cart-item-texte">
+                                                <div>Salade parmesan, poulet et miel.</div>
+                                                <div><a href=""><img src="{% static 'img/icones/plus-2.png' %}" alt="Ajouter"/></a><a href=""><img src="{% static 'img/icones/remove.png' %}" alt="Enlever"/></a><p>x2</div>
+                                            </div>
+                                            <div class="fixed-cart-item-prix">12.55€</div>
+                                        </div>
 
-<div class="menu-top-commander">
-    <div class="menu-top-commander-texte">Menu</div>
-    <div class="menu-top-commander-texte">
-        {% for nom_categorie in menu_commander_categories %}
-        <div class="menu-top-commander-texte-lien"><p><a href="{% url 'articles_plats' nom_categorie.slug nom_categorie.ordre %}">{{nom_categorie|title}}</a></p></div>
-        {% endfor %}
-        <div class="menu-top-commander-texte-lien"><p><a href=""><img src="{% static 'img/icones/shopping-cart.png' %}" alt="shopping cart"></a></p></div>
-    </div> 
-</div>
+                                    </div>
+                                    <div class="fixed-cart-total">
+                                        <div>Total</div>
+                                        <div>25.10€</div>
+                                    </div>
+                                    <div class="fixed-cart-icons">
+                                        <div><img src="{% static 'img/icones/credit-card.png' %}" title="Paiement Sécurisé" alt="secured-payment"/><p>Paiement Sécurisé</p></div>
 
-<div class="commander">
+                                        <div><img src="{% static 'img/icones/ticket.png' %}" title="Tickets restaurants acceptés" alt="ticket-restaurant"/><p>Tickets Restaurants</p></div>
+                                    </div>
+                                    <div class="fixed-cart-validated"><a href="">Valider votre Panier</a></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="menu-top-commander-texte-lien"><p><a href="panier"><img src="{% static 'img/icones/profile.png' %}" alt="shopping cart"></a></p></div>
+                    </div> 
+                </div>
 
-	{% block commander %} {% endblock %}
-        <!-- Début footer -->     
-<footer>
-    <div class="footer-trait"></div>
-    <div class="top-footer"> 
-        <div class="top-logo-footer"> <img src="{% static 'img/icones/logo-noir-clair.png' %}" alt="logo footer"/></div>
-        <div class="nom-top-logo-footer">La Fabrique à Sandwiches</div>
-    </div>
-    <div class="bottom-footer">
-        <div class="bottom-footer-categories"> <a href="">Contact</a> <a href="">CGV</a> <a href="">Mentions légales</a> <a href="">Presse</a>   </div>
-        <div class="bottom-footer-annee"> © 2017 - La Fabrique à Sandwiches</div>   
-    </div>
-</footer> 
+            <div class="commander">
 
-</div>
+                {% block commander %} {% endblock %}
+                {% block commander_composer %} {% endblock %}
+                {% block commander_pret %} {% endblock %}
+                    <!-- Début footer -->     
+                <footer>
+                    <div class="footer-trait"></div>
+                    <div class="top-footer"> 
+                        <div class="top-logo-footer"> <img src="{% static 'img/icones/logo-noir-clair.png' %}" alt="logo footer"/></div>
+                        <div class="nom-top-logo-footer">La Fabrique à Sandwiches</div>
+                    </div>
+                    <div class="bottom-footer">
+                        <div class="bottom-footer-categories"> <a href="">Contact</a> <a href="">CGV</a> <a href="">Mentions légales</a> <a href="">Presse</a>   </div>
+                        <div class="bottom-footer-annee"> © 2017 - La Fabrique à Sandwiches</div>   
+                    </div>
+                </footer> 
 
+            </div>
 
-
-
-</div>
 </div>    <!-- Nécessaire pour permettre de rentrer le menu en cliquant n'importe où sur la page -->
 
 </div>
@@ -68,21 +106,11 @@
 </div>
 <!-- Début chargement javascript -->
 <!-- Script pour le menu responsive -->
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js' %}"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script type="text/javascript" src="{% static 'js/responsive-menu/app.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/menu-commander/menu-produits.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/menu-commander/classie.js' %}"></script>
 <!-- Fin script menu responsive -->
-<!-- Script pour présentation dynamique "Notre concept" -->
-<script src="{% static 'js/aos-master/aos.js' %}"></script>
-    <script>
-      AOS.init({
-        easing: 'ease-in-quad'
-      });
-    </script>
-<!-- Fin pour présentation dynamique "Notre concept" -->  
-  
 <!-- Fin chargement javascript-->
 
-	</body>
+    </body>
 </html>

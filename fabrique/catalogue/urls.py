@@ -18,6 +18,8 @@ from django.contrib import admin
 from . import views
 
 urlpatterns = [
+    url(r'composer/(?P<slug>.+)-(?P<id>\d+)$', views.articles_plats_composer, name='articles_plats_composer'),
+    url(r'pret/(?P<slug>.+)-(?P<id>\d+)$', views.articles_plats_pret, name='articles_plats_pret'),
     url(r'(?P<slug>.+)-(?P<ordre>\d+)$', views.articles_plats, name='articles_plats'),
     #url(r'desserts/', views.articles_desserts, name='articles_desserts'),
 ]

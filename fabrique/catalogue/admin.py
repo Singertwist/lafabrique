@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 from django.utils.text import Truncator
-from .models import Categories_Article, Sous_Categories_Article, Article
+from .models import Categories_Article, Sous_Categories_Article, Article, Allergie, Unite_Produit, Type_Produit
 
 class Categories_ArticleAdmin(admin.ModelAdmin):
   list_display   = ('nom', 'timestamp', 'updated', 'ordre', 'actif')
@@ -22,7 +22,7 @@ class Sous_Categories_ArticleAdmin(admin.ModelAdmin):
 	fieldsets = (
     # Fieldset 1 : meta-info
    ('Configuration de la catégorie', {
-        'fields': ('nom', 'slug', 'prix_min', 'image', 'publier', 'categorie', 'plats')
+        'fields': ('nom', 'slug', 'prix_min', 'image', 'publier', 'categorie', 'plats', 'composer')
     }),
     # Fieldset 2 : contenu de la catégorie
     ('Description de la catégorie', {
@@ -41,17 +41,17 @@ class ArticleAdmin(admin.ModelAdmin):
 	fieldsets = (
     # Fieldset 1 : meta-info du produits
    ('Configuration générale du produit', {
-        'fields': ('nom', 'slug', 'categories', 'image', 'disponible', 'sous_categories_articles')
+        'fields': ('nom', 'slug', 'categories', 'image', 'disponible', 'article_composer', 'sous_categories_articles')
     }),
 
     # Fieldset 2 : information nutritive du produits
     ('Informations nutritives produits', {
-       'fields': ('allergenes', 'gluten_info', 'vegeterien_info', 'ingredients', 'producteurs')
+       'fields': ('allergenes', 'gluten_info', 'vegeterien_info', 'type_plat_info', 'ingredients', 'producteurs')
     }),
 
     # Fieldset 3 : information nutritive du produits
     ('Description du produit', {
-       'fields': ('description_produit', )
+       'fields': ('description', )
     }),
 
     # Fieldset 4 : information financière du produit
@@ -60,6 +60,32 @@ class ArticleAdmin(admin.ModelAdmin):
     }),
 )
 
+class AllergieAdmin(admin.ModelAdmin):
+  list_display   = ('nom', 'timestamp', 'updated', 'active')
+  list_filter    = ('nom', )
+  ordering       = ('nom', )
+  search_fields  = ('nom', )
+  prepopulated_fields = {'slug': ('nom', ), } 
+
+class Unite_ProduitAdmin(admin.ModelAdmin):
+  list_display   = ('nom', 'timestamp', 'updated', 'active')
+  list_filter    = ('nom', )
+  ordering       = ('nom', )
+  search_fields  = ('nom', )
+  prepopulated_fields = {'slug': ('nom', ), }
+
+class Type_ProduitAdmin(admin.ModelAdmin):
+  list_display   = ('nom', 'timestamp', 'updated', 'active')
+  list_filter    = ('nom', )
+  ordering       = ('nom', )
+  search_fields  = ('nom', )
+  prepopulated_fields = {'slug': ('nom', ), }
+
+
+
 admin.site.register(Categories_Article, Categories_ArticleAdmin)
 admin.site.register(Sous_Categories_Article, Sous_Categories_ArticleAdmin)
 admin.site.register(Article, ArticleAdmin)
+admin.site.register(Allergie, AllergieAdmin)
+admin.site.register(Unite_Produit, Unite_ProduitAdmin)
+admin.site.register(Type_Produit, Type_ProduitAdmin)
