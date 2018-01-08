@@ -7,7 +7,10 @@ from decimal import Decimal
 
 #Fonction qui permet d'auto incrémenter l'ordre afin de ne pas à avoir remplir à chaque fois l'ordre et se souvenir du dernier ordre utilisé.
 def get_latest_ordre():
-	return Categories_Article.objects.latest('ordre').ordre + 1
+	try:
+		return Categories_Article.objects.latest('ordre').ordre + 1
+	except ObjectDoesNotExist:
+		return None
 
 class Categories_Article(models.Model):
 	nom = models.CharField(unique=True, max_length=160, verbose_name='Nom de la catégorie')
