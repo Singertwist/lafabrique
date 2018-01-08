@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'accueil',
     'catalogue',
     'producteurs',
+    'panier',
     'sorl.thumbnail',
 ]
 
