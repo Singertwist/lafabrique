@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 from decimal import Decimal
+from django.core.exceptions import ObjectDoesNotExist
 
 # Create your models here.
 #Modèle permettant de définir un grande catégorie de plat --> Plats, Desserts, A-côté...
