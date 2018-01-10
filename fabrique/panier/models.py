@@ -12,3 +12,17 @@ class PanierItem(models.Model):
 	class Meta:
 		ordering = ['timestamp', 'updated']
 
+	def total(self):
+		return self.quantite*self.article.prix_unitaire
+
+	def nom(self):
+		return self.article.nom
+
+	def prix(self):
+		return self.article.prix_unitaire
+
+	def augment_quantite(self, quantite):
+		self.quantite = self.quantite + int(quantite)
+		self.save()
+
+
