@@ -2,24 +2,30 @@
 {% load static %}
 {% load thumbnail %}
 
-{% block titre_page %} Commander {{categories_articles.nom}} {% endblock %}
+{% block titre_page %} Commander {{sous_categories_articles.nom}} {% endblock %}
 
-{% block commander %}
-	<!-- If qui permet de sélectionner la page principale (ici plat), si catégorie principale (1) est plat alors on affiche l'entête, sinon on n'affiche pas -->
-	{% if categories_articles.ordre != 1 %}
-
-	{% else %}
-		<div class="titre-concept"><h1>Notre spécial de la semaine</h1></div>
-		<div class="special-semaine" style="background-image:url({% static 'img/salade2.jpg' %});">
-			<div>
-				<a href=""><p>Notre salade épinards, gorgonzola, oignons et poulets rotis au miel.</p></a>
-			</div>	
+{% block commander_composer %}
+	{% if sous_categories_articles.composer == True %}
+		<div class="choix-composer-non-composer">
+			<div class="choix-composer-non-composer-choix">
+				<div class="choix-composer-non-composer-choix1"><a href="{% url 'articles_plats_pret' sous_categories_articles.slug sous_categories_articles.id %}">Plats déjà composés</a></div>
+				<div class="choix-composer-non-composer-choix2"><img src="{% static 'img/icones/stopwatch.png' %}" alt="cart"/></div>
+			</div>
+			<div class="choix-composer-non-composer-choix">
+				<div class="choix-composer-non-composer-choix1"><a href="{% url 'articles_plats_composer' sous_categories_articles.slug sous_categories_articles.id %}">Composer son plat</a></div>
+				<div class="choix-composer-non-composer-choix2"><img src="{% static 'img/icones/checked.png' %}" alt="cart"/></div>
+			</div>
 		</div>
 	{% endif %}
-	<div class="titre-concept"><h1>{{categories_articles.presentation_categorie}}</h1></div>
+<div class="plat-composer">
+	<div class="plat-composer-choix">
+		{% for cat in type_produit %}
+		<details open>
+			<summary>{{cat.nom}}</summary>
 
 		<div class="selection-plat">
-			{% for article in sous_categories_articles %}
+			{% for article in articles %}
+			{% if cat.id == article.sous_categories_articles.id %}
 			<div class="article-selection-plat">
 				<!-- Début de la popup présentation produit -->
 				<div id="big-popup{{ article.id }}" class="image-article-selection-plat">
@@ -106,35 +112,72 @@
 					<div class="texte-texte-article-selection-plat"><p>{{ article.description }}</p></div>
 				</div>
 				<div class="prix-texte-article-selection-plat">
-					{% if article.prix_min == None %} <!--S'il n'y a pas de prix minimum, cela veut dire que c'est un article à acheter, donc on afficher le prix du produit -->
+					{% if article.prix_min == None %}
 					<div class="sous-catprix-texte-article-selection-plat">{{ article.prix_unitaire }} €</div>
 					<div class="sous-catprix-texte-article-selection-plat"><a href=""><img src="{% static 'img/icones/shopping-cart.png' %}" alt="shopping-cart"/></a></div>
 					{% else %}
 					<div class="sous-catprix-texte-article-selection-plat">A partir de {{ article.prix_min }} €</div>
-					<div class="sous-catprix-texte-article-selection-plat">
-						{% if article.composer == 1 %}  <!-- Condition qui permet de savoir s'il est possible ou non de composer un plat. Permet d'afficher l'URL correspondante -->
-						<a href="{% url 'articles_plats_composer' article.slug article.id %}">
-							<img src="{% static 'img/icones/shopping-cart.png' %}" alt="shopping-cart"/>
-						</a>
-						{% else %}
-						<a href="{% url 'articles_plats_pret' article.slug article.id %}">
-							<img src="{% static 'img/icones/shopping-cart.png' %}" alt="shopping-cart"/>
-						</a>
-						{% endif %}
-					</div>
+					<div class="sous-catprix-texte-article-selection-plat"><a href="{% url 'articles_plats_composer' article.slug %}"><img src="{% static 'img/icones/shopping-cart.png' %}" alt="shopping-cart"/></a></div>
 					{% endif %}
 					
 				</div>	
 			</div>
-
+			{% else %}
+			{% endif %}	
 			{% empty %}
 
-			<p>Aucune catégorie</p>
+			<p>Aucun produit</p>
 
 			{% endfor %}
-
 		</div>
-		<script type="text/javascript" src="{% static 'js/menu-commander/menu-produits.js' %}"></script>
-		<script type="text/javascript" src="{% static 'js/menu-commander/classie.js' %}"></script>
+		
+		</details>
+		{% empty %}
+		<p>Aucun produit</p>
+		{% endfor %}
+	</div>
+	<div class="plat-composer-panier">
+		<div class="plat-composer-panier-entete">
+			<div class="plat-composer-panier-entete1">Votre Composition</div>
+			<div class="plat-composer-panier-entete2"><img src="{% static 'img/icones/shopping-cart-white.png' %}" alt="shopping-cart"/></div>
+		</div>
+
+		<div class="plat-composer-panier-item">
+			<div class="plat-composer-panier-item-image" style="background-image:url({% static 'img/sandwiches2.jpg' %});"></div>
+			<div class="plat-composer-panier-item-nom">
+				<div class="plat-composer-panier-item-nom1">Un délicieux pain frais</div>
+				<div class="plat-composer-panier-item-nom2">Une portion</div>
+			</div>
+			<div class="plat-composer-panier-item-delete"><a href="" title="Supprimer"><img src="{% static 'img/icones/cancel.png' %}" alt="supprimer"/></a></div>
+		</div>
+		<div class="plat-composer-panier-item">
+			<div class="plat-composer-panier-item-image" style="background-image:url({% static 'img/sandwiches2.jpg' %});"></div>
+			<div class="plat-composer-panier-item-nom">
+				<div class="plat-composer-panier-item-nom1">Un délicieux pain frais</div>
+				<div class="plat-composer-panier-item-nom2">Une portion</div>
+			</div>
+			<div class="plat-composer-panier-item-delete"><a href="" title="Supprimer"><img src="{% static 'img/icones/cancel.png' %}" alt="supprimer"/></a></div>
+		</div>
+		<div class="plat-composer-panier-item">
+			<div class="plat-composer-panier-item-image" style="background-image:url({% static 'img/sandwiches2.jpg' %});"></div>
+			<div class="plat-composer-panier-item-nom">
+				<div class="plat-composer-panier-item-nom1">Un délicieux pain frais</div>
+				<div class="plat-composer-panier-item-nom2">Une portion</div>
+			</div>
+			<div class="plat-composer-panier-item-delete"><a href="" title="Supprimer"><img src="{% static 'img/icones/cancel.png' %}" alt="supprimer"/></a></div>
+		</div>	
+
+		<div class="requirements">
+			<h2>Un petit commentaire à ajouter?</h2>
+				<textarea placeholder="Une envie, une suggestion dans la préparation de votre commande, pas de problème, faites le savoir!"></textarea>
+		</div>	
+
+		<div class="plat-composer-panier-boutton">
+			<div class="plat-composer-panier-boutton-continue"><a href="">Continuer vos Achats</a></div>
+			<div class="plat-composer-panier-boutton-checkout"><a href="">Valider votre Commande</a></div>
+		</div>
+	</div>
+
+</div>
 
 {% endblock %}
