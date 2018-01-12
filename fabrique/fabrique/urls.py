@@ -23,7 +23,7 @@ urlpatterns = [
     url(r'^accueil/', include('accueil.urls')),
     url(r'^commander/', include('catalogue.urls')),
     url(r'^producteurs/', include('producteurs.urls')),
-    url(r'^panier/', include('panier.urls')),
+    url(r'^commander/', include('panier.urls')),
 ]
 
 if settings.DEBUG is True:

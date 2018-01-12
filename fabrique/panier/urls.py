@@ -18,5 +18,5 @@ from django.contrib import admin
 from . import views
 
 urlpatterns = [
-    url(r'^$', views.panier, name='panier'),
+    url(r'^panier/', views.panier, name='panier'),
 ]
