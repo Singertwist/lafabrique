@@ -32,13 +32,14 @@ class Sous_Categories_ArticleAdmin(admin.ModelAdmin):
 )
 
 class ArticleAdmin(admin.ModelAdmin):
-	list_display   = ('nom', )
-	list_filter    = ('nom','updated', 'disponible')
-	ordering       = ('nom', 'timestamp')
-	search_fields  = ('nom', 'description')
-	prepopulated_fields = {'slug': ('nom', ), }
-	
-	fieldsets = (
+  list_display   = ('nom', 'prix_unitaire', 'disponible')
+  list_filter    = ('nom','updated', 'disponible')
+  ordering       = ('nom', 'timestamp')
+  search_fields  = ('nom', 'description')
+  list_editable = ('prix_unitaire', 'disponible')
+  prepopulated_fields = {'slug': ('nom', ), }
+
+  fieldsets = (
     # Fieldset 1 : meta-info du produits
    ('Configuration générale du produit', {
         'fields': ('nom', 'slug', 'categories', 'image', 'disponible', 'article_composer', 'sous_categories_articles')
