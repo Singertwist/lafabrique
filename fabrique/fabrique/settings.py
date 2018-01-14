@@ -137,3 +137,7 @@ STATIC_ROOT= os.path.join(BASE_DIR,'staticfiles')
 MEDIA_URL= '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+#Clé permettant de stocker la session du panier pour chaque utilisateur
+CART_SESSION_ID = 'cart'
+

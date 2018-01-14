@@ -106,13 +106,13 @@
 	float: right;
 }
 
-.sous-catprix-texte-article-selection-plat img {
+.sous-catprix-texte-article-selection-plat img, .sous-catprix-texte-article-selection-plat input {
 	width: 30px;
 	height: auto;
 	transition-duration: 0.5s;
 }
 
-.sous-catprix-texte-article-selection-plat img:hover {
+.sous-catprix-texte-article-selection-plat img:hover, .sous-catprix-texte-article-selection-plat input:hover {
 	filter: blur(0.5px);
 	transition-duration: 0.5s;
 }

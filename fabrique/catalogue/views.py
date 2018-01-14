@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from catalogue.models import Categories_Article, Sous_Categories_Article, Article, Type_Produit
+from panier.forms import CartAddProductForm
 from django.db.models import Q # Permet de réaliser des requêtes complexes avec OR/OU par exemple
 
 # Create your views here.
@@ -10,7 +11,10 @@ def articles_plats(request, slug, ordre):
 		sous_categories_articles = Article.objects.filter(categories__categorie_id=categories_articles.id, disponible=1) # On filtre sur tous les articles ayant le même ID en catégories que la catégories principales.
 	else:
 		sous_categories_articles # S'il s'agit d'une sous catégorie, alors on reprend toutes les sous catégories qui ont été sélectionnées.
-	return render(request, "catalogue/commander.html", {'sous_categories_articles':sous_categories_articles, 'categories_articles':categories_articles})
+
+	cart_product_form = CartAddProductForm()
+
+	return render(request, "catalogue/commander.html", {'sous_categories_articles':sous_categories_articles, 'categories_articles':categories_articles, 'cart_product_form': cart_product_form})
 
 def articles_plats_composer(request, id, slug):
 	sous_categories_articles = get_object_or_404(Sous_Categories_Article, id=id, slug=slug) #On récupére les sous-catégories d'articles (sandwiches, soupe,...)

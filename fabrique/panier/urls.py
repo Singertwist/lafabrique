@@ -18,5 +18,7 @@ from django.contrib import admin
 from . import views
 
 urlpatterns = [
-    url(r'^panier/', views.panier, name='panier'),
+	url(r'^panier/', views.cart_detail, name='cart_detail'),
+	url(r'^add/(?P<product_id>\d+)/$', views.cart_add, name='cart_add'),
+	url(r'^remove/(?P<product_id>\d+)/$', views.cart_remove, name='cart_remove'),
 ]
