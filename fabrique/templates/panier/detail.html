@@ -1,7 +1,75 @@
-{% extends "base-commander.html" %}
+  {% extends "base-commander.html" %}
 {% load static %}
 
 {% block panier %}
+    <h1>Mon Panier</h1>
+    <div class="composition-panier-final">
+      {% for item in cart %}
+        {% with product=item.product %}
+          <div class="composition-panier-final-item">
+              <div class="composition-panier-final-item-image" style="background-image:url({{ product.image.url }});"></div>
+              <div class="composition-panier-final-item-description">
+                  <div>{{ product.nom }}</div>
+                  <div>{{ product.description }}</div>
+              </div>
+              <div class="composition-panier-final-item-quantite">
+                  <div class="button-quantity-cart"><a href="">-</a></div>
+                      <input type="text" value="{{ item.quantity }}" name="quantity-final-cart">
+                  <div class="button-quantity-cart"><a href="">&plus;</a></div>
+              </div>
+              <div class="composition-panier-final-item-supprimer">
+                  <a href="{% url "cart_remove" product.id %}"><img src="{% static 'img/icones/cancel.png' %}" alt="Supprimer" title="Supprimer"/></a>
+                  <a href=""><img src="{% static 'img/icones/edit.png' %}" alt="Modifier" title="Modifier"/></a>
+              </div>
+              <div class="composition-panier-final-item-prix">{{ item.total_price }} €</div>
+          </div>
+        {% endwith %}
+
+      {% empty %}
+        <p>Votre panier est vide</p>
+      {% endfor %}
+        <div class="composition-panier-final-info">
+            <div class="composition-panier-final-info-date"> 
+                <div>
+                    <p>Date et heure de retrait de la commande: </p>
+                    <form>
+                        <input type="text" placeholder="Sélectionner votre jour et heure" name="datepicker" id="datepicker" value="" />
+                        <input type="checkbox" id="date-picker-confirmation" name="date-picker-confirmation" value="ok"/><label for="date-picker-confirmation">Je confirme la date de retrait.</label>
+                    </form>
+                </div>
+                <div>
+                    <p>
+                        Si vous avez un code de réduction, c'est le moment de le saisir:
+                        <form>
+                            <input class="composition-panier-final-info-date-style2" type="text" name="discount-code" placeholder="Entrer votre code de réduction">
+                            <input type="submit" name="soumettre-code" value="Appliquer le code" class="composition-panier-final-info-date-style3"></input>
+                        </form>    
+                    </p>
+                </div>  
+            </div>
+            <div class="composition-panier-final-info-total">
+                <div>Discount : <span class="bold-total-panier">0.00€</span></div>
+                <div>Sous-Total : <span class="bold-total-panier">12.50€</span></div>
+                <div>Dont TVA : <span class="bold-total-panier">2.50€</span></div>
+                <div>Total : <span class="bold-total-panier">{{ cart.get_total_price }}€</span></div>
+            </div>
+        </div> 
+        <div class="bouton-validation-panier">
+            <div>
+                <a href="">Continuer vos Achats</a>
+            </div>
+            <div>
+                <form method="post" action="">
+                    <input type="submit" name="cart-validation" value="Valider le Panier" class="composition-panier-final-info-date-style1">
+                </form>
+            </div>
+        </div>     
+    </div> 
+    <script type="text/javascript" src="{% static 'js/menu-commander/menu-produits.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/menu-commander/classie.js' %}"></script>
+
+{% endblock %}
+
 <h1>Your shopping cart</h1>
      <table class="cart">
 <thead> <tr>
@@ -37,5 +105,3 @@
          </tr>
        </tbody>
      </table>
-
-{% endblock %}
