@@ -24,7 +24,7 @@ class Cart(object):
 			self.cart[product_id]['quantity'] = quantity
 
 		else:
-			self.cart[product_id]['quantity'] += quantity
+			self.cart[product_id]['quantity'] += quantity #Ajoute +1 à la quantité et met à jour le dictionnaire contenant la quantité. += signifie ajoute à la valeur initiale de quantité.
 
 		self.save()
 
