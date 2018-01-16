@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 from django.utils.text import Truncator
-from .models import Categories_Article, Sous_Categories_Article, Article, Allergie, Unite_Produit, Type_Produit
+from .models import Categories_Article, Sous_Categories_Article, Article, Allergie, Unite_Produit, Type_Produit, Taux_TVA
 
 class Categories_ArticleAdmin(admin.ModelAdmin):
   list_display   = ('nom', 'timestamp', 'updated', 'ordre', 'actif')
@@ -82,7 +82,18 @@ class Type_ProduitAdmin(admin.ModelAdmin):
   search_fields  = ('nom', )
   prepopulated_fields = {'slug': ('nom', ), }
 
+class Type_ProduitAdmin(admin.ModelAdmin):
+  list_display   = ('nom', 'timestamp', 'updated', 'active')
+  list_filter    = ('nom', )
+  ordering       = ('nom', )
+  search_fields  = ('nom', )
+  prepopulated_fields = {'slug': ('nom', ), }
 
+class Taux_TVAAdmin(admin.ModelAdmin):
+  list_display   = ('nom_taux_applicable', 'taux_applicable', 'timestamp', 'updated')
+  list_filter    = ('nom_taux_applicable', 'taux_applicable', )
+  ordering       = ('taux_applicable', )
+  search_fields  = ('nom_taux_applicable', 'taux_applicable' )
 
 admin.site.register(Categories_Article, Categories_ArticleAdmin)
 admin.site.register(Sous_Categories_Article, Sous_Categories_ArticleAdmin)
@@ -90,3 +101,4 @@ admin.site.register(Article, ArticleAdmin)
 admin.site.register(Allergie, AllergieAdmin)
 admin.site.register(Unite_Produit, Unite_ProduitAdmin)
 admin.site.register(Type_Produit, Type_ProduitAdmin)
+admin.site.register(Taux_TVA, Taux_TVAAdmin)

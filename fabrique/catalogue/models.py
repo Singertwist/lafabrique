@@ -116,7 +116,21 @@ class Type_Produit(models.Model):
 
 	def __str__(self):
 		return self.nom
+class Taux_TVA(models.Model):
+	nom_taux_applicable = models.CharField(max_length=160, verbose_name='Taux applicable')
+	taux_applicable = models.DecimalField(max_digits=4, decimal_places=2)
+	timestamp = models.DateTimeField(auto_now=False, auto_now_add=True, verbose_name='Date de création')
+	updated = models.DateTimeField(auto_now=True, auto_now_add=False, verbose_name='Date de mise à jour')
 
+	class Meta:
+		verbose_name = 'Taux TVA applicables'
+		verbose_name_plural = 'Taux TVA applicables'
+
+	def __unicode__(self):
+		return self.nom_taux_applicable
+
+	def __str__(self):
+		return self.nom_taux_applicable
 #Modèle permettant de définir un article.
 def upload_location_articles(instance, filename):
 	return "photos_articles/%s/%s" %(instance.slug, filename)
@@ -136,7 +150,7 @@ class Article(models.Model):
 	producteurs = models.ManyToManyField('producteurs.Producteurs', blank=True)
 	unite_produit = models.ForeignKey(Unite_Produit)
 	prix_unitaire = models.DecimalField(max_digits=19, decimal_places=2, validators=[MinValueValidator(Decimal('0.01'))])
-	taux_TVA = models.CharField(max_length=160)
+	taux_TVA = models.ForeignKey(Taux_TVA)
 	description = models.TextField()
 	timestamp = models.DateTimeField(auto_now=False, auto_now_add=True, verbose_name='Date de création')
 	updated = models.DateTimeField(auto_now=True, auto_now_add=False, verbose_name='Date de mise à jour')
