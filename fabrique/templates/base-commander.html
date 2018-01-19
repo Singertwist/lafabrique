@@ -39,7 +39,7 @@
                         {% for nom_categorie in menu_commander_categories %}
                         <div class="menu-top-commander-texte-lien"><p><a href="{% url 'articles_plats' nom_categorie.slug nom_categorie.ordre %}">{{nom_categorie|title}}</a></p></div>
                         {% endfor %}
-                        <div class="menu-top-commander-texte-lien"><p><a href=""><img src="{% static 'img/icones/shopping-cart.png' %}" alt="shopping cart"></a></p>
+                        <div class="menu-top-commander-texte-lien"><p><a href="{% url  'cart_detail' %}"><img src="{% static 'img/icones/shopping-cart.png' %}" alt="shopping cart"></a></p>
                             <div class="fixed-cart">
                                 <div class="fixed-cart-suite">
                                     <div class="fixed-cart-items">
