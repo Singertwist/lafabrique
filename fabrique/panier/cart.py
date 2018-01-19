@@ -42,9 +42,9 @@ class Cart(object):
 
 	def __iter__(self):
 
-		product_ids = self.cart.keys()
+		product_ids = self.cart.keys() #Sélectionne les différentes clés du dictionnaires, dans notre cas l'id du produit, la quantité, le prix.
 
-		products = Article.objects.filter(id__in=product_ids)
+		products = Article.objects.filter(id__in=product_ids) #On filtre sur les IDs présents dans le dictionnaire du panier.
 
 		for product in products:
 			self.cart[str(product.id)]['product'] = product
