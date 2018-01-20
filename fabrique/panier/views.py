@@ -37,4 +37,5 @@ def cart_remove(request, product_id):
 
 def cart_detail(request):
 	cart = Cart(request)
-	return render(request, 'panier/detail.html', {'cart': cart})
+	cart_product_form = CartAddProductForm()
+	return render(request, 'panier/detail.html', locals())

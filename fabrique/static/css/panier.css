@@ -65,11 +65,25 @@
 	min-width: 100px;
 }
 
-.composition-panier-final-item-quantite * {
-	box-sizing: border-box;
+.composition-panier-final-item-quantite form, .composition-panier-final-item-quantite input {
+	height: 35px;
+	margin: 0;
+	padding: 0;
+	width: 40px;
+	text-align: center;
 }
 
-.composition-panier-final-item-quantite > div {
+.composition-panier-final-item-quantite form:first-child input, .composition-panier-final-item-quantite form:last-child input {
+	background-color: #CE3734;
+	color: #FFFFFF;
+	border:none;
+    background-image:none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+
+/*.composition-panier-final-item-quantite > div {
 	height: 40px;
 	width: 40px;
 	display: flex;
@@ -96,7 +110,7 @@
 	height: 40px;
 	border: solid 1px lightgrey;
 	text-align: center;
-}
+}*/
 
 .composition-panier-final-item-supprimer { 
 	display:  flex;

@@ -13,9 +13,17 @@
                   <div>{{ product.description }}</div>
               </div>
               <div class="composition-panier-final-item-quantite">
-                  <div class="button-quantity-cart"><a href="">-</a></div>
-                      <input type="text" value="{{ item.quantity }}" name="quantity-final-cart">
-                  <div class="button-quantity-cart"><a href="">&plus;</a></div>
+                      <form action="{% url "cart_add" product.id %}" method="post">
+                        {{ cart_product_form }}
+                        {% csrf_token %}
+                        <input type="submit" value="&minus;">
+                      </form>
+                      <form><input type="text" value="{{ item.quantity }}" name="quantity-final-cart"></form>
+                      <form action="{% url "cart_add" product.id %}" method="post">
+                        {{ cart_product_form }}
+                        {% csrf_token %}
+                        <input type="submit" value="&plus;">
+                      </form>
               </div>
               <div class="composition-panier-final-item-supprimer">
                   <a href="{% url "cart_remove" product.id %}"><img src="{% static 'img/icones/cancel.png' %}" alt="Supprimer" title="Supprimer"/></a>
@@ -23,6 +31,7 @@
               </div>
               <div class="composition-panier-final-item-prix">{{ item.total_price }} €</div>
           </div>
+
         {% endwith %}
 
       {% empty %}

@@ -1,5 +1,4 @@
 from catalogue.models import Categories_Article, Sous_Categories_Article, Article, Type_Produit
-from django.utils.crypto import get_random_string
 from decimal import Decimal
 from django.conf import settings
 
