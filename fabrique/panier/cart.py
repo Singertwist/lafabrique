@@ -38,6 +38,17 @@ class Cart(object):
    			del self.cart[product_id]
    		self.save()
 
+	def remove_one(self, product, quantity=1, update_quantity=False):
+		product_id = str(product.id)
+
+		if product_id in self.cart:
+			if self.cart[product_id]['quantity'] > 1:
+				self.cart[product_id]['quantity'] -= quantity
+			else:
+				del self.cart[product_id]
+		self.save()
+
+
 	def __iter__(self):
 
 		product_ids = self.cart.keys() #Sélectionne les différentes clés du dictionnaires, dans notre cas l'id du produit, la quantité, le prix.
