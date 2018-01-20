@@ -32,7 +32,7 @@ class Sous_Categories_ArticleAdmin(admin.ModelAdmin):
 )
 
 class ArticleAdmin(admin.ModelAdmin):
-  list_display   = ('nom', 'prix_unitaire', 'disponible')
+  list_display   = ('nom', 'prix_unitaire', 'disponible', 'obtenir_categories')
   list_filter    = ('nom','updated', 'disponible')
   ordering       = ('nom', 'timestamp')
   search_fields  = ('nom', 'description')
@@ -60,6 +60,12 @@ class ArticleAdmin(admin.ModelAdmin):
        'fields': ('unite_produit', 'prix_unitaire', 'taux_TVA')
     }),
 )
+  #Défini une fonction afin d'afficher la catégorie de l'article dans la page Afmin, (list_display), car impossible de le faire sur une relation ManyToMany
+  def obtenir_categories(self, obj):
+    return "<br/>".join([p.nom for p in obj.categories.all()])
+  
+  obtenir_categories.short_description = 'Catégories de l\'article' #Renommer l'entête de colonne
+  obtenir_categories.allow_tags = True #Autoriser les tags HTML et ainsi autoriser les retour à la ligne quand il y a plusieurs catégories (balise <br/>).
 
 class AllergieAdmin(admin.ModelAdmin):
   list_display   = ('nom', 'timestamp', 'updated', 'active')
