@@ -12,14 +12,11 @@ class Cart(object):
 			cart = self.session[settings.CART_SESSION_ID] = {}
 		self.cart = cart
 
-	def add(self, product, quantity=1, update_quantity=False):
+	def add(self, product, quantity=1):
 		product_id = str(product.id)
 
 		if product_id not in self.cart:
-			self.cart[product_id] = {'quantity': 0,'price': str(product.prix_unitaire)}
-
-		if update_quantity:
-			self.cart[product_id]['quantity'] = quantity
+			self.cart[product_id] = {'quantity': 1,'price': str(product.prix_unitaire)}
 
 		else:
 			self.cart[product_id]['quantity'] += quantity #Ajoute +1 à la quantité et met à jour le dictionnaire contenant la quantité. += signifie ajoute à la valeur initiale de quantité.
@@ -38,14 +35,14 @@ class Cart(object):
    			del self.cart[product_id]
    		self.save()
 
-	def remove_one(self, product, quantity=1, update_quantity=False):
+	def remove_one(self, product, quantity=1): #Méthode permettant de supprimer une unité du produit.
 		product_id = str(product.id)
 
-		if product_id in self.cart:
-			if self.cart[product_id]['quantity'] > 1:
-				self.cart[product_id]['quantity'] -= quantity
+		if product_id in self.cart: #Si le produit est dans le panier
+			if self.cart[product_id]['quantity'] > 1: #Et si la quantité de ce produit est supérieure à 1
+				self.cart[product_id]['quantity'] -= quantity #On enlève la quantité par défaut, d'est à dire 1.
 			else:
-				del self.cart[product_id]
+				del self.cart[product_id] #Si la quantité du produit est égale à 1 alors et que l'on veut enlever une unité, cela veut dire que l'on supprimer le produit.
 		self.save()
 
 
