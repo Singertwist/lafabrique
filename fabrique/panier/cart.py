@@ -28,7 +28,7 @@ class Cart(object):
 		self.session.modified = True
 
 
-	def remove(self, product):
+	def remove(self, product): #Supprimer le produit, quelque soit la quantité.
    		product_id = str(product.id)
 
    		if product_id in self.cart:

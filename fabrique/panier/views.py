@@ -48,4 +48,4 @@ def cart_remove_one(request, product_id):
 def cart_detail(request):
 	cart = Cart(request)
 	cart_product_form = CartAddProductForm()
-	return render(request, 'panier/detail.html', locals())
+	return render(request, 'panier/panier.html', locals())
