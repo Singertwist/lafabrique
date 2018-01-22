@@ -1,5 +1,5 @@
 {% load static %}
-
+{% load thumbnail %}
 <html lang="fr">
     <head>
       <meta charset="utf-8">
@@ -39,40 +39,57 @@
                         {% for nom_categorie in menu_commander_categories %}
                         <div class="menu-top-commander-texte-lien"><p><a href="{% url 'articles_plats' nom_categorie.slug nom_categorie.ordre %}">{{nom_categorie|title}}</a></p></div>
                         {% endfor %}
-                        <div class="menu-top-commander-texte-lien"><p><a href="{% url  'cart_detail' %}"><img src="{% static 'img/icones/shopping-cart.png' %}" alt="shopping cart"></a></p>
+                        <div class="menu-top-commander-texte-lien"><p><a href="{% url  'cart_detail'%}"><img src="{% static 'img/icones/shopping-cart.png' %}" alt="shopping cart"></a></p>
+                        
+                            {% url  'cart_detail' as url_cart %} <!-- Condition qui permet de ne pas affichier le panier déroulant lorsque l'on se trouve sur la page du panier-->
+                            {% if request.get_full_path == url_cart %}
+                            <!-- Si navigateur se trouve sur la page du panier, alors, ne rien afficher. -->
+                            {% else %}
                             <div class="fixed-cart">
                                 <div class="fixed-cart-suite">
+                                    {% for item in cart %}
+                                    {% with product=item.product %}
                                     <div class="fixed-cart-items">
                                         <div class="fixed-cart-item">
-                                            <div class="fixed-cart-item-image" style="background-image:url({% static 'img/salade2.jpg' %});"></div>
+                                            {% thumbnail product.image "200x200" as im %}
+                                            <div class="fixed-cart-item-image" style="background-image:url({{ im.url }});"></div>
+                                            {% endthumbnail %} 
                                             <div class="fixed-cart-item-texte">
-                                                <div>Salade parmesan, poulet et miel.</div>
-                                                <div><a href=""><img src="{% static 'img/icones/plus-2.png' %}" alt="Ajouter"/></a><a href=""><img src="{% static 'img/icones/remove.png' %}" alt="Enlever"/></a><p>x2</div>
+                                                <div>{{ product.nom }}</div>
+                                                <div>
+                                                    <form method="post" action="{% url 'cart_add' product.id %}">
+                                                    {% csrf_token %}
+                                                    {{ cart_product_form }}
+                                                    <input type="image" src="{% static 'img/icones/plus-2.png' %}" alt="Ajouter" />
+                                                    </form>
+                                                    <form method="post" action="{% url 'cart_remove_one' product.id %}">
+                                                    {% csrf_token %}
+                                                    {{ cart_product_form }}
+                                                    <input type="image" src="{% static 'img/icones/remove.png' %}" alt="Enlever" />
+                                                    </form>
+                                                    <p>x{{ item.quantity }}</p>
+                                                </div>
                                             </div>
-                                            <div class="fixed-cart-item-prix">12.55€</div>
+                                            <div class="fixed-cart-item-prix">{{ item.total_price }} €</div>
                                         </div>
-                                        <div class="fixed-cart-item">
-                                            <div class="fixed-cart-item-image" style="background-image:url({% static 'img/salade2.jpg' %});"></div>
-                                            <div class="fixed-cart-item-texte">
-                                                <div>Salade parmesan, poulet et miel.</div>
-                                                <div><a href=""><img src="{% static 'img/icones/plus-2.png' %}" alt="Ajouter"/></a><a href=""><img src="{% static 'img/icones/remove.png' %}" alt="Enlever"/></a><p>x2</div>
-                                            </div>
-                                            <div class="fixed-cart-item-prix">12.55€</div>
-                                        </div>
-
                                     </div>
+                                    {% endwith %}
+                                    {% empty %}
+                                    <p>Votre Panier est actuellement vide.</p>
+                                    {% endfor %}
                                     <div class="fixed-cart-total">
                                         <div>Total</div>
-                                        <div>25.10€</div>
+                                        <div>{{ cart.get_total_price }} €</div>
                                     </div>
                                     <div class="fixed-cart-icons">
                                         <div><img src="{% static 'img/icones/credit-card.png' %}" title="Paiement Sécurisé" alt="secured-payment"/><p>Paiement Sécurisé</p></div>
 
                                         <div><img src="{% static 'img/icones/ticket.png' %}" title="Tickets restaurants acceptés" alt="ticket-restaurant"/><p>Tickets Restaurants</p></div>
                                     </div>
-                                    <div class="fixed-cart-validated"><a href="">Valider votre Panier</a></div>
+                                    <div class="fixed-cart-validated"><a href="{% url  'cart_detail'%}">Valider votre Panier</a></div>
                                 </div>
                             </div>
+                            {% endif %}
                         </div>
                         <div class="menu-top-commander-texte-lien"><p><a href="panier"><img src="{% static 'img/icones/profile.png' %}" alt="shopping cart"></a></p></div>
                     </div> 

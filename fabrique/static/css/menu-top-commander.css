@@ -121,7 +121,7 @@
 	margin-top: 5px;
 }
 
-.fixed-cart-item-texte div:nth-child(2) a {
+.fixed-cart-item-texte div:nth-child(2) form {
 	padding: 0px 5px 0px 5px;
 }
 
@@ -134,7 +134,7 @@
 	text-align: right;
 }
 
-.fixed-cart-item-texte div:nth-child(2) img {
+.fixed-cart-item-texte div:nth-child(2) input {
 	width: 20px;
 	height: auto;
 }
