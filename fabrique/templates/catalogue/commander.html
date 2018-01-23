@@ -114,6 +114,7 @@
 							{% csrf_token %}
 							{{ cart_product_form }}
 							<input type="image" src="{% static 'img/icones/shopping-cart.png' %}" alt="shopping-cart" />
+							<input type="hidden" name="next" value="{{ request.path }}">
 						</form>
 					</div>
 					{% else %}

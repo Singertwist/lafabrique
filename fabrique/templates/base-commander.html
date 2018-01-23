@@ -61,11 +61,13 @@
                                                     {% csrf_token %}
                                                     {{ cart_product_form }}
                                                     <input type="image" src="{% static 'img/icones/plus-2.png' %}" alt="Ajouter" />
+                                                    <input type="hidden" name="next" value="{{ request.path }}">
                                                     </form>
                                                     <form method="post" action="{% url 'cart_remove_one' product.id %}">
                                                     {% csrf_token %}
                                                     {{ cart_product_form }}
                                                     <input type="image" src="{% static 'img/icones/remove.png' %}" alt="Enlever" />
+                                                    <input type="hidden" name="next" value="{{ request.path }}">
                                                     </form>
                                                     <p>x{{ item.quantity }}</p>
                                                 </div>

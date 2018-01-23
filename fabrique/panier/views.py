@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
+from django.http import HttpResponseRedirect
 from django.utils.crypto import get_random_string
 from catalogue.models import Categories_Article, Sous_Categories_Article, Article, Type_Produit
 from panier.cart  import Cart
@@ -24,9 +25,9 @@ def cart_add(request, product_id):
 	form = CartAddProductForm(request.POST)
 	if form.is_valid():
 		cd = form.cleaned_data
+		next = cd['next'] # Permet d'enregistrer la page précédente et d'y retourner une fois la quantité ajoutée dans le panier.
 		cart.add(product=product, quantity=cd['quantity'])
-
-	return redirect('cart_detail')
+	return HttpResponseRedirect(next) # Redirection vers la page précédente.
 
 
 def cart_remove(request, product_id):
@@ -41,9 +42,9 @@ def cart_remove_one(request, product_id):
 	form = CartAddProductForm(request.POST)
 	if form.is_valid():
 		cd = form.cleaned_data
+		next = cd['next'] # Permet d'enregistrer la page précédente et d'y retourner une fois la quantité ajoutée dans le panier.
 		cart.remove_one(product=product, quantity=cd['quantity'])
-
-	return redirect('cart_detail')
+	return HttpResponseRedirect(next) # Redirection vers la page précédente.
 
 def cart_detail(request):
 	cart = Cart(request)

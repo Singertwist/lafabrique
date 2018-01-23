@@ -17,12 +17,14 @@
                         {{ cart_product_form }}
                         {% csrf_token %}
                         <input type="submit" value="&minus;">
+                        <input type="hidden" name="next" value="{{ request.path }}">
                       </form>
                       <form><input type="text" value="{{ item.quantity }}" name="quantity-final-cart"></form>
                       <form action="{% url "cart_add" product.id %}" method="post">
                         {{ cart_product_form }}
                         {% csrf_token %}
                         <input type="submit" value="&plus;">
+                        <input type="hidden" name="next" value="{{ request.path }}">
                       </form>
               </div>
               <div class="composition-panier-final-item-supprimer">
