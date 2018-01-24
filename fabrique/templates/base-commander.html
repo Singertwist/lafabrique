@@ -47,9 +47,9 @@
                             {% else %}
                             <div class="fixed-cart">
                                 <div class="fixed-cart-suite">
+                                    <div class="fixed-cart-items">
                                     {% for item in cart %}
                                     {% with product=item.product %}
-                                    <div class="fixed-cart-items">
                                         <div class="fixed-cart-item">
                                             {% thumbnail product.image "200x200" as im %}
                                             <div class="fixed-cart-item-image" style="background-image:url({{ im.url }});"></div>
@@ -74,11 +74,11 @@
                                             </div>
                                             <div class="fixed-cart-item-prix">{{ item.total_price }} €</div>
                                         </div>
-                                    </div>
                                     {% endwith %}
                                     {% empty %}
                                     <p>Votre Panier est actuellement vide.</p>
                                     {% endfor %}
+                                    </div>
                                     <div class="fixed-cart-total">
                                         <div>Total</div>
                                         <div>{{ cart.get_total_price }} €</div>
