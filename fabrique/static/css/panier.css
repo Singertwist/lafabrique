@@ -83,6 +83,17 @@
     box-shadow: none;
 }
 
+.composition-panier-final-item-quantite form:first-child input {
+	border-radius: 10px 0px 0px 10px;
+	-moz-border-radius: 10px 0px 0px 10px;
+	-webkit-border-radius: 10px 0px 0px 10px;
+}
+
+.composition-panier-final-item-quantite form:last-child input {
+	border-radius: 0px 10px 10px 0px;
+	-moz-border-radius: 0px 10px 10px 0px;
+	-webkit-border-radius: 0px 10px 10px 0px;
+}
 /*.composition-panier-final-item-quantite > div {
 	height: 40px;
 	width: 40px;
