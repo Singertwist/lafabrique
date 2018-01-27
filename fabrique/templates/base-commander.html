@@ -51,7 +51,7 @@
                                     {% for item in cart %}
                                     {% with product=item.product %}
                                         <div class="fixed-cart-item">
-                                            {% thumbnail product.image "200x200" as im %}
+                                            {% thumbnail product.image "200x200" crop="center" as im %}
                                             <div class="fixed-cart-item-image" style="background-image:url({{ im.url }});"></div>
                                             {% endthumbnail %} 
                                             <div class="fixed-cart-item-texte">

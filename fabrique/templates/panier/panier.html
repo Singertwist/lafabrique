@@ -1,5 +1,6 @@
-  {% extends "base-commander.html" %}
+{% extends "base-commander.html" %}
 {% load static %}
+{% load thumbnail %}
 
 {% block panier %}
     <h1>Mon Panier</h1>
@@ -7,7 +8,9 @@
       {% for item in cart %}
         {% with product=item.product %}
           <div class="composition-panier-final-item">
-              <div class="composition-panier-final-item-image" style="background-image:url({{ product.image.url }});"></div>
+              {% thumbnail product.image "500x500" crop="center" as im %}
+              <div class="composition-panier-final-item-image" style="background-image:url({{ im.url }});"></div>
+              {% endthumbnail %} 
               <div class="composition-panier-final-item-description">
                   <div>{{ product.nom }}</div>
                   <div>{{ product.description }}</div>
