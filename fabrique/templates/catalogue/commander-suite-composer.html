@@ -114,7 +114,9 @@
 				<div class="prix-texte-article-selection-plat">
 					{% if article.prix_min == None %}
 					<div class="sous-catprix-texte-article-selection-plat">{{ article.prix_unitaire }} €</div>
-					<div class="sous-catprix-texte-article-selection-plat"><a href=""><img src="{% static 'img/icones/shopping-cart.png' %}" alt="shopping-cart"/></a></div>
+					<div class="sous-catprix-texte-article-selection-plat">
+						<a href=""><img src="{% static 'img/icones/shopping-cart.png' %}" alt="shopping-cart"/></a>
+					</div>
 					{% else %}
 					<div class="sous-catprix-texte-article-selection-plat">A partir de {{ article.prix_min }} €</div>
 					<div class="sous-catprix-texte-article-selection-plat"><a href="{% url 'articles_plats_composer' article.slug %}"><img src="{% static 'img/icones/shopping-cart.png' %}" alt="shopping-cart"/></a></div>

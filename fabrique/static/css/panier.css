@@ -94,34 +94,6 @@
 	-moz-border-radius: 0px 10px 10px 0px;
 	-webkit-border-radius: 0px 10px 10px 0px;
 }
-/*.composition-panier-final-item-quantite > div {
-	height: 40px;
-	width: 40px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	background-color: #CE3734;
-	border: solid 1px lightgrey;
-}
-
-.composition-panier-final-item-quantite > div a {
-	color: #FFFFFF;
-}
-
-.composition-panier-final-item-quantite > div:first-child {
-	border-right: none; 
-}
-
-.composition-panier-final-item-quantite > div:nth-child(3) {
-	border-left: none; 
-}
-
-.composition-panier-final-item-quantite input {
-	width: 60px;
-	height: 40px;
-	border: solid 1px lightgrey;
-	text-align: center;
-}*/
 
 .composition-panier-final-item-supprimer { 
 	display:  flex;

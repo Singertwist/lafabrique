@@ -25,5 +25,8 @@ def articles_plats_composer(request, id, slug):
 
 def articles_plats_pret(request, id, slug):
 	sous_categories_articles = get_object_or_404(Sous_Categories_Article, id=id, slug=slug) #On récupère les sous catégories d'articles concernées.
-	articles = sous_categories_articles.article_set.filter(disponible=1, article_composer=0) #Pour chacune des sous-catégories, on sélectionne tous les articles disponibles et n'étant pas considéré comme des ingrédients, mais des plats
-	return render(request, "catalogue/commander-suite-pret.html", {'sous_categories_articles':sous_categories_articles, 'articles':articles})
+	articles = sous_categories_articles.article_set.filter(disponible=1, article_composer=0) #Pour chacune des sous-catégories, on sélectionne tous les articles disponibles et n'étant pas considéré comme des ingrédients, mais des plats.
+
+	cart_product_form = CartAddProductForm()
+
+	return render(request, "catalogue/commander-suite-pret.html", {'sous_categories_articles':sous_categories_articles, 'articles':articles, 'cart_product_form': cart_product_form})

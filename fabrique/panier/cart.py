@@ -59,7 +59,7 @@ class Cart(object):
 			item['price'] = Decimal(item['price'])
 			item['tva'] = Decimal(item['tva'])
 			item['total_price'] = item['price'] * item['quantity']
-			item['total_item_tva'] = item['total_price'] - item['total_price'] / item['tva']
+			item['total_item_tva'] = item['total_price'] - item['total_price'] / item['tva'] #Calcul du total de TVA par article.
 			yield item
 
 	def __len__(self):
@@ -69,7 +69,10 @@ class Cart(object):
 		return sum(Decimal(item['price']) * item['quantity'] for item in self.cart.values())
 
 	def get_total_tva(self):
-		return sum(round(Decimal(item['total_item_tva']),2) for item in self.cart.values())
+		return sum(round(Decimal(item['total_item_tva']),2) for item in self.cart.values()) #Calcul de la TVA, round(X,2), permet d'arrondir à 2 décimales après la virgule le montant de la TVA
+
+	def get_sub_total_price(self):
+		return sum(Decimal(item['price']) * item['quantity'] for item in self.cart.values()) - sum(round(Decimal(item['total_item_tva']),2) for item in self.cart.values())
 
 	def clear(self):
 		del self.session[settings.CART_SESSION_ID]

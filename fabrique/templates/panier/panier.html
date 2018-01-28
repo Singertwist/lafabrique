@@ -63,7 +63,7 @@
             </div>
             <div class="composition-panier-final-info-total">
                 <div>Discount : <span class="bold-total-panier">0.00€</span></div>
-                <div>Sous-Total : <span class="bold-total-panier">12.50€</span></div>
+                <div>Sous-Total : <span class="bold-total-panier">{{ cart.get_sub_total_price }}€</span></div>
                 <div>TVA : <span class="bold-total-panier">{{ cart.get_total_tva }}€</span></div>
                 <div>Total : <span class="bold-total-panier">{{ cart.get_total_price }}€</span></div>
             </div>
