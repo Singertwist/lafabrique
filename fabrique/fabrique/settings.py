@@ -141,4 +141,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 #Clé permettant de stocker la session du panier pour chaque utilisateur
 CART_SESSION_ID = 'cart'
+COMPOSED_CART_SESSION_ID = 'composed_cart'
 
