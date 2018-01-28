@@ -16,7 +16,7 @@ class Cart(object):
 		product_id = str(product.id)
 
 		if product_id not in self.cart:
-			self.cart[product_id] = {'quantity': 1,'price': str(product.prix_unitaire)}
+			self.cart[product_id] = {'quantity': 1,'price': str(product.prix_unitaire), 'tva': str(product.taux_TVA.taux_applicable)}
 
 		else:
 			self.cart[product_id]['quantity'] += quantity #Ajoute +1 à la quantité et met à jour le dictionnaire contenant la quantité. += signifie ajoute à la valeur initiale de quantité.
@@ -57,7 +57,9 @@ class Cart(object):
 
 		for item in self.cart.values():
 			item['price'] = Decimal(item['price'])
+			item['tva'] = Decimal(item['tva'])
 			item['total_price'] = item['price'] * item['quantity']
+			item['total_item_tva'] = item['total_price'] - item['total_price'] / item['tva']
 			yield item
 
 	def __len__(self):
@@ -65,6 +67,9 @@ class Cart(object):
 
 	def get_total_price(self):
 		return sum(Decimal(item['price']) * item['quantity'] for item in self.cart.values())
+
+	def get_total_tva(self):
+		return sum(round(Decimal(item['total_item_tva']),2) for item in self.cart.values())
 
 	def clear(self):
 		del self.session[settings.CART_SESSION_ID]
