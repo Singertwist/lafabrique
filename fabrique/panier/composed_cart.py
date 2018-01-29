@@ -5,13 +5,13 @@ from django.conf import settings
 class Composed_Cart(object):
 	def __init__(self, request):
 		self.session = request.session
-		composed_cart = self.session.get(settings.COMPOSED_CART_SESSION_ID)
+		composed_cart = self.session.get(settings.CART_SESSION_ID)
 
 		if not composed_cart:
-			composed_cart = self.session[settings.COMPOSED_CART_SESSION_ID] = {}
+			composed_cart = self.session[settings.CART_SESSION_ID] = {}
 		self.composed_cart = composed_cart
 
-	def add_composed_cart(self, product, quantity=1):
+	def add_composed(self, product, quantity=1):
 		product_id = str(product.id)
 
 		if product_id not in self.composed_cart:
@@ -20,19 +20,30 @@ class Composed_Cart(object):
 		else:
 			self.composed_cart[product_id]['quantity'] += quantity #Ajoute +1 à la quantité et met à jour le dictionnaire contenant la quantité. += signifie ajoute à la valeur initiale de quantité.
 
-		self.save()
+		self.save_composed()
 
-	def save_composed_cart(self):
-		self.session[settings.COMPOSED_CART_SESSION_ID] = self.composed_cart
+	def save_composed(self):
+		self.session[settings.CART_SESSION_ID] = self.composed_cart
 		self.session.modified = True
 
 
-	def remove_composed_cart(self, product): #Supprimer le produit, quelque soit la quantité.
+	def remove_composed(self, product): #Supprimer le produit, quelque soit la quantité.
    		product_id = str(product.id)
 
    		if product_id in self.composed_cart:
    			del self.composed_cart[product_id]
-   		self.save()
+   		self.save_composed()
+
+	def remove_one_composed(self, product, quantity=1): #Méthode permettant de supprimer une unité du produit.
+		product_id = str(product.id)
+
+		if product_id in self.composed_cart: #Si le produit est dans le panier
+			if self.composed_cart[product_id]['quantity'] > 1: #Et si la quantité de ce produit est supérieure à 1
+				self.composed_cart[product_id]['quantity'] -= quantity #On enlève la quantité par défaut, d'est à dire 1.
+			else:
+				del self.composed_cart[product_id] #Si la quantité du produit est égale à 1 alors et que l'on veut enlever une unité, cela veut dire que l'on supprimer le produit.
+		self.save_composed()
+
 
 	def __iter__(self):
 
@@ -53,15 +64,15 @@ class Composed_Cart(object):
 	def __len__(self):
 		return sum(item['quantity'] for item in self.composed_cart.values())
 
-	def get_total_price(self):
+	def get_total_price_composed(self):
 		return sum(Decimal(item['price']) * item['quantity'] for item in self.composed_cart.values())
 
-	def get_total_tva(self):
+	def get_total_tva_composed(self):
 		return sum(round(Decimal(item['total_item_tva']),2) for item in self.composed_cart.values()) #Calcul de la TVA, round(X,2), permet d'arrondir à 2 décimales après la virgule le montant de la TVA
 
-	def get_sub_total_price(self):
+	def get_sub_total_price_composed(self):
 		return sum(Decimal(item['price']) * item['quantity'] for item in self.composed_cart.values()) - sum(round(Decimal(item['total_item_tva']),2) for item in self.composed_cart.values())
 
 	def clear(self):
-		del self.session[settings.COMPOSED_CART_SESSION_ID]
+		del self.session[settings.CART_SESSION_ID]
 		self.session.modified = True

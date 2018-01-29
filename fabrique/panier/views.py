@@ -4,7 +4,8 @@ from django.http import HttpResponseRedirect
 from django.utils.crypto import get_random_string
 from catalogue.models import Categories_Article, Sous_Categories_Article, Article, Type_Produit
 from panier.cart  import Cart
-from panier.forms import CartAddProductForm
+from panier.composed_cart  import Composed_Cart
+from panier.forms import CartAddProductForm, CartComposedForm
 # Create your views here.
 
 #def panier_id(request):
@@ -50,3 +51,14 @@ def cart_detail(request):
 	cart = Cart(request)
 	cart_product_form = CartAddProductForm()
 	return render(request, 'panier/panier.html', locals())
+
+def cart_add_composed(request, product_id):
+	composed_cart = Composed_Cart(request)
+	product = get_object_or_404(Article, id=product_id)
+	form = CartComposedForm(request.POST)
+	if form.is_valid():
+		cd = form.cleaned_data
+		next = cd['next'] # Permet d'enregistrer la page précédente et d'y retourner une fois la quantité ajoutée dans le panier.
+		composed_cart.add_composed(product=product, quantity=cd['quantity'])
+	return HttpResponseRedirect(next) # Redirection vers la page précédente.
+
