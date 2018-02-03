@@ -17,6 +17,13 @@
 			</div>
 		</div>
 	{% endif %}
+	<p>
+		{% for mykey,myvalue in composed_cart.items %}
+			ID produit: {{ mykey }}<br/>
+			quantite produit: {{ myvalue.quantity }} <br/>
+			prix produit: {{ myvalue.prix }}<br/>
+		{% endfor %}
+	</p>
 <div class="plat-composer">
 	<div class="plat-composer-choix">
 		{% for cat in type_produit %}

@@ -21,7 +21,14 @@ def articles_plats_composer(request, id, slug):
 	articles = sous_categories_articles.article_set.filter(disponible=1, article_composer=1) #Pour chacune de ces sous catégories, on isole tous les articles concernés disponibles et pouvant servir à composer une recette
 	id_type_produit_article = articles.values('sous_categories_articles_id') #Pour chaque article, celui-ci dispose d'un attribut type de produit (pain, légume), on récupére l'ID du type de produit.
 	type_produit = Type_Produit.objects.filter(id__in=id_type_produit_article) #On ne prend via un filtre que les Types de produits (model) qui sont présent dans les articles
-	return render(request, "catalogue/commander-suite-composer.html",{'sous_categories_articles':sous_categories_articles, 'type_produit':type_produit, 'articles':articles})
+	
+	cart_product_form = CartAddProductForm() # Nécessaire si on veut ajouter des articles provenant de plats non composés.
+	
+	composed_cart = {}
+	id_produit = 1
+	composed_cart[id_produit] = {'quantity': 1,'prix':2}
+
+	return render(request, "catalogue/commander-suite-composer.html",{'sous_categories_articles':sous_categories_articles, 'type_produit':type_produit, 'articles':articles, 'cart_product_form':cart_product_form, 'composed_cart':composed_cart})
 
 def articles_plats_pret(request, id, slug):
 	sous_categories_articles = get_object_or_404(Sous_Categories_Article, id=id, slug=slug) #On récupère les sous catégories d'articles concernées.

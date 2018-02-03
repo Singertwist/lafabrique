@@ -51,13 +51,13 @@ def cart_detail(request):
 	cart_product_form = CartAddProductForm()
 	return render(request, 'panier/panier.html', locals())
 
-def cart_add_composed(request, product_id):
-	composed_cart = Composed_Cart(request)
-	product = get_object_or_404(Article, id=product_id)
-	form = CartComposedForm(request.POST)
-	if form.is_valid():
-		cd = form.cleaned_data
-		next = cd['next'] # Permet d'enregistrer la page précédente et d'y retourner une fois la quantité ajoutée dans le panier.
-		composed_cart.add_composed(product=product, quantity=cd['quantity'])
-	return HttpResponseRedirect(next) # Redirection vers la page précédente.
+#Création d'un plat personnalisé
+
+#def composed_cart(request):
+#	composed_cart = {}
+#	id_produit = 1
+#	composed_cart[id_produit] = {'quantity': 2,'prix':2}
+#
+#	return render(request, 'catalogue/commander-suite-composer.html', {'composed_cart':composed_cart})
+
 
