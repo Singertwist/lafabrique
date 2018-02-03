@@ -4,8 +4,7 @@ from django.http import HttpResponseRedirect
 from django.utils.crypto import get_random_string
 from catalogue.models import Categories_Article, Sous_Categories_Article, Article, Type_Produit
 from panier.cart  import Cart
-from panier.composed_cart  import Composed_Cart
-from panier.forms import CartAddProductForm, CartComposedForm
+from panier.forms import CartAddProductForm
 # Create your views here.
 
 #def panier_id(request):

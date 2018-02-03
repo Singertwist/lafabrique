@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from catalogue.models import Categories_Article, Sous_Categories_Article, Article, Type_Produit
-from panier.forms import CartAddProductForm, CartComposedForm
+from panier.forms import CartAddProductForm
 from django.db.models import Q # Permet de réaliser des requêtes complexes avec OR/OU par exemple
 
 # Create your views here.
@@ -21,10 +21,7 @@ def articles_plats_composer(request, id, slug):
 	articles = sous_categories_articles.article_set.filter(disponible=1, article_composer=1) #Pour chacune de ces sous catégories, on isole tous les articles concernés disponibles et pouvant servir à composer une recette
 	id_type_produit_article = articles.values('sous_categories_articles_id') #Pour chaque article, celui-ci dispose d'un attribut type de produit (pain, légume), on récupére l'ID du type de produit.
 	type_produit = Type_Produit.objects.filter(id__in=id_type_produit_article) #On ne prend via un filtre que les Types de produits (model) qui sont présent dans les articles
-
-	composed_cart_product_form = CartComposedForm()
-
-	return render(request, "catalogue/commander-suite-composer.html",{'sous_categories_articles':sous_categories_articles, 'type_produit':type_produit, 'articles':articles, 'composed_cart_product_form': composed_cart_product_form})
+	return render(request, "catalogue/commander-suite-composer.html",{'sous_categories_articles':sous_categories_articles, 'type_produit':type_produit, 'articles':articles})
 
 def articles_plats_pret(request, id, slug):
 	sous_categories_articles = get_object_or_404(Sous_Categories_Article, id=id, slug=slug) #On récupère les sous catégories d'articles concernées.
