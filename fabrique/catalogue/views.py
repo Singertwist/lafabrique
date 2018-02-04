@@ -1,8 +1,8 @@
 from django.shortcuts import render, get_object_or_404
 from catalogue.models import Categories_Article, Sous_Categories_Article, Article, Type_Produit
-from panier.forms import CartAddProductForm
+from panier.forms import CartAddProductForm, ComposedCartForm
 from django.db.models import Q # Permet de réaliser des requêtes complexes avec OR/OU par exemple
-
+from django.utils.crypto import get_random_string
 # Create your views here.
 def articles_plats(request, slug, ordre):
 	categories_articles = get_object_or_404(Categories_Article, slug=slug, ordre=ordre, actif=1) # On récupérer la catégorie sur laquelle on clique (plats, desserts, boissons). L'ordre permet d'ordonner le menu, par exemple si Boissons --> 1 alors, la catégorie boisson apparaitra en premier.
@@ -24,11 +24,11 @@ def articles_plats_composer(request, id, slug):
 	
 	cart_product_form = CartAddProductForm() # Nécessaire si on veut ajouter des articles provenant de plats non composés.
 	
-	composed_cart = {}
-	id_produit = 1
-	composed_cart[id_produit] = {'quantity': 1,'prix':2}
-
-	return render(request, "catalogue/commander-suite-composer.html",{'sous_categories_articles':sous_categories_articles, 'type_produit':type_produit, 'articles':articles, 'cart_product_form':cart_product_form, 'composed_cart':composed_cart})
+	#id_unique = get_random_string(length=50)
+	#composed_cart = id_unique = {}
+	#id_produit = 1
+	#composed_cart[id_produit] = {'quantity': 1,'prix':2}
+	return render(request, "catalogue/commander-suite-composer.html",{'sous_categories_articles':sous_categories_articles, 'type_produit':type_produit, 'articles':articles, 'cart_product_form':cart_product_form,})
 
 def articles_plats_pret(request, id, slug):
 	sous_categories_articles = get_object_or_404(Sous_Categories_Article, id=id, slug=slug) #On récupère les sous catégories d'articles concernées.

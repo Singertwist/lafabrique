@@ -17,13 +17,6 @@
 			</div>
 		</div>
 	{% endif %}
-	<p>
-		{% for mykey,myvalue in composed_cart.items %}
-			ID produit: {{ mykey }}<br/>
-			quantite produit: {{ myvalue.quantity }} <br/>
-			prix produit: {{ myvalue.prix }}<br/>
-		{% endfor %}
-	</p>
 <div class="plat-composer">
 	<div class="plat-composer-choix">
 		{% for cat in type_produit %}
@@ -122,7 +115,12 @@
 					{% if article.prix_min == None %}
 					<div class="sous-catprix-texte-article-selection-plat">{{ article.prix_unitaire }} €</div>
 					<div class="sous-catprix-texte-article-selection-plat">
-						<p>Ici Formulaire ajout au panier</p>
+						<form method="post" action="{% url 'cart_add' article.id %}">
+							{% csrf_token %}
+							{{ cart_product_form }}
+							<input type="image" src="{% static 'img/icones/shopping-cart.png' %}" alt="shopping-cart" />
+							<input type="hidden" name="next" value="{{ request.path }}">
+						</form>
 					</div>
 					{% else %}
 					<div class="sous-catprix-texte-article-selection-plat">A partir de {{ article.prix_min }} €</div>

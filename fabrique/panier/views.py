@@ -4,7 +4,8 @@ from django.http import HttpResponseRedirect
 from django.utils.crypto import get_random_string
 from catalogue.models import Categories_Article, Sous_Categories_Article, Article, Type_Produit
 from panier.cart  import Cart
-from panier.forms import CartAddProductForm
+from panier.composed_cart  import ComposedCart
+from panier.forms import CartAddProductForm, ComposedCartForm
 # Create your views here.
 
 #def panier_id(request):
@@ -20,15 +21,26 @@ from panier.forms import CartAddProductForm
 
 @require_POST
 def cart_add(request, product_id):
-	cart = Cart(request)
 	product = get_object_or_404(Article, id=product_id)
-	form = CartAddProductForm(request.POST)
-	if form.is_valid():
-		cd = form.cleaned_data
-		next = cd['next'] # Permet d'enregistrer la page précédente et d'y retourner une fois la quantité ajoutée dans le panier.
-		cart.add(product=product, quantity=cd['quantity'])
-	return HttpResponseRedirect(next) # Redirection vers la page précédente.
+	#Si le produit ajouté au panier est un article simple sans composition, alors on l'ajoute directement au panier.
+	if product.article_composer == False:
+		cart = Cart(request)
+		form = CartAddProductForm(request.POST)
+		if form.is_valid():
+			cd = form.cleaned_data
+			next = cd['next'] # Permet d'enregistrer la page précédente et d'y retourner une fois la quantité ajoutée dans le panier.
+			cart.add(product=product, quantity=cd['quantity'])
+		return HttpResponseRedirect(next) # Redirection vers la page d'où le produit a été ajouté.
 
+	#Si l'article que l'on ajoute au panier sert à composer alors on utilise la méthode permettant de composer un article.
+	else:
+		composed_cart = ComposedCart(request)
+		form = ComposedCartForm(request.POST)
+		if form.is_valid():
+			cd = form.cleaned_data
+			next = cd['next'] # Permet d'enregistrer la page précédente et d'y retourner une fois la quantité ajoutée dans le panier.
+			composed_cart.add_composed(product=product, quantity=cd['quantity'])
+		return HttpResponseRedirect(next) # Redirection vers la page d'où le produit a été ajouté.
 
 def cart_remove(request, product_id):
 	cart = Cart(request)
@@ -48,16 +60,9 @@ def cart_remove_one(request, product_id):
 
 def cart_detail(request):
 	cart = Cart(request)
+	composed_cart = ComposedCart(request)
 	cart_product_form = CartAddProductForm()
 	return render(request, 'panier/panier.html', locals())
 
 #Création d'un plat personnalisé
-
-#def composed_cart(request):
-#	composed_cart = {}
-#	id_produit = 1
-#	composed_cart[id_produit] = {'quantity': 2,'prix':2}
-#
-#	return render(request, 'catalogue/commander-suite-composer.html', {'composed_cart':composed_cart})
-
 

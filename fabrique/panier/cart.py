@@ -6,10 +6,10 @@ from django.conf import settings
 class Cart(object):
 	def __init__(self, request):
 		self.session = request.session
-		cart = self.session.get(settings.CART_SESSION_ID)
+		cart = self.session.get('cart')
 
 		if not cart:
-			cart = self.session[settings.CART_SESSION_ID] = {}
+			cart = self.session['cart'] = {}
 		self.cart = cart
 
 	def add(self, product, quantity=1):
@@ -24,7 +24,7 @@ class Cart(object):
 		self.save()
 
 	def save(self):
-		self.session[settings.CART_SESSION_ID] = self.cart
+		self.session['cart'] = self.cart
 		self.session.modified = True
 
 
@@ -68,12 +68,12 @@ class Cart(object):
 	def get_total_price(self):
 		return sum(Decimal(item['price']) * item['quantity'] for item in self.cart.values())
 
-	def get_total_tva(self):
-		return sum(round(Decimal(item['total_item_tva']),2) for item in self.cart.values()) #Calcul de la TVA, round(X,2), permet d'arrondir à 2 décimales après la virgule le montant de la TVA
+	#def get_total_tva(self):
+	#	return sum(round(Decimal(item['total_item_tva']),2) for item in self.cart.values()) #Calcul de la TVA, round(X,2), permet d'arrondir à 2 décimales après la virgule le montant de la TVA
 
-	def get_sub_total_price(self):
-		return sum(Decimal(item['price']) * item['quantity'] for item in self.cart.values()) - sum(round(Decimal(item['total_item_tva']),2) for item in self.cart.values())
+	#def get_sub_total_price(self):
+	#	return sum(Decimal(item['price']) * item['quantity'] for item in self.cart.values()) - sum(round(Decimal(item['total_item_tva']),2) for item in self.cart.values())
 
 	def clear(self):
-		del self.session[settings.CART_SESSION_ID]
+		del self.session['cart']
 		self.session.modified = True
