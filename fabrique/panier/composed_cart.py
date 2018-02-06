@@ -28,11 +28,11 @@ class ComposedCart(object):
 
 	def __iter__(self):
 
-		product_ids = self.composed_cart.keys() #Sélectionne les différentes clés du dictionnaires, dans notre cas l'id du produit, la quantité, le prix.
+		composed_product_ids = self.composed_cart.keys() #Sélectionne les différentes clés du dictionnaires, dans notre cas l'id du produit, la quantité, le prix.
 
-		products = Article.objects.filter(id__in=product_ids) #On filtre sur les IDs présents dans le dictionnaire du panier.
+		composed_products = Article.objects.filter(id__in=composed_product_ids) #On filtre sur les IDs présents dans le dictionnaire du panier.
 
-		for product in products:
+		for product in composed_products:
 			self.composed_cart[str(product.id)]['product'] = product
 
 		for item in self.composed_cart.values():
@@ -48,11 +48,11 @@ class ComposedCart(object):
 	def get_total_price(self):
 		return sum(Decimal(item['price']) * item['quantity'] for item in self.composed_cart.values())
 
-	#def get_total_tva(self):
-	#	return sum(round(Decimal(item['total_item_tva']),2) for item in self.composed_cart.values()) #Calcul de la TVA, round(X,2), permet d'arrondir à 2 décimales après la virgule le montant de la TVA
+	def get_total_tva(self):
+		return sum(round(Decimal(item['total_item_tva']),2) for item in self.composed_cart.values()) #Calcul de la TVA, round(X,2), permet d'arrondir à 2 décimales après la virgule le montant de la TVA
 
-	#def get_sub_total_price(self):
-	#	return sum(Decimal(item['price']) * item['quantity'] for item in self.composed_cart.values()) - sum(round(Decimal(item['total_item_tva']),2) for item in self.composed_cart.values())
+	def get_sub_total_price(self):
+		return sum(Decimal(item['price']) * item['quantity'] for item in self.composed_cart.values()) - sum(round(Decimal(item['total_item_tva']),2) for item in self.composed_cart.values())
 
 	def clear(self):
 		del self.session['composed_cart']

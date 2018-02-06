@@ -149,31 +149,23 @@
 			<div class="plat-composer-panier-entete2"><img src="{% static 'img/icones/shopping-cart-white.png' %}" alt="shopping-cart"/></div>
 		</div>
 
-		<div class="plat-composer-panier-item">
-			<div class="plat-composer-panier-item-image" style="background-image:url({% static 'img/sandwiches2.jpg' %});"></div>
-			<div class="plat-composer-panier-item-nom">
-				<div class="plat-composer-panier-item-nom1">Un délicieux pain frais</div>
-				<div class="plat-composer-panier-item-nom2">Une portion</div>
-			</div>
-			<div class="plat-composer-panier-item-delete"><a href="" title="Supprimer"><img src="{% static 'img/icones/cancel.png' %}" alt="supprimer"/></a></div>
-		</div>
-		<div class="plat-composer-panier-item">
-			<div class="plat-composer-panier-item-image" style="background-image:url({% static 'img/sandwiches2.jpg' %});"></div>
-			<div class="plat-composer-panier-item-nom">
-				<div class="plat-composer-panier-item-nom1">Un délicieux pain frais</div>
-				<div class="plat-composer-panier-item-nom2">Une portion</div>
-			</div>
-			<div class="plat-composer-panier-item-delete"><a href="" title="Supprimer"><img src="{% static 'img/icones/cancel.png' %}" alt="supprimer"/></a></div>
-		</div>
-		<div class="plat-composer-panier-item">
-			<div class="plat-composer-panier-item-image" style="background-image:url({% static 'img/sandwiches2.jpg' %});"></div>
-			<div class="plat-composer-panier-item-nom">
-				<div class="plat-composer-panier-item-nom1">Un délicieux pain frais</div>
-				<div class="plat-composer-panier-item-nom2">Une portion</div>
-			</div>
-			<div class="plat-composer-panier-item-delete"><a href="" title="Supprimer"><img src="{% static 'img/icones/cancel.png' %}" alt="supprimer"/></a></div>
-		</div>	
+		{% for item in composed_cart %}
+        	{% with product=item.product %}
+				<div class="plat-composer-panier-item">
+					{% thumbnail product.image "500x500" crop="center" as im %}
+					<div class="plat-composer-panier-item-image" style="background-image:url({{ im.url }});"></div>
+					{% endthumbnail %} 
+					<div class="plat-composer-panier-item-nom">
+						<div class="plat-composer-panier-item-nom1">{{ product.nom }}</div>
+						<div class="plat-composer-panier-item-nom2">x {{ item.quantity }}</div>
+					</div>
+					<div class="plat-composer-panier-item-delete"><a href="" title="Supprimer"><img src="{% static 'img/icones/cancel.png' %}" alt="supprimer"/></a></div>
+				</div>
+			{% endwith %}
 
+      	{% empty %}
+        <p>Votre panier est vide</p>
+      {% endfor %}
 		<div class="requirements">
 			<h2>Un petit commentaire à ajouter?</h2>
 				<textarea placeholder="Une envie, une suggestion dans la préparation de votre commande, pas de problème, faites le savoir!"></textarea>
