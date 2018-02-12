@@ -7,26 +7,41 @@ class Cart(object):
 	def __init__(self, request):
 		self.session = request.session
 		cart = self.session.get('cart')
+		composed_cart = self.session.get('composed_cart')
 
-		if not cart:
+		if not cart and not composed_cart:
 			cart = self.session['cart'] = {}
+			composed_cart = self.session['composed_cart'] = {}
 		self.cart = cart
+		self.composed_cart = composed_cart	
 
 	def add(self, product, quantity=1):
 		product_id = str(product.id)
+		if product.article_composer == False:
+			if product_id not in self.cart:
+				self.cart[product_id] = {'quantity': 1,'price': str(product.prix_unitaire), 'tva': str(product.taux_TVA.taux_applicable)}
 
-		if product_id not in self.cart:
-			self.cart[product_id] = {'quantity': 1,'price': str(product.prix_unitaire), 'tva': str(product.taux_TVA.taux_applicable)}
+			else:
+				self.cart[product_id]['quantity'] += quantity #Ajoute +1 à la quantité et met à jour le dictionnaire contenant la quantité. += signifie ajoute à la valeur initiale de quantité.
+
+			self.save()
 
 		else:
-			self.cart[product_id]['quantity'] += quantity #Ajoute +1 à la quantité et met à jour le dictionnaire contenant la quantité. += signifie ajoute à la valeur initiale de quantité.
+			if product_id not in self.composed_cart:
+				self.composed_cart[product_id] = {'quantity': 1,'price': str(product.prix_unitaire), 'tva': str(product.taux_TVA.taux_applicable)}
 
-		self.save()
+			else:
+				self.composed_cart[product_id]['quantity'] += quantity #Ajoute +1 à la quantité et met à jour le dictionnaire contenant la quantité. += signifie ajoute à la valeur initiale de quantité.
+
+			self.save_composed()
 
 	def save(self):
 		self.session['cart'] = self.cart
 		self.session.modified = True
 
+	def save_composed(self):
+		self.session['composed_cart'] = self.composed_cart
+		self.session.modified = True
 
 	def remove(self, product): #Supprimer le produit, quelque soit la quantité.
    		product_id = str(product.id)
@@ -68,11 +83,11 @@ class Cart(object):
 	def get_total_price(self):
 		return sum(Decimal(item['price']) * item['quantity'] for item in self.cart.values())
 
-	#def get_total_tva(self):
-	#	return sum(round(Decimal(item['total_item_tva']),2) for item in self.cart.values()) #Calcul de la TVA, round(X,2), permet d'arrondir à 2 décimales après la virgule le montant de la TVA
+	def get_total_tva(self):
+		return sum(round(Decimal(item['total_item_tva']),2) for item in self.cart.values()) #Calcul de la TVA, round(X,2), permet d'arrondir à 2 décimales après la virgule le montant de la TVA
 
-	#def get_sub_total_price(self):
-	#	return sum(Decimal(item['price']) * item['quantity'] for item in self.cart.values()) - sum(round(Decimal(item['total_item_tva']),2) for item in self.cart.values())
+	def get_sub_total_price(self):
+		return sum(Decimal(item['price']) * item['quantity'] for item in self.cart.values()) - sum(round(Decimal(item['total_item_tva']),2) for item in self.cart.values())
 
 	def clear(self):
 		del self.session['cart']

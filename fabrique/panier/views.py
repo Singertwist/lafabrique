@@ -4,8 +4,7 @@ from django.http import HttpResponseRedirect
 from django.utils.crypto import get_random_string
 from catalogue.models import Categories_Article, Sous_Categories_Article, Article, Type_Produit
 from panier.cart  import Cart
-from panier.composed_cart  import ComposedCart
-from panier.forms import CartAddProductForm, ComposedCartForm
+from panier.forms import CartAddProductForm
 # Create your views here.
 
 #def panier_id(request):
@@ -22,25 +21,13 @@ from panier.forms import CartAddProductForm, ComposedCartForm
 @require_POST
 def cart_add(request, product_id):
 	product = get_object_or_404(Article, id=product_id)
-	#Si le produit ajouté au panier est un article simple sans composition, alors on l'ajoute directement au panier.
-	if product.article_composer == False:
-		cart = Cart(request)
-		form = CartAddProductForm(request.POST)
-		if form.is_valid():
-			cd = form.cleaned_data
-			next = cd['next'] # Permet d'enregistrer la page précédente et d'y retourner une fois la quantité ajoutée dans le panier.
-			cart.add(product=product, quantity=cd['quantity'])
-		return HttpResponseRedirect(next) # Redirection vers la page d'où le produit a été ajouté.
-
-	#Si l'article que l'on ajoute au panier sert à composer alors on utilise la méthode permettant de composer un article.
-	else:
-		composed_cart = ComposedCart(request)
-		form = ComposedCartForm(request.POST)
-		if form.is_valid():
-			cd = form.cleaned_data
-			next = cd['next'] # Permet d'enregistrer la page précédente et d'y retourner une fois la quantité ajoutée dans le panier.
-			composed_cart.add_composed(product=product, quantity=cd['quantity'])
-		return HttpResponseRedirect(next) # Redirection vers la page d'où le produit a été ajouté.
+	cart = Cart(request)
+	form = CartAddProductForm(request.POST)
+	if form.is_valid():
+		cd = form.cleaned_data
+		next = cd['next'] # Permet d'enregistrer la page précédente et d'y retourner une fois la quantité ajoutée dans le panier.
+		cart.add(product=product, quantity=cd['quantity'])
+	return HttpResponseRedirect(next) # Redirection vers la page d'où le produit a été ajouté.
 
 def cart_remove(request, product_id):
 	cart = Cart(request)
@@ -59,9 +46,10 @@ def cart_remove_one(request, product_id):
 	return HttpResponseRedirect(next) # Redirection vers la page précédente.
 
 def cart_detail(request):
-	cart = Cart(request)
 	cart_product_form = CartAddProductForm()
-	return render(request, 'panier/panier.html', locals())
+	cart = Cart(request)
+	composed_cart = request.session.get('composed_cart')
+	return render(request, 'panier/panier.html', {'cart':cart, 'composed_cart':composed_cart, 'cart_product_form':cart_product_form})
 
 #Création d'un plat personnalisé
 
