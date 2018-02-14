@@ -77,6 +77,7 @@ class Cart(object):
 			item['total_item_tva'] = item['total_price'] - item['total_price'] / item['tva'] #Calcul du total de TVA par article.
 			yield item
 
+
 	def __len__(self):
 		return sum(item['quantity'] for item in self.cart.values())
 
@@ -92,3 +93,37 @@ class Cart(object):
 	def clear(self):
 		del self.session['cart']
 		self.session.modified = True
+
+
+	#Méthodes spécifiques au panier composable
+
+class ComposedCart(object):
+	def __init__(self, request):
+		self.session = request.session
+		composed_cart = self.session.get('composed_cart')
+		self.composed_cart = composed_cart
+
+	def __iter__(self):
+		composed_products_ids = self.composed_cart.keys()
+		composed_products = Article.objects.filter(id__in=composed_products_ids)
+
+		for composed_product in composed_products:
+			self.composed_cart[str(composed_product.id)]['product'] = composed_product
+
+		for composed_item in self.composed_cart.values():
+			composed_item['price'] = Decimal(composed_item['price'])
+			composed_item['tva'] = Decimal(composed_item['tva'])
+			composed_item['total_price'] = composed_item['price'] * composed_item['quantity']
+			composed_item['total_composed_item_tva'] = composed_item['total_price'] - composed_item['total_price'] / composed_item['tva'] #Calcul du total de TVA par article.
+			yield composed_item
+
+
+	#def iteration(self):
+	#	composed_products_ids = self.composed_cart.keys()
+	#	composed_products = Article.objects.filter(id__in=composed_products_ids)
+
+	#	for composed_product in composed_products:
+	#		self.composed_cart[str(product.id)]['product'] = composed_product
+
+
+

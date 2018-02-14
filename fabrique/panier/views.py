@@ -3,7 +3,7 @@ from django.views.decorators.http import require_POST
 from django.http import HttpResponseRedirect
 from django.utils.crypto import get_random_string
 from catalogue.models import Categories_Article, Sous_Categories_Article, Article, Type_Produit
-from panier.cart  import Cart
+from panier.cart  import Cart, ComposedCart
 from panier.forms import CartAddProductForm
 # Create your views here.
 
@@ -48,7 +48,7 @@ def cart_remove_one(request, product_id):
 def cart_detail(request):
 	cart_product_form = CartAddProductForm()
 	cart = Cart(request)
-	composed_cart = request.session.get('composed_cart')
+	composed_cart = ComposedCart(request)
 	return render(request, 'panier/panier.html', {'cart':cart, 'composed_cart':composed_cart, 'cart_product_form':cart_product_form})
 
 #Création d'un plat personnalisé
