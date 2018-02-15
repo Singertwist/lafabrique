@@ -3,7 +3,7 @@
 {% load thumbnail %}
 
 {% block panier %}
-    <h1>Mon Panier {{composed_cart}}</h1>
+    <h1>Mon Panier</h1>
     <p>{% for test in composed_cart %}
         {% with product=test.product %}
           <p>{{ product.nom }}</p>
