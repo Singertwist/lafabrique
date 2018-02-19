@@ -159,7 +159,7 @@
 						<div class="plat-composer-panier-item-nom1">{{ product.nom }}</div>
 						<div class="plat-composer-panier-item-nom2">x {{ item.quantity }}</div>
 					</div>
-					<div class="plat-composer-panier-item-delete"><a href="" title="Supprimer"><img src="{% static 'img/icones/cancel.png' %}" alt="supprimer"/></a></div>
+					<div class="plat-composer-panier-item-delete"><a href="{% url "cart_remove" product.id %}"><img src="{% static 'img/icones/cancel.png' %}" alt="Supprimer" title="Supprimer"/></a></div>
 				</div>
 			{% endwith %}
 

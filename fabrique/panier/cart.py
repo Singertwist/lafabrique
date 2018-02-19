@@ -45,10 +45,15 @@ class Cart(object):
 
 	def remove(self, product): #Supprimer le produit, quelque soit la quantité.
    		product_id = str(product.id)
+   		if product.article_composer == False:
+	   		if product_id in self.cart:
+	   			del self.cart[product_id]
+	   		self.save()
 
-   		if product_id in self.cart:
-   			del self.cart[product_id]
-   		self.save()
+	   	else:
+	   		if product_id in self.composed_cart:
+	   			del self.composed_cart[product_id]
+	   		self.save_composed()
 
 	def remove_one(self, product, quantity=1): #Méthode permettant de supprimer une unité du produit.
 		product_id = str(product.id)
