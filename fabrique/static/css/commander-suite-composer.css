@@ -78,6 +78,12 @@
 	display: block;
 }
 
+.plat-composer-panier-container-item {
+	min-height: 100px;
+	max-height: 300px;
+	overflow-y: scroll;
+}
+
 .plat-composer-panier-item {
 	display: flex;
 	padding: 5px;
@@ -97,6 +103,7 @@
 }
 
 .plat-composer-panier-item-nom {
+	width: 120px;
 	padding-left: 10px;
 	padding-right: 5px;
 	border: dashed;
