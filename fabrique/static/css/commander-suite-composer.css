@@ -90,7 +90,6 @@
 	align-items: center;
 	margin-top: 5px;
 	margin-bottom: 5px;
-	border: dashed;
 }
 
 .plat-composer-panier-item-image {
@@ -99,14 +98,12 @@
 	background-size: cover;
  	display: block;
  	border-radius: 5px;
- 	border: dashed;
 }
 
 .plat-composer-panier-item-nom {
 	width: 120px;
 	padding-left: 10px;
 	padding-right: 5px;
-	border: dashed;
 }
 
 .plat-composer-panier-item-nom2 {
@@ -118,7 +115,6 @@
 	width: 20px;
 	display: block;
 	transition-duration: 0.5s;
-	border: dashed;
 }
 
 .plat-composer-panier-item-delete img:hover {
