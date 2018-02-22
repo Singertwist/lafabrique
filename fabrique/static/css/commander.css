@@ -119,49 +119,62 @@
 
 /* Nécessaire pour la pop-up ingrédients et description du produits */
 .overlay {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: rgba(0, 0, 0, 0.7);
-  transition: opacity 500ms;
-  visibility: hidden;
-  opacity: 0;
-  z-index: 2;
-  overflow-y: scroll; /* Nécessaire pour pouvoir scroller dans la popup */
-  height: 100%; /* Nécessaire pour pouvoir scroller dans la popup */
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background: rgba(0, 0, 0, 0.7);
+	transition: opacity 500ms;
+	visibility: hidden;
+	opacity: 0;
+	z-index: 2;
+	overflow-y: scroll; /* Nécessaire pour pouvoir scroller dans la popup */
+	height: 100%; /* Nécessaire pour pouvoir scroller dans la popup */
 }
 .overlay:target {
-  visibility: visible;
-  opacity: 1;
+	visibility: visible;
+	opacity: 1;
 }
 
-.popup {
-  padding: 0px;
-  background: #fff;
-  width: 100%;
-  min-height: 100%;
-  position: relative;
-  transition: all 0s ease-in-out;
-  display: flex;
-}
+/*.popup { Valeur ancienne popup
+	padding: 0px;
+	background: #fff;
+	width: 95%;
+	min-height: 95%;
+	position: relative;
+	transition: all 0s ease-in-out;
+	display: flex;
+	}*/
+.popup { 
+	padding: 0px;
+	background: #fff;
+	width: 95%;
+	min-height: 95%;
+	transition: all 0s ease-in-out;
+	display: flex;
+	position: absolute; /* permet le centrage de la popup*/
+	top: 50%; left: 50%; /* à 50%/50% du parent référent */
+	transform: translate(-50%, -50%); /* décalage de 50% de sa propre taille */
+	border-radius: 10px;
+	}
+
 
 .popup .close {
-  position: absolute;
-  top: 20px;
-  right: 25px;
-  transition: all 200ms;
-  font-size: 70px;
-  text-decoration: none;
-  color: #333;
-}
+	position: absolute;
+	top: 20px;
+	right: 25px;
+	transition: all 200ms;
+	font-size: 70px;
+	text-decoration: none;
+	color: #333;
+	}
 .popup .close:hover {
-  color: #CE3734;
+	color: #CE3734;
 }
 .popup .content-popup {
-  height: auto;
-  overflow: auto;
+	height: auto;
+	overflow: auto;
 }
 
 .image-popup {
@@ -172,16 +185,20 @@
     background-size: cover;
     clip-path: polygon(0 100%, 95% 100%, 100% 0, 0 0);
     -webkit-clip-path: polygon(0 100%, 95% 100%, 100% 0, 0 0);
+    border-radius: 10px 10px 10px 10px;
 }
 
 .content-popup {
 	width: calc(35% - 75px);
 	max-width: 600px;
-	/*width: calc(60% - 100px);*/
 }
 
 .titre-plat-popup {
 	padding-top: 25px;
+}
+
+.titre-plat-popup, .image-info-rapide img, .texte-plat-popup {
+	margin-left: 15px;
 }
 
 .titre-plat-popup h1 {
@@ -199,9 +216,11 @@
 
 .info-plat-popup {
 	display: flex;
+	flex-direction: column;
 	flex-wrap: wrap;
 	justify-content: center;
 	align-items: center;
+	margin-top: 50px;
 }
 
 .infos-plat-popup {
@@ -210,7 +229,7 @@
 	border-radius: 5px;
 	border-width: 1px;
 	border-color: #414141;
-	margin: 5px;
+	margin: 15px;
 	margin-top: 10px;
 	padding: 3px;
 	width: calc(50% - 20px);
