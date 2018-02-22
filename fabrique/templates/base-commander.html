@@ -32,93 +32,92 @@
             </nav>
         </header>
 
-<div class="site-content">
-                <div class="menu-top-commander">
-                    <div class="menu-top-commander-texte">Menu</div>
-                    <div class="menu-top-commander-texte">
-                        {% for nom_categorie in menu_commander_categories %}
-                        <div class="menu-top-commander-texte-lien"><p><a href="{% url 'articles_plats' nom_categorie.slug nom_categorie.ordre %}">{{nom_categorie|title}}</a></p></div>
-                        {% endfor %}
-                        <div class="menu-top-commander-texte-lien"><p><a href="{% url  'cart_detail'%}"><img src="{% static 'img/icones/shopping-cart.png' %}" alt="shopping cart"></a></p>
-                        
-                            {% url  'cart_detail' as url_cart %} <!-- Condition qui permet de ne pas affichier le panier déroulant lorsque l'on se trouve sur la page du panier-->
-                            {% if request.get_full_path == url_cart %}
-                            <!-- Si navigateur se trouve sur la page du panier, alors, ne rien afficher. -->
-                            {% else %}
-                            <div class="fixed-cart">
-                                <div class="fixed-cart-suite">
-                                    <div class="fixed-cart-items">
-                                    {% for item in cart %}
-                                    {% with product=item.product %}
-                                        <div class="fixed-cart-item">
-                                            {% thumbnail product.image "200x200" crop="center" as im %}
-                                            <div class="fixed-cart-item-image" style="background-image:url({{ im.url }});"></div>
-                                            {% endthumbnail %} 
-                                            <div class="fixed-cart-item-texte">
-                                                <div>{{ product.nom }}</div>
-                                                <div>
-                                                    <form method="post" action="{% url 'cart_add' product.id %}">
-                                                    {% csrf_token %}
-                                                    {{ cart_product_form }}
-                                                    <input type="image" src="{% static 'img/icones/plus-2.png' %}" alt="Ajouter" />
-                                                    <input type="hidden" name="next" value="{{ request.path }}">
-                                                    </form>
-                                                    <form method="post" action="{% url 'cart_remove_one' product.id %}">
-                                                    {% csrf_token %}
-                                                    {{ cart_product_form }}
-                                                    <input type="image" src="{% static 'img/icones/remove.png' %}" alt="Enlever" />
-                                                    <input type="hidden" name="next" value="{{ request.path }}">
-                                                    </form>
-                                                    <p>x{{ item.quantity }}</p>
+        <div class="site-content">
+                        <div class="menu-top-commander">
+                            <div class="menu-top-commander-texte">Menu</div>
+                            <div class="menu-top-commander-texte">
+                                {% for nom_categorie in menu_commander_categories %}
+                                <div class="menu-top-commander-texte-lien"><p><a href="{% url 'articles_plats' nom_categorie.slug nom_categorie.ordre %}">{{nom_categorie|title}}</a></p></div>
+                                {% endfor %}
+                                <div class="menu-top-commander-texte-lien"><p><a href="{% url  'cart_detail'%}"><img src="{% static 'img/icones/shopping-cart.png' %}" alt="shopping cart"></a></p>
+                                
+                                    {% url  'cart_detail' as url_cart %} <!-- Condition qui permet de ne pas affichier le panier déroulant lorsque l'on se trouve sur la page du panier-->
+                                    {% if request.get_full_path == url_cart %}
+                                    <!-- Si navigateur se trouve sur la page du panier, alors, ne rien afficher. -->
+                                    {% else %}
+                                    <div class="fixed-cart">
+                                        <div class="fixed-cart-suite">
+                                            <div class="fixed-cart-items">
+                                            {% for item in cart %}
+                                            {% with product=item.product %}
+                                                <div class="fixed-cart-item">
+                                                    {% thumbnail product.image "200x200" crop="center" as im %}
+                                                    <div class="fixed-cart-item-image" style="background-image:url({{ im.url }});"></div>
+                                                    {% endthumbnail %} 
+                                                    <div class="fixed-cart-item-texte">
+                                                        <div>{{ product.nom }}</div>
+                                                        <div>
+                                                            <form method="post" action="{% url 'cart_add' product.id %}">
+                                                            {% csrf_token %}
+                                                            {{ cart_product_form }}
+                                                            <input type="image" src="{% static 'img/icones/plus-2.png' %}" alt="Ajouter" />
+                                                            <input type="hidden" name="next" value="{{ request.path }}">
+                                                            </form>
+                                                            <form method="post" action="{% url 'cart_remove_one' product.id %}">
+                                                            {% csrf_token %}
+                                                            {{ cart_product_form }}
+                                                            <input type="image" src="{% static 'img/icones/remove.png' %}" alt="Enlever" />
+                                                            <input type="hidden" name="next" value="{{ request.path }}">
+                                                            </form>
+                                                            <p>x{{ item.quantity }}</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="fixed-cart-item-prix">{{ item.total_price }} €</div>
                                                 </div>
+                                            {% endwith %}
+                                            {% empty %}
+                                            <p>Votre Panier est actuellement vide.</p>
+                                            {% endfor %}
                                             </div>
-                                            <div class="fixed-cart-item-prix">{{ item.total_price }} €</div>
+                                            <div class="fixed-cart-total">
+                                                <div>Total</div>
+                                                <div>{{ cart.get_total_price }} €</div>
+                                            </div>
+                                            <div class="fixed-cart-icons">
+                                                <div><img src="{% static 'img/icones/credit-card.png' %}" title="Paiement Sécurisé" alt="secured-payment"/><p>Paiement Sécurisé</p></div>
+
+                                                <div><img src="{% static 'img/icones/ticket.png' %}" title="Tickets restaurants acceptés" alt="ticket-restaurant"/><p>Tickets Restaurants</p></div>
+                                            </div>
+                                            <div class="fixed-cart-validated"><a href="{% url  'cart_detail'%}">Valider votre Panier</a></div>
                                         </div>
-                                    {% endwith %}
-                                    {% empty %}
-                                    <p>Votre Panier est actuellement vide.</p>
-                                    {% endfor %}
                                     </div>
-                                    <div class="fixed-cart-total">
-                                        <div>Total</div>
-                                        <div>{{ cart.get_total_price }} €</div>
-                                    </div>
-                                    <div class="fixed-cart-icons">
-                                        <div><img src="{% static 'img/icones/credit-card.png' %}" title="Paiement Sécurisé" alt="secured-payment"/><p>Paiement Sécurisé</p></div>
-
-                                        <div><img src="{% static 'img/icones/ticket.png' %}" title="Tickets restaurants acceptés" alt="ticket-restaurant"/><p>Tickets Restaurants</p></div>
-                                    </div>
-                                    <div class="fixed-cart-validated"><a href="{% url  'cart_detail'%}">Valider votre Panier</a></div>
+                                    {% endif %}
                                 </div>
-                            </div>
-                            {% endif %}
+                                <div class="menu-top-commander-texte-lien"><p><a href="panier"><img src="{% static 'img/icones/profile.png' %}" alt="shopping cart"></a></p></div>
+                            </div> 
                         </div>
-                        <div class="menu-top-commander-texte-lien"><p><a href="panier"><img src="{% static 'img/icones/profile.png' %}" alt="shopping cart"></a></p></div>
-                    </div> 
-                </div>
 
-            <div class="commander">
+                    <div class="commander">
 
-                {% block commander %} {% endblock %}
-                {% block commander_composer %} {% endblock %}
-                {% block commander_pret %} {% endblock %}
-                {% block panier %} {% endblock %}
-                    <!-- Début footer -->     
-                <footer>
-                    <div class="footer-trait"></div>
-                    <div class="top-footer"> 
-                        <div class="top-logo-footer"> <img src="{% static 'img/icones/logo-noir-clair.png' %}" alt="logo footer"/></div>
-                        <div class="nom-top-logo-footer">La Fabrique à Sandwiches</div>
+                        {% block commander %} {% endblock %}
+                        {% block commander_composer %} {% endblock %}
+                        {% block commander_pret %} {% endblock %}
+                        {% block panier %} {% endblock %}
                     </div>
-                    <div class="bottom-footer">
-                        <div class="bottom-footer-categories"> <a href="">Contact</a> <a href="">CGV</a> <a href="">Mentions légales</a> <a href="">Presse</a>   </div>
-                        <div class="bottom-footer-annee"> © 2017 - La Fabrique à Sandwiches</div>   
-                    </div>
-                </footer> 
 
+        </div>    <!-- Nécessaire pour permettre de rentrer le menu en cliquant n'importe où sur la page -->
+                                    <!-- Début footer -->     
+        <footer>
+            <div class="footer-trait"></div>
+            <div class="top-footer"> 
+                <div class="top-logo-footer"> <img src="{% static 'img/icones/logo-noir-clair.png' %}" alt="logo footer"/></div>
+                <div class="nom-top-logo-footer">La Fabrique à Sandwiches</div>
             </div>
-
-</div>    <!-- Nécessaire pour permettre de rentrer le menu en cliquant n'importe où sur la page -->
+            <div class="bottom-footer">
+                <div class="bottom-footer-categories"> <a href="">Contact</a> <a href="">CGV</a> <a href="">Mentions légales</a> <a href="">Presse</a>   </div>
+                <div class="bottom-footer-annee"> © 2017 - La Fabrique à Sandwiches</div>   
+            </div>
+        </footer>   
 
 </div>
 

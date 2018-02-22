@@ -33,10 +33,6 @@
 		text-decoration: none;
 	}
 
-    .container {
-        display: flex;
-    }
-
 /*Menu */
 
 	.header{
@@ -329,6 +325,12 @@
     }
 
     /*Début Footer */
+
+    footer {
+        width:  calc(100% - 110px);
+        margin-left: 110px;
+    }
+
     .footer-trait
     {
         width: 98%;
@@ -495,6 +497,11 @@
 
     .la-fabrique-et-vous-image {
         width: 80%;
+    }
+
+    footer {
+        width:  100%;
+        margin-left: 0px;
     }
 
 
