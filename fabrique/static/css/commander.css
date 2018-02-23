@@ -147,10 +147,9 @@
 	display: flex;
 	}*/
 .popup { 
-	padding: 0px;
 	background: #fff;
 	width: 95%;
-	min-height: 95%;
+	height: 95%;
 	transition: all 0s ease-in-out;
 	display: flex;
 	position: absolute; /* permet le centrage de la popup*/
