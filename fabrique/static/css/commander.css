@@ -47,8 +47,9 @@
 .article-selection-plat {
 	/*width: 30%;
 	min-width: 250px;*/
-	width: 300px;
+	width: 350px;
 	margin: 15px;
+	border: solid 1px lightgrey;
 	display: flex;
 	flex-direction: column;
 	background-color: #FFFFFF;
