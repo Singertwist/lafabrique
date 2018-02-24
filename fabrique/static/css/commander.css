@@ -70,10 +70,13 @@
 	height: inherit;
 	object-fit: cover;
 	border-radius: 10px 10px 0px 0px;
+	transition-duration: 1s;
 }
 
 .image-article-selection-plat img:hover {
 	cursor: zoom-in;
+	filter: grayscale(50%);
+	transition-duration: 1s;
 }
 
 .titre-texte-article-selection-plat h1{
