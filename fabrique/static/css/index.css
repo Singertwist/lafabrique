@@ -29,6 +29,12 @@
 	    height: 100%;
 	}
 
+    .container { /* Nécessaire pour que le footer colle au bas de page */
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+    }
+
 	a {
 		text-decoration: none;
 	}
@@ -89,6 +95,7 @@
         background-image: url("../img/bg.png");
         display: flex;
         flex-direction: column;
+        flex: 1 0 auto; /*Nécessaire pour que le footer colle fond de page*/
     }
 
     .site-content > div{
