@@ -286,6 +286,7 @@
 	height: 350px;
 	width: 100%;
 	clip-path: polygon(0 100%, 100% 100%, 100% 0, 0 0);
+	border-radius: 10px;
 }
 
 .content-popup {
@@ -323,6 +324,7 @@
 	width: 100%;
 	clip-path: polygon(0 100%, 100% 100%, 100% 0, 0 0);
 	-webkit-clip-path: polygon(0 100%, 100% 100%, 100% 0, 0 0);
+	border-radius: 10px;
 }
 
 .popup .close {
