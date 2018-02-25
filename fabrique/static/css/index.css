@@ -153,16 +153,16 @@
     }
 
     .front-page-image {
-    background-image: url("../img/sandwiches3.jpg");
-    height: 500px;
-    background-attachment: fixed;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    justify-content: center;
-    align-items: center;
-    display: flex; 
-    flex-direction: column;
+        background-image: url("../img/sandwiches3.jpg");
+        height: 500px;
+        background-attachment: fixed;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        justify-content: center;
+        align-items: center;
+        display: flex; 
+        flex-direction: column;
     }
 
     .front-page-image div{
