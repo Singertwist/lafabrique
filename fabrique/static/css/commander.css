@@ -280,6 +280,7 @@
 .popup {
 	flex-direction: column;
 	padding: 0px;
+	text-align: center;
 }
 
 .image-popup {
@@ -317,6 +318,10 @@
 
 .article-selection-plat  {
 	width: 80%;
+}
+
+.popup {
+	text-align: center;
 }
 
 .image-popup {
