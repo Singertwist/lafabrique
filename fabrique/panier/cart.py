@@ -123,6 +123,9 @@ class ComposedCart(object):
 			yield composed_item
 
 	def __len__(self):
-		return sum(composed_item['quantity'] for composed_item in self.composed_cart.values())
+		if not self.composed_cart:
+			return 0
+		else: 
+			return sum(composed_item['quantity'] for composed_item in self.composed_cart.values())
 
 
