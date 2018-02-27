@@ -123,7 +123,7 @@ class ComposedCart(object):
 			yield composed_item
 
 	def __len__(self):
-		if not self.composed_cart:
+		if not self.composed_cart: #Condition si on arrive directement sur la page de composition d'un plat et qu'il n'y pas de dictionnaire de créé.
 			return 0
 		else: 
 			return sum(composed_item['quantity'] for composed_item in self.composed_cart.values())
