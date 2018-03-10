@@ -103,8 +103,7 @@
     }
     .connexion {
         text-align: right;
-        margin-top: 10px;
-        
+        margin: 10px 0px 40px 0px;      
     }
 
     .connexion a {
@@ -133,6 +132,8 @@
     .logo-front-page img {
         width: 15%;
         height: auto;
+        min-height: 100px;
+        min-width: 100px;
     }
 
     .logo-front-page h1 {
