@@ -63,7 +63,10 @@ class Cart(object):
 				self.cart[product_id]['quantity'] -= quantity #On enlève la quantité par défaut, d'est à dire 1.
 			else:
 				del self.cart[product_id] #Si la quantité du produit est égale à 1 alors et que l'on veut enlever une unité, cela veut dire que l'on supprimer le produit.
-		self.save()
+			self.save()
+		else: #Si le produit est ajouté dans la composition de plat, on supprime l'article quelque soit la quantité.
+			del self.composed_cart[product_id]
+			self.save_composed()
 
 
 	def __iter__(self):

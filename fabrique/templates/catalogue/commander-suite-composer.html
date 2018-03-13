@@ -159,7 +159,14 @@
 							<div class="plat-composer-panier-item-nom1">{{ product.nom }}</div>
 							<div class="plat-composer-panier-item-nom2">x {{ item.quantity }}</div>
 						</div>
-						<div class="plat-composer-panier-item-delete"><a href="{% url "cart_remove" product.id %}"><img src="{% static 'img/icones/cancel.png' %}" alt="Supprimer" title="Supprimer"/></a></div>
+						<div class="plat-composer-panier-item-delete">
+							<form action="{% url "cart_remove_one" product.id %}" method="post">
+		                        {{ cart_product_form }}
+		                        {% csrf_token %}
+		                        <input type="image" src="{% static 'img/icones/cancel.png' %}" alt="Supprimer" title="Supprimer"/>
+		                        <input type="hidden" name="next" value="{{ request.path }}">
+	                      	</form>
+						</div>
 					</div>
 				{% endwith %}
 
