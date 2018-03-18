@@ -10,5 +10,4 @@ def producteurs(request, slug, ordre):
 		producteurs = categories_producteurs.equipes_set.all()
 	else:
 		producteurs = categories_producteurs.producteurs_set.all()
-		articles_producteurs = Article.objects.filter(id__in=producteurs)
-	return render(request, "producteurs/producteurs.html",{'categories_producteurs':categories_producteurs,'producteurs':producteurs, 'articles_producteurs':articles_producteurs })
+	return render(request, "producteurs/producteurs.html",{'categories_producteurs':categories_producteurs,'producteurs':producteurs })
