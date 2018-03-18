@@ -29,7 +29,7 @@ def upload_location_producteurs(instance, filename):
 class Producteurs(models.Model):
 	nom =  models.CharField(max_length=160, verbose_name='Nom du producteur')
 	prenom = models.CharField(max_length=160, verbose_name='Prénom du producteur')
-	photo_producteur = models.ImageField(upload_to=upload_location_producteurs)
+	photo = models.ImageField(upload_to=upload_location_producteurs)
 	description = models.TextField(verbose_name='Description du producteur')
 	categorie_producteurs = models.ManyToManyField(Categories)
 	actif = models.BooleanField()
@@ -40,6 +40,7 @@ class Producteurs(models.Model):
 	numero_telephone = models.CharField(max_length=160, verbose_name='N° de Téléphone / de Contact')
 	timestamp = models.DateTimeField(auto_now=False, auto_now_add=True, verbose_name='Date de création')
 	updated = models.DateTimeField(auto_now=True, auto_now_add=False, verbose_name='Date de mise à jour')
+	afficher_donnees_privees = models.BooleanField()
 
 	class Meta:
 		verbose_name = 'Producteur'
@@ -57,13 +58,14 @@ def upload_location_equipe(instance, filename):
 class Equipes(models.Model):
 	nom =  models.CharField(max_length=160, verbose_name='Nom de l\'équipier')
 	prenom = models.CharField(max_length=160, verbose_name='Prénom de l\'équipier')
-	photo_equipier= models.ImageField(upload_to=upload_location_equipe, verbose_name='Photo de l\'équipier')
+	photo= models.ImageField(upload_to=upload_location_equipe, verbose_name='Photo de l\'équipier')
 	categorie_personnel = models.ManyToManyField(Categories)
 	description = models.TextField(verbose_name='Description de l\'équipier')
 	poste = models.CharField(max_length=160, verbose_name='Poste occupé par l\'équipier')
 	actif = models.BooleanField()
 	timestamp = models.DateTimeField(auto_now=False, auto_now_add=True, verbose_name='Date de création')
 	updated = models.DateTimeField(auto_now=True, auto_now_add=False, verbose_name='Date de mise à jour')
+	afficher_donnees_privees = models.BooleanField()
 
 	class Meta:
 		verbose_name = 'Equipe'

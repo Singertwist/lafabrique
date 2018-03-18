@@ -16,7 +16,7 @@ class ProducteursAdmin(admin.ModelAdmin):
 	fieldsets = (
     # Fieldset 1 : meta-info
    ('Configuration du producteur', {
-        'fields': ('nom', 'prenom', 'photo_producteur', 'categorie_producteurs', 'actif')
+        'fields': ('nom', 'prenom', 'photo', 'categorie_producteurs', 'actif', 'afficher_donnees_privees')
     }),
 	# Fieldset 2 : information du producteur
    ('Adresse du producteur', {
@@ -38,7 +38,7 @@ class EquipesAdmin(admin.ModelAdmin):
 	fieldsets = (
     # Fieldset 1 : meta-info
    ('Configuration de l\'équipier', {
-        'fields': ('nom', 'prenom', 'photo_equipier', 'description', 'poste', 'categorie_personnel', 'actif')
+        'fields': ('nom', 'prenom', 'photo', 'description', 'poste', 'categorie_personnel', 'actif', 'afficher_donnees_privees')
     }),   
 )
 

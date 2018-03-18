@@ -1,122 +1,65 @@
+{% extends "base.html" %}
 {% load static %}
-<html lang="fr">
-	<head>
-	  <meta charset="utf-8">
-	  <title>La Fabrique à Sandwiches - Repas sur le pouce, sains et sur mesure.</title>
-	  <link rel="stylesheet" href="{% static 'css/index.css' %}">
-	  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" /> <!-- Pour les périphériques mobiles afin que la largeur di site s'adapte à la largeur de l'écran mobile -->
-	  <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
-	  <link rel="stylesheet" href="{% static 'js/aos-master/aos.css' %}" />
-	</head>
-	<body>
+{% load thumbnail %}
 
-<div class="site-pusher"> <!-- nécessaire pour pousser le site quand menu petite résolution -->
-<div class="container"> <!-- Nécessaire pour flex box -->
-
-    <header class="header">
-		<a href="" class="header__icon"></a>
-		<a href="" class="header__logo"></a>
-		<nav class="menu">
-                <a href="{% url 'home' %}"><img class="logo" src="{% static 'img/icones/logo-white.png' %}"></a>
-				<a href="{% url 'home' %}"><img class="icone-menu" src="{% static 'img/icones/home-white.png' %}">Accueil</a>
-				<a href="{% url 'articles_plats' menu_commander_categories.0.slug menu_commander_categories.0.ordre %}"><img class="icone-menu" src="{% static 'img/icones/online-shopping-cart-white.png' %}">Commander</a>
-				<a href="{% url 'producteurs' menu_producteurs_categories.0.slug menu_producteurs_categories.0.ordre %}"><img class="icone-menu" src="{% static 'img/icones/farm-white.png' %}">Producteurs</a>
-				<a href=""><img class="icone-menu" src="{% static 'img/icones/you-are-here.png' %}">Nous Situer</a>
-		</nav>
-    </header>
-
-<div class="site-content">
-
-<div class="menu-top-commander">
-    <div class="menu-top-commander-texte">DÉCOUVRIR</div>
-    <div class="menu-top-commander-texte">
-    	{% for nom_categorie in menu_producteurs_categories %}
-        <div class="menu-top-commander-texte-lien"><p><a href="{% url 'producteurs' nom_categorie.slug nom_categorie.ordre %}">{{nom_categorie|title}}</a></p></div>
-        {% endfor %}
-        <div class="menu-top-commander-texte-lien"></div>
-         <div class="menu-top-commander-texte-lien"></div>
-    </div> 
-</div>
-
-<div class="commander">
-
-<div class="titre-concept"><h1>{{categories_producteurs.description}}</h1></div>
-	<div class="selection-plat">
-		{% for producteur in producteurs %}
-		<div class="article-selection-plat">
-			<div id="big-popup{{ producteur.id }}" class="image-article-selection-plat"><a href="#popup{{ producteur.id }}"><img src="{{ producteur.photo_producteur.url }}{{ producteur.photo_equipier.url }}" alt="photo-de-{{producteur.nom}}-{{producteur.prenom}}"/></a></div>
-			<div id="popup{{ producteur.id }}" class="overlay">
-				<div class="popup">
-					<a class="close" href="#big-popup{{ producteur.id }}">&times;</a>
-					<div class="image-popup" style="background-image:url({{ producteur.photo_producteur.url }}{{ producteur.photo_equipier.url }});"></div>
-					<div class="content-popup">
-						<div class="titre-plat-popup"><h1>{{producteur.nom|title}} {{producteur.prenom|title}}</h1></div>
-						<div class="texte-plat-popup"><p>{{producteur.description}}</p></div>
-						<div class="info-plat-popup">
-								<div class="infos-plat-popup"><img src="{% static 'img/icones/you-are-here-black.png' %}" alt="logo-adresse"/> <h1>Sa localisation</h1>
-								<p>Jean-Jacques Urvoas, John Doe, Pierre Goerges.</div>
-								<div class="infos-plat-popup"><img src="{% static 'img/icones/harvest.png' %}" alt="logo-produits"/> <h1>Ses produits</h1>
-								<p>Jean-Jacques Urvoas, John Doe, Pierre Goerges.</div>
-								<div class="infos-plat-popup"><img src="{% static 'img/icones/allergies.png' %}" alt="logo-producteurs"/> <h1>Allergènes</h1>
-								<p>Jean-Jacques Urvoas, John Doe, Pierre Goerges.</div>
-							</div>
-					</div>
-				</div>
-			</div>
-			<div class="texte-article-selection-plat">
-				<div class="titre-texte-article-selection-plat"><h1>{{producteur.nom|title}} {{producteur.prenom|title}}</h1></div>
-				<div class="texte-texte-article-selection-plat"><p>{{producteur.description|truncatechars:200}}</p></div>
-			</div>
-		</div>
-		{% empty %}
-		<p>Aucun producteur</p>
-		{% endfor %}
-
+{% block producteurs %}
+	<div class="menu-top-commander">
+	    <div class="menu-top-commander-texte">DÉCOUVRIR</div>
+	    <div class="menu-top-commander-texte">
+	    	{% for nom_categorie in menu_producteurs_categories %}
+	        <div class="menu-top-commander-texte-lien"><p><a href="{% url 'producteurs' nom_categorie.slug nom_categorie.ordre %}">{{nom_categorie|title}}</a></p></div>
+	        {% endfor %}
+	        <div class="menu-top-commander-texte-lien"></div>
+	         <div class="menu-top-commander-texte-lien"></div>
+	    </div> 
 	</div>
 
-        <!-- Début footer -->     
-<footer>
-    <div class="footer-trait"></div>
-    <div class="top-footer"> 
-        <div class="top-logo-footer"> <img src="{% static 'img/icones/logo-noir-clair.png' %}" alt="logo footer"/></div>
-        <div class="nom-top-logo-footer">La Fabrique à Sandwiches</div>
-    </div>
-    <div class="bottom-footer">
-        <div class="bottom-footer-categories"> <a href="">Contact</a> <a href="">CGV</a> <a href="">Mentions légales</a> <a href="">Presse</a>   </div>
-        <div class="bottom-footer-annee"> © 2017 - La Fabrique à Sandwiches</div>   
-    </div>
-</footer>
+	<div class="commander">
 
-</div>
+		<div class="titre-concept"><h1>{{categories_producteurs.description}}</h1></div>
+		{% for producteur in producteurs %}
+			<div class="container-producteur" data-aos="fade-up">
+				<div class="image-producteur">
+					{% thumbnail producteur.photo "500x500" as im %}
+						<img src="{{ im.url }}" alt="{{ producteur.nom|title }}"/>
+					{% endthumbnail %} 
+				</div>
+				<div class="presentation-producteur">
+					
+					<h1>{{producteur.nom|title}} {{producteur.prenom|title}}</h1>
+					<p>{{producteur.description}}</p>
 
+					{% if producteur.afficher_donnees_privees == True %}
+						<div class="infos-producteur">
+							<div class="infos-producteurs-suite">
+								<div class="infos-producteurs-suite-image"><img src="{% static 'img/icones/you-are-here-black.png' %}" alt="logo-adresse"/></div>
+								<div class="infos-producteurs-suite-texte">
+									<p>Localisation: {{producteur.ville}} - {{producteur.code_postal}}
+									</p>	
+								</div>
+							</div>
+							<div class="infos-producteurs-suite">
+								<div class="infos-producteurs-suite-image"><img src="{% static 'img/icones/harvest.png' %}" alt="logo-adresse"/></div>
+								<div class="infos-producteurs-suite-texte">
+									<p>Produits:
+										{% for article in producteur.article_set.all %}
+											{% if not forloop.first %},{% endif %}
+											{{ article.nom|title }}
+										{% empty %}
+											Pas de produit associé à ce producteur.
+										{% endfor %}
+									</p>	
+								</div>
+							</div>
 
+						</div>
+					{% else %}
 
-
-</div>
-</div>    <!-- Nécessaire pour permettre de rentrer le menu en cliquant n'importe où sur la page -->
-
-</div>
-
-    <div class="site-cache" id="site-cache"></div>
-</div>
-<!-- Début chargement javascript -->
-<!-- Script pour le menu responsive -->
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<script type="text/javascript" src="{% static 'js/responsive-menu/app.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/menu-commander/menu-produits.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/menu-commander/classie.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/quantite-input/quantite.js' %}"></script>
-<!-- Fin script menu responsive -->
-<!-- Script pour présentation dynamique "Notre concept" -->
-<script src="{% static 'js/aos-master/aos.js' %}"></script>
-    <script>
-      AOS.init({
-        easing: 'ease-in-quad'
-      });
-    </script>
-<!-- Fin pour présentation dynamique "Notre concept" -->  
-  
-<!-- Fin chargement javascript-->
-
-	</body>
-</html>
+					{% endif %}
+				</div>
+			</div>
+		{% empty %}
+			<p>Aucun producteur</p>
+		{% endfor %}
+	</div>
+{% endblock %}

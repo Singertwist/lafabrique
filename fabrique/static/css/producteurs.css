@@ -1,0 +1,109 @@
+.container-producteur {
+	display: flex;
+	margin-top: 10px;
+}
+
+.container-producteur > div {
+	width: 50%;
+}
+
+.container-producteur > div img {
+	width: 100%;
+	min-height: 100%;
+}
+
+.container-producteur:nth-child(2n+3) .image-producteur {
+	order: 2;
+	clip-path: polygon(5% 100%, 100% 100%, 100% 0, 15% 0);
+	-webkit-clip-path: polygon(5% 100%, 100% 100%, 100% 0, 15% 0);
+}
+
+.container-producteur:nth-child(2n+3) .presentation-producteur {
+	padding-left: 15px;
+}
+
+.container-producteur:nth-child(2n+2) .image-producteur {
+	clip-path: polygon(0 100%, 95% 100%, 85% 0, 0 0);
+	-webkit-clip-path: polygon(0 100%, 95% 100%, 85% 0, 0 0);
+}
+
+.presentation-producteur h1 {
+	background-color: #CE3734;
+	background-color: rgba(206,55,52,0.50);
+	color: #FFFFFF;
+	letter-spacing: 3px;
+	-webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+	margin-top: 0;
+	padding: 10px;
+	text-align: center;
+}
+
+.infos-producteurs-suite {
+	display: flex;
+	align-items: center;
+	min-height: 75px;
+	margin-top: 10px;
+}
+
+.infos-producteurs-suite div:first-child {
+	width: 50px;
+	height: 50px;
+}
+
+.infos-producteurs-suite .infos-producteurs-suite-texte {
+	padding-left: 10px;
+}
+
+
+@media only screen and (max-width: 900px){
+
+.container-producteur {
+	display: flex;
+	flex-direction: column;
+	text-align: center;
+}
+
+.container-producteur > div {
+	clip-path: polygon(0 100%, 100% 100%, 100% 0, 0 0);
+	width: auto;
+}
+
+.container-producteur:nth-child(2n+3) .presentation-producteur {
+	padding-left: 0px;
+}
+
+.container-producteur:nth-child(2n+2) .image-producteur{
+	clip-path: polygon(0 100%, 100% 100%, 100% 0, 0 0);
+	-webkit-clip-path: polygon(0 100%, 100% 100%, 100% 0, 0 0);
+}
+
+.container-producteur:nth-child(2n+3) .image-producteur {
+	order: 0;
+	clip-path: polygon(0 100%, 100% 100%, 100% 0, 0 0);
+	-webkit-clip-path: polygon(0 100%, 100% 100%, 100% 0, 0 0);
+}
+
+.infos-producteur {
+	display: flex;
+}
+
+.infos-producteurs-suite {
+	width: 50%;
+	flex-direction: column;
+}
+
+.presentation-producteur h1 {
+	-webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+}
+
+}
+
+
+@media only screen and (max-width: 699px){
+
+
+}
