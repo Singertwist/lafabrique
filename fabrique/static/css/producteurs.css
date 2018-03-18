@@ -1,6 +1,7 @@
 .container-producteur {
 	display: flex;
 	margin-top: 10px;
+	align-items: center;
 }
 
 .container-producteur > div {
