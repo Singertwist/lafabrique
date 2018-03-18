@@ -18,8 +18,9 @@
 	-webkit-clip-path: polygon(5% 100%, 100% 100%, 100% 0, 15% 0);
 }
 
-.container-producteur:nth-child(2n+3) .presentation-producteur {
+.container-producteur .presentation-producteur {
 	padding-left: 15px;
+	padding-right: 15px;
 }
 
 .container-producteur:nth-child(2n+2) .image-producteur {
@@ -70,8 +71,9 @@
 	width: auto;
 }
 
-.container-producteur:nth-child(2n+3) .presentation-producteur {
+.container-producteur .presentation-producteur {
 	padding-left: 0px;
+	padding-right: 0px;
 }
 
 .container-producteur:nth-child(2n+2) .image-producteur{
