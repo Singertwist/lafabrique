@@ -238,6 +238,7 @@
 	padding: 3px;
 	width: calc(50% - 20px);
 	min-width: 200px;
+	min-height: 1px; /* Fix pour forcer recalcule affichage bulle d'info popup IE 10/11*/
 }
 
 .infos-plat-popup img 

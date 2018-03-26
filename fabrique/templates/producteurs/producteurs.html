@@ -19,14 +19,13 @@
 		<div class="titre-concept"><h1>{{categories_producteurs.description}}</h1></div>
 		{% for producteur in producteurs %}
 			<div class="container-producteur" data-aos="fade-up">
-				<div class="image-producteur">
-					{% thumbnail producteur.photo "500x500" as im %}
-						<img src="{{ im.url }}" alt="{{ producteur.nom|title }}"/>
-					{% endthumbnail %} 
-				</div>
+				{% thumbnail producteur.photo "500x500" as im %}
+					<div class="image-producteur" style="background-image:url({{ im.url }});"></div>
+				{% endthumbnail %} 
 				<div class="presentation-producteur">
 					
 					<h1>{{producteur.nom|title}} {{producteur.prenom|title}}</h1>
+					<div class="trait-producteur"></div>
 					<p>{{producteur.description}}</p>
 
 					{% if producteur.afficher_donnees_privees == True %}

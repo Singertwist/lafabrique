@@ -7,9 +7,11 @@
 	width: 50%;
 }
 
-.container-producteur > div img {
+.image-producteur {
 	width: 100%;
-	min-height: 100%;
+	min-height: 400px;
+	background-size: cover;
+	background-repeat: none;
 }
 
 .container-producteur:nth-child(2n+3) .image-producteur {
@@ -29,16 +31,18 @@
 }
 
 .presentation-producteur h1 {
-	background-color: #CE3734;
-	background-color: rgba(206,55,52,0.50);
-	color: #FFFFFF;
+	color: #000000;
 	letter-spacing: 3px;
-	-webkit-border-radius: 15px;
-    -moz-border-radius: 15px;
-    border-radius: 15px;
-	margin-top: 0;
-	padding: 10px;
+	margin: 10px 0px 0px 0px;
+	padding: 0px 10px 0px 10px;
 	text-align: center;
+	font-weight: normal;
+}
+
+.trait-producteur {
+	border: solid 1px #CE3734;
+	margin: 0px 15px 0px 15px;
+	border-radius: 10px;
 }
 
 .infos-producteurs-suite {
