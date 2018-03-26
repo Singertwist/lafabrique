@@ -1,6 +1,6 @@
 .container-producteur {
 	display: flex;
-	margin-top: 10px;
+	margin-top: 50px;
 }
 
 .container-producteur > div {
@@ -41,7 +41,7 @@
 
 .trait-producteur {
 	border: solid 1px #CE3734;
-	margin: 0px 15px 0px 15px;
+	margin: 10px 15px 0px 15px;
 	border-radius: 10px;
 }
 
