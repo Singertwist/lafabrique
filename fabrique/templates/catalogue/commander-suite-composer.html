@@ -176,12 +176,27 @@
 	    </div>
 		<div class="requirements">
 			<h2>Un petit commentaire à ajouter?</h2>
-				<textarea placeholder="Une envie, une suggestion dans la préparation de votre commande, pas de problème, faites le savoir!"></textarea>
+			<textarea placeholder="Une envie, une suggestion dans la préparation de votre commande, pas de problème, faites le savoir!">
+			</textarea>
 		</div>	
 
 		<div class="plat-composer-panier-boutton">
-			<div class="plat-composer-panier-boutton-continue"><a href="">Continuer vos Achats</a></div>
-			<div class="plat-composer-panier-boutton-checkout"><a href="">Valider votre Commande</a></div>
+			<div class="plat-composer-panier-boutton-continue">
+				<form action="{% url "add_to_final_composed_cart" sous_categories_articles.id %}" method="post">
+                    {{ cart_product_form }}
+                    {% csrf_token %}
+                    <button type="submit" alt="Supprimer votre Composition" title="Supprimer votre Composition">Supprimer votre Composition</button>
+                    <input type="hidden" name="next" value="{{ request.path }}">
+              	</form>
+			</div>
+			<div class="plat-composer-panier-boutton-checkout">
+				<form action="{% url "add_to_final_composed_cart" sous_categories_articles.id %}" method="post">
+                    {{ cart_product_form }}
+                    {% csrf_token %}
+                    <button type="submit" alt="Ajouter au Panier" title="Ajouter au Panier">Ajouter au Panier</button>
+                    <input type="hidden" name="next" value="{{ request.path }}">
+              	</form>
+			</div>
 		</div>
 	</div>
 

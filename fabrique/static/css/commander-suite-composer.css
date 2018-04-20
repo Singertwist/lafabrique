@@ -151,9 +151,42 @@
 	margin-bottom: 20px;
 }
 
-.plat-composer-panier-boutton > div {
+.plat-composer-panier-boutton button {
 	width: 90px;
-	height: 40px;
+	height: 45px;
+	font-weight: bold;
+}
+
+.plat-composer-panier-boutton button:hover {
+	transition-duration: 1s;
+	filter: blur(1px);
+	cursor: pointer;
+}
+
+
+.plat-composer-panier-boutton-continue button {
+	border-radius: 5px;
+	background-color: #FFFFFF;
+	border: solid 2px grey;
+}
+
+.plat-composer-panier-boutton-checkout button {
+	border-radius: 5px;
+	border: solid 2px #CE3734;
+	transition-duration: 0.5s;
+	color: #CE3734;
+	background-color: #FFFFFF;
+}
+
+.plat-composer-panier-boutton-checkout button:hover{
+	background-color: #FFFFFF;
+	color: #CE3734;
+	border: solid 2px #CE3734;
+}
+
+/*.plat-composer-panier-boutton > div {
+	width: 90px;
+	height: 45px;
 	font-size: 12px;
 	display: flex;
 	align-items: center;
@@ -197,7 +230,7 @@
 
 .plat-composer-panier-boutton-checkout a:hover {
 	color: grey;
-}
+}*/
 
 summary {
 	font-size: 25px;

@@ -4,6 +4,15 @@
 
 {% block panier %}
     <h1>Mon Panier</h1>
+
+    {% for item in final_composed_cart %}
+        {{item}}
+      </br>
+    {% with product=item.product %}
+
+    {% endwith %}
+    {% empty %}
+    {% endfor %}
     <div class="composition-panier-final">
       {% for item in cart %}
         {% with product=item.product %}

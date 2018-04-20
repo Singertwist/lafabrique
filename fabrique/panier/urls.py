@@ -22,4 +22,5 @@ urlpatterns = [
 	url(r'^add/(?P<product_id>\d+)/$', views.cart_add, name='cart_add'),
 	url(r'^remove/(?P<product_id>\d+)/$', views.cart_remove, name='cart_remove'),
     url(r'^remove-one/(?P<product_id>\d+)/$', views.cart_remove_one, name='cart_remove_one'),
+    url(r'^add_composed_cart/(?P<categorie_composed_cart>\d+)/$', views.add_to_final_composed_cart, name='add_to_final_composed_cart'),
 ]
