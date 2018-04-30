@@ -157,36 +157,74 @@ class FinalComposedCart(object):
 		self.session.modified = True
 
 	def __iter__(self):
+		# Extraction des articles des différentes compositions #
+		final_composed_product_ids = [] #Création d'une liste pour récupérer tous les ids des articles servant à composer un panier
+		for i in self.final_composed_cart: #Pour toutes les compositions
+			for k in self.final_composed_cart[i]['items'].keys(): #On récupére les ID des articles
+				final_composed_product_ids.append(k) #On met à jour la liste avec append afin de ne pas écraser les informations ajoutées précédemment.
 
-		if bool(self.final_composed_cart) is True: # Condition qui vérifie si le dictionnaire est vide, s'il est vide, renvoi des dictionnaire vide.
-			for i in self.final_composed_cart: #Pour chaque composition présent dans le panier contenant toutes les compositions
-				final_composed_product_ids = self.final_composed_cart[i]['items'].keys() # On extrait les ID des articles du dictionnaire item (contenant les différents articles de la composition).
-				final_composed_items = self.final_composed_cart[i]['items'].values() # On extrait également les valeurs relatives à ces articles.
-				final_composed_dict = self.final_composed_cart[i]['items']
-		else:
-			final_composed_product_ids = {}
-			final_composed_items = {}
-			final_composed_dict = {}
+		final_composed_products = Article.objects.filter(id__in=final_composed_product_ids) #On peut extraire alors tous les articles avec et les stocker dans la variable
 
-		final_composed_products = Article.objects.filter(id__in=final_composed_product_ids)
+		# Extraction des catégories de chaque composition #
+		final_composed_cat_ids = [] # Création d'une liste pour récupérer les ID de chaque catégorie de compositions
+		for k in self.final_composed_cart.keys(): #On parcourt le dictionnaire des composition
+			final_composed_cat_ids.append(self.final_composed_cart[k]['cat_composed_cart']) #Pour chaque composition, on isole l'ID correspondant à la catégorie de la composition (sandwiches composés, soupes composées...).
 
-		for final_composed_product in final_composed_products:
-		 	final_composed_dict[str(final_composed_product.id)]['product'] = final_composed_product
+		final_composed_cats = Sous_Categories_Article.objects.filter(id__in=final_composed_cat_ids) #On récupère les données dans la base de données concernant ces catégories.
 
-		# for composition in self.final_composed_cart:
-		# 	yield composition
+		# Début de la boucle d'itération #
+		for k in self.final_composed_cart.keys():
+			final_composed_cat = self.final_composed_cart[k]['cat_composed_cart']
+			yield final_composed_cat
+
+			for final_composed_item in self.final_composed_cart[k]['items'].values():
+				final_composed_item['price'] = Decimal(final_composed_item['price'])
+				final_composed_item['tva'] = Decimal(final_composed_item['tva'])
+				final_composed_item['total_price'] = final_composed_item['price'] * final_composed_item['quantity']
+				final_composed_item['total_composed_item_tva'] = final_composed_item['total_price'] - final_composed_item['total_price'] / final_composed_item['tva']
+				yield final_composed_item
+
+
+		# if bool(self.final_composed_cart) is True: # Condition qui vérifie si le dictionnaire est vide, s'il est vide, renvoi des dictionnaire vide.
+		# 	for i in self.final_composed_cart: #Pour chaque composition présent dans le panier contenant toutes les compositions
+		# 		final_composed_product_ids = self.final_composed_cart[i]['items'].keys() # On extrait les ID des articles du dictionnaire item (contenant les différents articles de la composition).
+		# 		final_composed_items = self.final_composed_cart[i]['items'].values() # On extrait également les valeurs relatives à ces articles.
+		# 		final_composed_dict = self.final_composed_cart[i]['items']
+		# else:
+		# 	final_composed_product_ids = {}
+		# 	final_composed_items = {}
+		# 	final_composed_dict = {}
+
+
+		# for k, v in self.final_composed_cart.items():
+		# 	final_composed_cat = self.final_composed_cart[k]['cat_composed_cart']
+		# 	final_composed_items = self.final_composed_cart[k]['items'].values()
+		# 	yield final_composed_cat, final_composed_items
+
+		# final_composed_products = Article.objects.filter(id__in=final_composed_product_ids)
+		# final_composed_cats = Sous_Categories_Article.objects.filter(id__in=final_composed_product_ids)
+		
+		# for final_composed_product in final_composed_products:
+		#  	final_composed_dict[str(final_composed_product.id)]['product'] = final_composed_product
 				
 		# for k, v in self.final_composed_cart.items():
 		# 	k, v
 		# 	yield k, v
-		for composition in self.final_composed_cart:
-			for final_composed_item in final_composed_items:
-				final_composed_item['price'] = Decimal(final_composed_item['price'])
-				final_composed_item['tva'] = Decimal(final_composed_item['tva'])
-				final_composed_item['total_price'] = final_composed_item['price'] * final_composed_item['quantity']
-				final_composed_item['total_composed_item_tva'] = final_composed_item['total_price'] - final_composed_item['total_price'] / final_composed_item['tva'] #Calcul du total de TVA par article.
-				yield final_composed_item
-			yield composition
+
+		# for composition in self.final_composed_cart.keys():
+		# 	final_composed_cat = self.final_composed_cart[composition]['cat_composed_cart']
+		# 	yield final_composed_cat
+
+
+
+		# for composition in self.final_composed_cart:
+		# 	for final_composed_item in final_composed_items:
+		# 		final_composed_item['price'] = Decimal(final_composed_item['price'])
+		# 		final_composed_item['tva'] = Decimal(final_composed_item['tva'])
+		# 		final_composed_item['total_price'] = final_composed_item['price'] * final_composed_item['quantity']
+		# 		final_composed_item['total_composed_item_tva'] = final_composed_item['total_price'] - final_composed_item['total_price'] / final_composed_item['tva'] #Calcul du total de TVA par article.
+		# 		yield final_composed_item
+		# 	yield composition
 
 
 
