@@ -165,6 +165,19 @@ class FinalComposedCart(object):
 
 		final_composed_products = Article.objects.filter(id__in=final_composed_product_ids) #On peut extraire alors tous les articles avec et les stocker dans la variable
 
+		#Itération pour insérer le nom du produit dans le dictionnaire de la composition.
+		final_composed_products_dict = {}
+		for i in self.final_composed_cart:
+			final_composed_products_dict.update(self.final_composed_cart[i]['items'])
+
+		for final_composed_product in final_composed_products:
+			final_composed_products_dict[str(final_composed_product.id)]['product'] = final_composed_product
+
+		#for i in self.final_composed_cart:
+		#	final_composed_product.update(final_composed_cart[i]['items'])
+		#	for final_composed_product in final_composed_products:
+		#		self.final_composed_cart[i]['items'][str(final_composed_product.id)]['product'] = final_composed_product
+
 		# Extraction des catégories de chaque composition #
 		final_composed_cat_ids = [] # Création d'une liste pour récupérer les ID de chaque catégorie de compositions
 		for k in self.final_composed_cart.keys(): #On parcourt le dictionnaire des composition
