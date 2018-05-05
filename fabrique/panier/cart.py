@@ -166,18 +166,11 @@ class FinalComposedCart(object):
 		final_composed_products = Article.objects.filter(id__in=final_composed_product_ids) #On peut extraire alors tous les articles avec et les stocker dans la variable
 
 		#Itération pour insérer le nom du produit dans le dictionnaire de la composition.
-		# final_composed_products_dict = {}
-		# for i in self.final_composed_cart:
-		# 	final_composed_products_dict.update(self.final_composed_cart[i]['items'])
-
-		# for final_composed_product in final_composed_products:
-		# 	final_composed_products_dict[str(final_composed_product.id)]['product'] = final_composed_product
-
-		for i in self.final_composed_cart:
-			for final_composed_products_dict_ids in self.final_composed_cart[i]['items'].keys():
-				for final_composed_product in final_composed_products:
-					if str(final_composed_product.id) in final_composed_products_dict_ids:
-						self.final_composed_cart[i]['items'][str(final_composed_products_dict_ids)]['product'] = final_composed_product
+		for i in self.final_composed_cart: # Pour toutes les compositions créées.
+			for final_composed_products_dict_ids in self.final_composed_cart[i]['items'].keys(): #On sélectionne dans un dictionnaire les IDs des différents articles ajoutés.
+				for final_composed_product in final_composed_products: # Pour chaque article présent dans la Queryset des différents articles
+					if str(final_composed_product.id) in final_composed_products_dict_ids: # Si l'ID de mon article est présent dans le dictionnaire d'ID
+						self.final_composed_cart[i]['items'][str(final_composed_products_dict_ids)]['product'] = final_composed_product #Alors je peux ajouter le nom de l'article dans un clé "produit".
 
 		# Extraction des catégories de chaque composition #
 		final_composed_cat_ids = [] # Création d'une liste pour récupérer les ID de chaque catégorie de compositions
@@ -209,6 +202,12 @@ class FinalComposedCart(object):
 		# 	final_composed_items = {}
 		# 	final_composed_dict = {}
 
+		# final_composed_products_dict = {}
+		# for i in self.final_composed_cart:
+		# 	final_composed_products_dict.update(self.final_composed_cart[i]['items'])
+
+		# for final_composed_product in final_composed_products:
+		# 	final_composed_products_dict[str(final_composed_product.id)]['product'] = final_composed_product
 
 		# for k, v in self.final_composed_cart.items():
 		# 	final_composed_cat = self.final_composed_cart[k]['cat_composed_cart']
