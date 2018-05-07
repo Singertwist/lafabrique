@@ -179,6 +179,8 @@ class FinalComposedCart(object):
 
 		final_composed_cats = Sous_Categories_Article.objects.filter(id__in=final_composed_cat_ids) #On récupère les données dans la base de données concernant ces catégories.
 
+		#Itération pour insérer le nom de la catégorie dans le dictionnaire de la composition.
+
 		# Début de la boucle d'itération #
 		for k in self.final_composed_cart.keys():
 			final_composed_cat = self.final_composed_cart[k]['cat_composed_cart']
