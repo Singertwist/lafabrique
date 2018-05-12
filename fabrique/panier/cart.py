@@ -184,11 +184,15 @@ class FinalComposedCart(object):
 			for final_composed_cart_cats_id in self.final_composed_cart[k]['cat_composed_cart']:
 				for final_composed_cat in final_composed_cats:
 					if str(final_composed_cat.id) in final_composed_cart_cats_id:
-						self.final_composed_cart[i]['cat_name'] = final_composed_cat
+						self.final_composed_cart[k]['cat_name'] = final_composed_cat
 
 		# Début de la boucle d'itération #
+		for test in self.final_composed_cart.values():
+			yield test
+
+
 		for k in self.final_composed_cart.keys():
-			final_composed_cat = self.final_composed_cart[k]['cat_name']
+			final_composed_cat = self.final_composed_cart[k]['cat_composed_cart']
 			yield final_composed_cat
 
 			for final_composed_item in self.final_composed_cart[k]['items'].values():
