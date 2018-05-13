@@ -5,14 +5,52 @@
 {% block panier %}
     <h1>Mon Panier</h1>
     {% for item in final_composed_cart %}
-      {{item}}</br>
-      {% for sub_items in item.items.values %}
-         </br>
-      {% endfor %}
+      {{item}}
     {% empty %}
     {% endfor %}
-    {{sub_items}}
     <div class="composition-panier-final">
+    {% for item in final_composed_cart %}
+          <div class="composition-panier-final-item">
+              {% thumbnail item.cat_name.image "500x500" crop="center" as im %}
+              <div class="composition-panier-final-item-image" style="background-image:url({{ im.url }});"></div>
+              {% endthumbnail %} 
+              <div class="composition-panier-final-item-description">
+                  <div>{{ item.cat_name.nom }} à Composer</div>
+                  <div>
+                  Ingrédients choisis : 
+                  {% for sub_items in item.items.values %}
+                      {{sub_items.product}} <!-- Les ingrédients composants la composition réalisée -->
+                      {{ forloop.last|yesno:",&#44;"|safe }} <!-- Permet d'ajouter des virgules entre les ingrédients sauf au dernier ingrédient -->
+                  {% empty %}
+                  {% endfor %}
+                  </div>
+              </div>
+              <div class="composition-panier-final-item-quantite">
+                      <form action="" method="post">
+                        {{ cart_product_form }}
+                        {% csrf_token %}
+                        <input type="submit" value="&minus;">
+                        <input type="hidden" name="next" value="{{ request.path }}">
+                      </form>
+                      <form><input type="text" value="{{ item.quantity }}" name="quantity-final-cart"></form>
+                      <form action="" method="post">
+                        {{ cart_product_form }}
+                        {% csrf_token %}
+                        <input type="submit" value="&plus;">
+                        <input type="hidden" name="next" value="{{ request.path }}">
+                      </form>
+              </div>
+              <div class="composition-panier-final-item-supprimer">
+                  <a href=""><img src="{% static 'img/icones/cancel.png' %}" alt="Supprimer" title="Supprimer"/></a>
+                  <a href=""><img src="{% static 'img/icones/edit.png' %}" alt="Modifier" title="Modifier"/></a>
+              </div>
+              <div class="composition-panier-final-item-prix">{{ item.total_ttc_composition_composition }} €</div>
+          </div>
+
+      {% empty %}
+        <p>Votre panier est vide</p>
+      {% endfor %}
+
       {% for item in cart %}
         {% with product=item.product %}
           <div class="composition-panier-final-item">
@@ -73,7 +111,9 @@
                 <div>Discount : <span class="bold-total-panier">0.00€</span></div>
                 <div>Sous-Total : <span class="bold-total-panier">{{ cart.get_sub_total_price }}€</span></div>
                 <div>TVA : <span class="bold-total-panier">{{ cart.get_total_tva }}€</span></div>
-                <div>Total : <span class="bold-total-panier">{{ cart.get_total_price }}€</span></div>
+                <div>Total : 
+                  <span class="bold-total-panier">{{ final_composed_cart.get_total_ttc_price_general}}€</span>
+                </div>
             </div>
         </div> 
         <div class="bouton-validation-panier">
