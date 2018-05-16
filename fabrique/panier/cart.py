@@ -149,8 +149,8 @@ class FinalComposedCart(object):
 		self.final_composed_cart = final_composed_cart
 
 	def add_to_final_composed_cart(self, categorie_composed_cart, quantity=1):
-		#composed_cart_id = get_random_string(50) + str(datetime.datetime.now()) # Permet de définir un ID pour chaque plat composé.
-		composed_cart_id = str(datetime.datetime.now())
+		composed_cart_id = get_random_string(50) + str(datetime.datetime.now()) # Permet de définir un ID pour chaque plat composé.
+		#composed_cart_id = str(datetime.datetime.now())
 		categorie_composed_cart_id = str(categorie_composed_cart.id) # Permet de récupérer la catégorie du plat composé (sandwiches, soupe, salade).
 		
 		self.final_composed_cart[composed_cart_id] = {'cat_composed_cart':categorie_composed_cart_id, 'quantity': 1, 'items':self.composed_cart}
@@ -215,9 +215,9 @@ class FinalComposedCart(object):
 			total_tva_composition_final = 0 # On réiniialise la valeur pour recommencer le cumul à zéro.
 
 		# Début de la boucle d'itération #
-		for final_composition_items in self.final_composed_cart.values(): # On boucle sur toutes les valeurs du dictionnaire.
+		for final_composition_items in self.final_composed_cart.items(): # On boucle sur toutes les valeurs du dictionnaire.
 			yield final_composition_items	# Boucle avec yield nécessaire pour afficher les valeurs
-	
+
 	def get_total_ttc_price_composed(self):
 		return sum(Decimal(v['total_ttc_composition_composition']) * v['quantity'] for v in self.final_composed_cart.values())
 

@@ -4,12 +4,12 @@
 
 {% block panier %}
     <h1>Mon Panier</h1>
-    {% for item in final_composed_cart %}
+    {% for k, item in final_composed_cart %}
       {{item}}
     {% empty %}
     {% endfor %}
     <div class="composition-panier-final">
-    {% for item in final_composed_cart %}
+    {% for k, item in final_composed_cart %}
           <div class="composition-panier-final-item">
               {% thumbnail item.cat_name.image "500x500" crop="center" as im %}
               <div class="composition-panier-final-item-image" style="background-image:url({{ im.url }});"></div>

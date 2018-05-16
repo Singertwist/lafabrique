@@ -7,17 +7,6 @@ from panier.cart  import Cart, ComposedCart, FinalComposedCart
 from panier.forms import CartAddProductForm
 # Create your views here.
 
-#def panier_id(request):
-#	if request.session.get('id_panier') is None:
-#		request.session['id_panier'] = get_random_string(length=50)
-#		return request.session['id_panier']
-#	else:
-#		request.session.get('id_panier')
-#		return request.session['id_panier']
-
-#def panier(request):
-#	return render(request, "panier/panier.html", {})
-
 @require_POST
 def cart_add(request, product_id):
 	product = get_object_or_404(Article, id=product_id)
