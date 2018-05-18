@@ -36,10 +36,15 @@ def cart_remove_one(request, product_id):
 
 def cart_detail(request):
 	cart_product_form = CartAddProductForm()
-	cart = Cart(request)
 	composed_cart = ComposedCart(request)
+
+	if bool(request.session.get('final_composed_cart')) or bool(request.session.get('cart')): #Condition nécessaire pour affciher si les deux paniers, final_composed_cart et cart sont vides.
+		final_composed_cart = FinalComposedCart(request)
+		cart = Cart(request)
+	else:
+		final_composed_cart = None
+		cart = None
 	#final_composed_cart = request.session.get('final_composed_cart')
-	final_composed_cart = FinalComposedCart(request)
 	return render(request, 'panier/panier.html', {'cart':cart, 'composed_cart':composed_cart, 'cart_product_form':cart_product_form, 'final_composed_cart':final_composed_cart})
 
 #Création d'un plat personnalisé
