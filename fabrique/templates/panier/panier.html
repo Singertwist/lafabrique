@@ -10,7 +10,7 @@
     {% empty %}
     {% endfor %}
     <div class="composition-panier-final">
-    {% if final_composed_cart == None or cart == None %} <!-- Condition nécessaire pour afficher un panier vide ou non -->
+    {% if final_composed_cart == None or cart == None %} <!-- Condition nécessaire pour afficher un panier vide ou non lors que les deux paniers, cart et final_composed_cart sont vides -->
       <p>Votre panier est vide.</p>
 
     {% else %}
@@ -115,10 +115,32 @@
             </div>
             <div class="composition-panier-final-info-total">
                 <div>Discount : <span class="bold-total-panier">0.00€</span></div>
-                <div>Sous-Total : <span class="bold-total-panier">{{ cart.get_sub_total_price }}€</span></div>
-                <div>TVA : <span class="bold-total-panier">{{ cart.get_total_tva }}€</span></div>
+                <div>Sous-Total : 
+                  <span class="bold-total-panier">
+                    {% if cart.get_sub_total_price is None %}
+                      0.00€
+                    {% else %}
+                      {{ cart.get_sub_total_price }}€
+                    {% endif %}
+                  </span>
+                </div>
+                <div>TVA : 
+                  <span class="bold-total-panier">
+                    {% if cart.get_total_tva is None %}
+                      0.00€
+                    {% else %} 
+                      {{ cart.get_total_tva }}€
+                    {% endif %}
+                  </span>
+                </div>
                 <div>Total : 
-                  <span class="bold-total-panier">{{ final_composed_cart.get_total_ttc_price_general}}€</span>
+                  <span class="bold-total-panier">
+                    {% if final_composed_cart.get_total_ttc_price_general is None %}
+                      0.00€
+                    {% else %}
+                      {{ final_composed_cart.get_total_ttc_price_general}}€
+                    {% endif %}
+                  </span>
                 </div>
             </div>
         </div> 
