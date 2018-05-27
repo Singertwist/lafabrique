@@ -69,3 +69,7 @@ def cart_add_quantity_final_composed_cart(request, dict_key):
 	final_composed_cart.add_quantity_final_composed_cart(dict_key)
 	return redirect('cart_detail')
 
+def cart_remove_one_quantity_final_composed_cart(request, dict_key):
+	final_composed_cart = FinalComposedCart(request)
+	final_composed_cart.remove_one_quantity_final_composed_cart(dict_key)
+	return redirect('cart_detail')

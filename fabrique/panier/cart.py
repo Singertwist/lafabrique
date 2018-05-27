@@ -169,6 +169,15 @@ class FinalComposedCart(object):
    			self.final_composed_cart[dict_key]['quantity'] += quantity
    		self.save_final_composed()
 
+	def remove_one_quantity_final_composed_cart(self, dict_key, quantity=1):
+   		dict_key = str(dict_key)
+   		if dict_key in self.final_composed_cart:
+   			if self.final_composed_cart[dict_key]['quantity'] > 1:
+   				self.final_composed_cart[dict_key]['quantity'] -= quantity
+   			else:
+   				del self.final_composed_cart[dict_key]
+   		self.save_final_composed()
+
 	def save_final_composed(self):
 		self.session['final_composed_cart'] = self.final_composed_cart
 		self.session.modified = True

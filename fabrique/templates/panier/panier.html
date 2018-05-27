@@ -33,7 +33,7 @@
                     </div>
                 </div>
                 <div class="composition-panier-final-item-quantite">
-                        <form action="" method="post">
+                        <form action="{% url "cart_remove_one_quantity_final_composed_cart" key %}" method="get">
                           {{ cart_product_form }}
                           {% csrf_token %}
                           <input type="submit" value="&minus;">
