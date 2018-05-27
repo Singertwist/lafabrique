@@ -150,11 +150,18 @@ class FinalComposedCart(object):
 
 	def add_to_final_composed_cart(self, categorie_composed_cart, quantity=1):
 		composed_cart_id = get_random_string(50) + str(datetime.datetime.now()) # Permet de définir un ID pour chaque plat composé.
+		composed_cart_id = composed_cart_id.replace(" ", "") #Supprimer tous les espaces de la chaine de caractère.
 		#composed_cart_id = str(datetime.datetime.now())
 		categorie_composed_cart_id = str(categorie_composed_cart.id) # Permet de récupérer la catégorie du plat composé (sandwiches, soupe, salade).
 		
 		self.final_composed_cart[composed_cart_id] = {'cat_composed_cart':categorie_composed_cart_id, 'quantity': 1, 'items':self.composed_cart}
 		self.save_final_composed()
+
+	def remove_final_composed_cart(self, dict_key): #Supprimer la composition, quelque soit la quantité.
+   		dict_key = str(dict_key)
+	   	if dict_key in self.final_composed_cart:
+   			del self.final_composed_cart[dict_key]
+   		self.save_final_composed()
 
 	def save_final_composed(self):
 		self.session['final_composed_cart'] = self.final_composed_cart

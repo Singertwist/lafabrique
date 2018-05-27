@@ -6,6 +6,7 @@
     <h1>Mon Panier</h1>
 
     {% for key, item in final_composed_cart %}
+      {{key}}
       {{item}}
     {% empty %}
     {% endfor %}
@@ -47,7 +48,7 @@
                         </form>
                 </div>
                 <div class="composition-panier-final-item-supprimer">
-                    <a href=""><img src="{% static 'img/icones/cancel.png' %}" alt="Supprimer" title="Supprimer"/></a>
+                    <a href="{% url "cart_remove_final_composed_cart" key %}"><img src="{% static 'img/icones/cancel.png' %}" alt="Supprimer" title="Supprimer"/></a>
                     <a href=""><img src="{% static 'img/icones/edit.png' %}" alt="Modifier" title="Modifier"/></a>
                 </div>
                 <div class="composition-panier-final-item-prix">{{ item.total_ttc_composition_composition }} €</div>

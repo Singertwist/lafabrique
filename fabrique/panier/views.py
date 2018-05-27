@@ -58,3 +58,8 @@ def add_to_final_composed_cart(request, categorie_composed_cart):
 		next = cd['next']
 		final_composed_cart.add_to_final_composed_cart(categorie_composed_cart=categorie_composed_cart, quantity=cd['quantity'])
 	return HttpResponseRedirect(next)
+
+def cart_remove_final_composed_cart(request, dict_key):
+	final_composed_cart = FinalComposedCart(request)
+	final_composed_cart.remove_final_composed_cart(dict_key)
+	return redirect('cart_detail')
