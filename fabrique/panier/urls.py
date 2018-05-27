@@ -19,6 +19,7 @@ from . import views
 
 urlpatterns = [
 	url(r'^panier/', views.cart_detail, name='cart_detail'),
+    url(r'^cart_add_quantity_final_composed_cart/(?P<dict_key>.+)/$', views.cart_add_quantity_final_composed_cart, name='cart_add_quantity_final_composed_cart'),
 	url(r'^add/(?P<product_id>\d+)/$', views.cart_add, name='cart_add'),
     url(r'^remove_final_composed_cart/(?P<dict_key>.+)/$', views.cart_remove_final_composed_cart, name='cart_remove_final_composed_cart'),
 	url(r'^remove/(?P<product_id>\d+)/$', views.cart_remove, name='cart_remove'),

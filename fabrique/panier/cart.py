@@ -163,6 +163,12 @@ class FinalComposedCart(object):
    			del self.final_composed_cart[dict_key]
    		self.save_final_composed()
 
+	def add_quantity_final_composed_cart(self, dict_key, quantity=1):
+   		dict_key = str(dict_key)
+   		if dict_key in self.final_composed_cart:
+   			self.final_composed_cart[dict_key]['quantity'] += quantity
+   		self.save_final_composed()
+
 	def save_final_composed(self):
 		self.session['final_composed_cart'] = self.final_composed_cart
 		self.session.modified = True
@@ -215,8 +221,8 @@ class FinalComposedCart(object):
 			for final_composed_item in self.final_composed_cart[k]['items'].values():
 				total_ttc_composition_final += final_composed_item['total_price'] # On additionne tous les valeurs de total_price pour chaque dictionnaire items
 				total_tva_composition_final += final_composed_item['total_composed_item_tva'] # On additionne tous les valeurs de total_tva pour chaque dictionnaire items
-			self.final_composed_cart[k]['total_ttc_composition_composition'] = total_ttc_composition_final # On insère le total calculé dans le dictionnaire
-			self.final_composed_cart[k]['total_tva_composition_final'] = total_tva_composition_final # On insère le total calculé dans le dictionnaire
+			self.final_composed_cart[k]['total_ttc_composition_composition'] = total_ttc_composition_final * self.final_composed_cart[k]['quantity']# On insère le total calculé dans le dictionnaire que l'on multiplie par la quantité dans la composition
+			self.final_composed_cart[k]['total_tva_composition_final'] = total_tva_composition_final * self.final_composed_cart[k]['quantity'] # On insère le total calculé dans le dictionnaire
 			self.final_composed_cart[k]['total_ht_composition_final'] = total_ttc_composition_final - total_tva_composition_final # On calcule et n insère le total calculé dans le dictionnaire
 			total_ttc_composition_final = 0 # On réiniialise la valeur pour recommencer le cumul à zéro.
 			total_tva_composition_final = 0 # On réiniialise la valeur pour recommencer le cumul à zéro.
@@ -226,10 +232,10 @@ class FinalComposedCart(object):
 			yield final_composition_items	# Boucle avec yield nécessaire pour afficher les valeurs
 
 	def get_total_ttc_price_composed(self):
-		return sum(Decimal(v['total_ttc_composition_composition']) * v['quantity'] for v in self.final_composed_cart.values())
+		return sum(Decimal(v['total_ttc_composition_composition']) for v in self.final_composed_cart.values())
 
 	def get_total_ttc_price_general(self):
-		return sum(Decimal(v['total_ttc_composition_composition']) * v['quantity'] for v in self.final_composed_cart.values()) + sum(Decimal(item['price']) * item['quantity'] for item in self.cart.values())
+		return sum(Decimal(v['total_ttc_composition_composition']) for v in self.final_composed_cart.values()) + sum(Decimal(item['price']) * item['quantity'] for item in self.cart.values())
 
 		# if bool(self.final_composed_cart) is True: # Condition qui vérifie si le dictionnaire est vide, s'il est vide, renvoi des dictionnaire vide.
 		# 	for i in self.final_composed_cart: #Pour chaque composition présent dans le panier contenant toutes les compositions

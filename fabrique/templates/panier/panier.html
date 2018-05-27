@@ -40,9 +40,7 @@
                           <input type="hidden" name="next" value="{{ request.path }}">
                         </form>
                         <form><input type="text" value="{{ item.quantity }}" name="quantity-final-cart"></form>
-                        <form action="" method="post">
-                          {{ cart_product_form }}
-                          {% csrf_token %}
+                        <form action="{% url "cart_add_quantity_final_composed_cart" key %}" method="get">
                           <input type="submit" value="&plus;">
                           <input type="hidden" name="next" value="{{ request.path }}">
                         </form>
