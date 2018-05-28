@@ -73,3 +73,12 @@ def cart_remove_one_quantity_final_composed_cart(request, dict_key):
 	final_composed_cart = FinalComposedCart(request)
 	final_composed_cart.remove_one_quantity_final_composed_cart(dict_key)
 	return redirect('cart_detail')
+
+def cart_modify_final_composed_cart(request, categorie_composed_cart, dict_key):
+	categorie_composed_cart = get_object_or_404(Sous_Categories_Article, id=categorie_composed_cart)
+	final_composed_cart = FinalComposedCart(request)
+	final_composed_cart.cart_modify_final_composed_cart(dict_key)
+	return redirect('articles_plats_composer', slug = categorie_composed_cart.slug , id = categorie_composed_cart.id)
+
+
+

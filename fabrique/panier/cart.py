@@ -178,8 +178,19 @@ class FinalComposedCart(object):
    				del self.final_composed_cart[dict_key]
    		self.save_final_composed()
 
+	def cart_modify_final_composed_cart(self, dict_key):
+   		dict_key = str(dict_key)
+   		if dict_key in self.final_composed_cart:
+   			self.composed_cart = {}
+   			self.composed_cart.update(self.final_composed_cart[dict_key]['items'])
+   		self.save_composed()
+
 	def save_final_composed(self):
 		self.session['final_composed_cart'] = self.final_composed_cart
+		self.session.modified = True
+
+	def save_composed(self):
+		self.session['composed_cart'] = self.composed_cart
 		self.session.modified = True
 
 	def __iter__(self):
@@ -232,7 +243,7 @@ class FinalComposedCart(object):
 				total_tva_composition_final += final_composed_item['total_composed_item_tva'] # On additionne tous les valeurs de total_tva pour chaque dictionnaire items
 			self.final_composed_cart[k]['total_ttc_composition_composition'] = total_ttc_composition_final * self.final_composed_cart[k]['quantity']# On insère le total calculé dans le dictionnaire que l'on multiplie par la quantité dans la composition
 			self.final_composed_cart[k]['total_tva_composition_final'] = total_tva_composition_final * self.final_composed_cart[k]['quantity'] # On insère le total calculé dans le dictionnaire
-			self.final_composed_cart[k]['total_ht_composition_final'] = total_ttc_composition_final - total_tva_composition_final # On calcule et n insère le total calculé dans le dictionnaire
+			self.final_composed_cart[k]['total_ht_composition_final'] = (total_ttc_composition_final - total_tva_composition_final) * self.final_composed_cart[k]['quantity'] # On calcule et n insère le total calculé dans le dictionnaire
 			total_ttc_composition_final = 0 # On réiniialise la valeur pour recommencer le cumul à zéro.
 			total_tva_composition_final = 0 # On réiniialise la valeur pour recommencer le cumul à zéro.
 

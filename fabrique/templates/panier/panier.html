@@ -46,8 +46,12 @@
                         </form>
                 </div>
                 <div class="composition-panier-final-item-supprimer">
-                    <a href="{% url "cart_remove_final_composed_cart" key %}"><img src="{% static 'img/icones/cancel.png' %}" alt="Supprimer" title="Supprimer"/></a>
-                    <a href=""><img src="{% static 'img/icones/edit.png' %}" alt="Modifier" title="Modifier"/></a>
+                    <a href="{% url "cart_remove_final_composed_cart" key %}">
+                      <img src="{% static 'img/icones/cancel.png' %}" alt="Supprimer" title="Supprimer"/>
+                    </a> <!-- Lien de suppression de la composition -->
+                    <a href="{% url 'cart_modify_final_composed_cart' item.cat_name.id key %}">
+                      <img src="{% static 'img/icones/edit.png' %}" alt="Modifier" title="Modifier"/>
+                    </a> <!-- Lien de modification de la composition -->
                 </div>
                 <div class="composition-panier-final-item-prix">{{ item.total_ttc_composition_composition }} €</div>
             </div>
