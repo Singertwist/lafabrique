@@ -178,12 +178,14 @@ class FinalComposedCart(object):
    				del self.final_composed_cart[dict_key]
    		self.save_final_composed()
 
-	def cart_modify_final_composed_cart(self, dict_key):
-   		dict_key = str(dict_key)
-   		if dict_key in self.final_composed_cart:
-   			self.composed_cart = {}
-   			self.composed_cart.update(self.final_composed_cart[dict_key]['items'])
+	def cart_modify_final_composed_cart(self, dict_key): # Fonction permettant de modifier la composition d'un panier
+   		dict_key = str(dict_key) # On récupère la clé du dictionnaire.
+   		if dict_key in self.final_composed_cart: # Si la clé correspond à une présente dans le dictionnaire
+   			self.composed_cart = {} # Je vide le dictionnaire permettant de composer un panier
+   			self.composed_cart.update(self.final_composed_cart[dict_key]['items']) # Je mets à jour le dictionnaire permettant de composer un panier avec les infos de la compostion à modifier et présente dans le panier final.
+   			del self.final_composed_cart[dict_key] # Je supprime la composition du panier final car je vais la modifier. Cette composition sera de nouveau validée et donc présente dans le panier final.
    		self.save_composed()
+   		self.save_final_composed()
 
 	def save_final_composed(self):
 		self.session['final_composed_cart'] = self.final_composed_cart
