@@ -1,0 +1,39 @@
+.popup-messages-overlay {
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	transition: opacity 500ms;
+	z-index: 2;
+	overflow-y: scroll; /* Nécessaire pour pouvoir scroller dans la popup */
+	height: 100%; /* Nécessaire pour pouvoir scroller dans la popup */
+}
+
+.popup-messages {
+	width: 55%;
+	height: 45%;
+	transition: all 0s ease-in-out;
+	display: flex;
+	position: absolute; /* permet le centrage de la popup*/
+	top: 50%; left: 50%; /* à 50%/50% du parent référent */
+	transform: translate(-50%, -50%); /* décalage de 50% de sa propre taille */
+	border-radius: 10px;
+}
+
+.popup-messages .close-popup-message {
+	position: absolute;
+	top: 5px;
+	right: 10px;
+	transition: all 200ms;
+	font-size: 40px;
+	text-decoration: none;
+	color: #333;
+}
+
+
+.popup-messages .warning {
+	background-color: red;
+	border-radius: 10px;
+	width: 100%;
+}
