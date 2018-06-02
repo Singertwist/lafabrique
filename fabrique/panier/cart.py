@@ -149,13 +149,17 @@ class FinalComposedCart(object):
 		self.final_composed_cart = final_composed_cart
 
 	def add_to_final_composed_cart(self, categorie_composed_cart, quantity=1):
-		composed_cart_id = get_random_string(50) + str(datetime.datetime.now()) # Permet de définir un ID pour chaque plat composé.
-		composed_cart_id = composed_cart_id.replace(" ", "") #Supprimer tous les espaces de la chaine de caractère.
-		#composed_cart_id = str(datetime.datetime.now())
-		categorie_composed_cart_id = str(categorie_composed_cart.id) # Permet de récupérer la catégorie du plat composé (sandwiches, soupe, salade).
+		if sum(composed_item['quantity'] for composed_item in self.composed_cart.values()) > 1: # Condition empêchant l'ajout d'une composition au panier final si le panier composé est vide. Permet de s'assurer que la quantité est supérieur à 1 dans la panier composé.
+			composed_cart_id = get_random_string(50) + str(datetime.datetime.now()) # Permet de définir un ID pour chaque plat composé.
+			composed_cart_id = composed_cart_id.replace(" ", "") #Supprimer tous les espaces de la chaine de caractère.
+			categorie_composed_cart_id = str(categorie_composed_cart.id) # Permet de récupérer la catégorie du plat composé (sandwiches, soupe, salade).
+
+			self.final_composed_cart[composed_cart_id] = {'cat_composed_cart':categorie_composed_cart_id, 'quantity': 1, 'items':self.composed_cart}
+			self.save_final_composed()
+			return "Sucess"
 		
-		self.final_composed_cart[composed_cart_id] = {'cat_composed_cart':categorie_composed_cart_id, 'quantity': 1, 'items':self.composed_cart}
-		self.save_final_composed()
+		else:
+			return "Zero_quantity"
 
 	def remove_final_composed_cart(self, dict_key): #Supprimer la composition, quelque soit la quantité.
    		dict_key = str(dict_key)

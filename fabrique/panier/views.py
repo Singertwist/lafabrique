@@ -5,6 +5,7 @@ from django.utils.crypto import get_random_string
 from catalogue.models import Categories_Article, Sous_Categories_Article, Article, Type_Produit
 from panier.cart  import Cart, ComposedCart, FinalComposedCart
 from panier.forms import CartAddProductForm
+from django.contrib import messages
 # Create your views here.
 
 @require_POST
@@ -56,7 +57,11 @@ def add_to_final_composed_cart(request, categorie_composed_cart):
 	if form.is_valid():
 		cd = form.cleaned_data
 		next = cd['next']
-		final_composed_cart.add_to_final_composed_cart(categorie_composed_cart=categorie_composed_cart, quantity=cd['quantity'])
+		var = final_composed_cart.add_to_final_composed_cart(categorie_composed_cart=categorie_composed_cart, quantity=cd['quantity']) # Ajout de la variable var, cette varaible permet de récupérer le message de validationa fin d'afficher un message.
+		if var == "Sucess":
+			messages.success(request, 'Votre composition a bien été ajoutée à votre panier !')
+		if var =="Zero_quantity":
+			messages.warning(request, 'Une composition doit être composée d\'au moins 2 produits !')
 	return HttpResponseRedirect(next)
 
 def cart_remove_final_composed_cart(request, dict_key):
