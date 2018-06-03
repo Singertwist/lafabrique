@@ -61,7 +61,7 @@ def add_to_final_composed_cart(request, categorie_composed_cart):
 		if var == "Sucess":
 			messages.success(request, 'Votre composition a bien été ajoutée à votre panier !')
 		if var =="Zero_quantity":
-			messages.warning(request, 'Une composition doit être composée d\'au moins 2 produits !')
+			messages.warning(request, '<p>OUPS ! </p> <p> Veuillez au moins ajouter une base et un accompagnement à votre composition !</p>')
 	return HttpResponseRedirect(next)
 
 def cart_remove_final_composed_cart(request, dict_key):

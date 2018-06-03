@@ -11,14 +11,17 @@
 }
 
 .popup-messages {
-	width: 55%;
-	height: 45%;
-	transition: all 0s ease-in-out;
 	display: flex;
+	width: 320px;
+	height: 350px;
+	transition: all 0s ease-in-out;
 	position: absolute; /* permet le centrage de la popup*/
 	top: 50%; left: 50%; /* à 50%/50% du parent référent */
 	transform: translate(-50%, -50%); /* décalage de 50% de sa propre taille */
 	border-radius: 10px;
+	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.5);
+	text-align: center;
+	background-color: #FFFFFF;
 }
 
 .popup-messages .close-popup-message {
@@ -31,9 +34,63 @@
 	color: #333;
 }
 
+.links-popup-messages {
+	border: solid 1px #CE3734;
+	margin: 15px;
+	padding: 10px;
+	border-radius: 5px;
+	color: #CE3734;
+	font-weight: bold;
+	transition-duration: 0.3s;
+}
+
+.links-popup-messages a {
+	color: #CE3734;
+}
+
+/* Paramétrage personnalisé de la popup warning */
 
 .popup-messages .warning {
-	background-color: red;
 	border-radius: 10px;
 	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 }
+
+.popup-messages .warning p:first-child {
+	font-size: 25px;
+}
+
+.popup-messages .warning p:nth-child(2) {
+	color: grey;
+}
+
+.popup-messages .warning .image-popup-messages {
+	background-image:url("../img/icones/sad.png");
+	background-size: cover;
+	width: 65px;
+	height: 65px;
+	margin: 20px;
+}
+
+/* Fin paramétrage personnalisé de la popup warning */
+
+.popup-messages .success {
+	border-radius: 10px;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.popup-messages .success .image-popup-messages {
+	background-image:url("../img/icones/happy.png");
+	background-size: cover;
+	width: 65px;
+	height: 65px;
+	margin: 20px;
+}
+

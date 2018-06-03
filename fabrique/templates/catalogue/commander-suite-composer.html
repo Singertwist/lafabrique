@@ -23,9 +23,23 @@
 			<div class="popup-messages">
 				<a class="close-popup-message" href="#">&times;</a>
 				{% for message in messages %}
-					<div class="{{ message.tags }}">
-						<p>{{ message }}</p>
-					</div>
+					{% if message.tags == "success" %}
+						<div class="{{ message.tags }}">
+							<div class="image-popup-messages"></div>
+							<div>{{ message|safe }}</div>
+							<div class="links-popup-messages">
+								<a href="{% url  'cart_detail'%}">Valider votre Panier</a>
+							</div>
+						</div>
+					{% else %}
+						<div class="{{ message.tags }}">
+							<div class="image-popup-messages"></div>
+							<div>{{ message|safe }}</div>
+							<div class="links-popup-messages">
+								<a href="#">Retourner à ma composition</a>
+							</div>
+						</div>	
+					{% endif %}		
 				{% endfor %}
 			</div>
 		</div>
