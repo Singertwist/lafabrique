@@ -13,7 +13,7 @@
 .popup-messages {
 	display: flex;
 	width: 320px;
-	height: 350px;
+	min-height: 350px;
 	transition: all 0s ease-in-out;
 	position: absolute; /* permet le centrage de la popup*/
 	top: 50%; left: 50%; /* à 50%/50% du parent référent */
@@ -36,12 +36,13 @@
 
 .links-popup-messages {
 	border: solid 1px #CE3734;
-	margin: 15px;
 	padding: 10px;
 	border-radius: 5px;
 	color: #CE3734;
 	font-weight: bold;
 	transition-duration: 0.3s;
+	width: 200px;
+	margin: 5px;
 }
 
 .links-popup-messages a {
@@ -72,7 +73,7 @@
 	background-size: cover;
 	width: 65px;
 	height: 65px;
-	margin: 20px;
+	min-height: 65px;
 }
 
 /* Fin paramétrage personnalisé de la popup warning */
@@ -91,6 +92,12 @@
 	background-size: cover;
 	width: 65px;
 	height: 65px;
-	margin: 20px;
 }
 
+.popup-messages .success p:first-child {
+	font-size: 25px;
+}
+
+.popup-messages .success p:nth-child(2) {
+	color: grey;
+}

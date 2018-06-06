@@ -28,6 +28,9 @@
 							<div class="image-popup-messages"></div>
 							<div>{{ message|safe }}</div>
 							<div class="links-popup-messages">
+								<a href="{% url 'articles_plats' menu_commander_categories.0.slug menu_commander_categories.0.ordre %}">Continuer mes Achats</a>
+							</div>
+							<div class="links-popup-messages">
 								<a href="{% url  'cart_detail'%}">Valider votre Panier</a>
 							</div>
 						</div>

@@ -59,9 +59,9 @@ def add_to_final_composed_cart(request, categorie_composed_cart):
 		next = cd['next']
 		var = final_composed_cart.add_to_final_composed_cart(categorie_composed_cart=categorie_composed_cart, quantity=cd['quantity']) # Ajout de la variable var, cette varaible permet de récupérer le message de validationa fin d'afficher un message.
 		if var == "Sucess":
-			messages.success(request, 'Votre composition a bien été ajoutée à votre panier !')
+			messages.success(request, '<p>YAHOU !</p><p>Votre composition a bien été ajoutée à votre panier !</p>')
 		if var =="Zero_quantity":
-			messages.warning(request, '<p>OUPS ! </p> <p> Veuillez au moins ajouter une base et un accompagnement à votre composition !</p>')
+			messages.warning(request, '<p>OUPS !</p><p> Veuillez au moins ajouter une base et un accompagnement à votre composition !</p>')
 	return HttpResponseRedirect(next)
 
 def cart_remove_final_composed_cart(request, dict_key):
