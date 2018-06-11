@@ -12,7 +12,8 @@
 
 .popup-messages {
 	display: flex;
-	width: 320px;
+	width: 100%;
+	max-width: 320px;
 	min-height: 350px;
 	transition: all 0s ease-in-out;
 	position: absolute; /* permet le centrage de la popup*/
@@ -106,4 +107,12 @@
 
 .popup-messages .success p:nth-child(2) {
 	color: grey;
+}
+
+@media only screen and (max-width: 900px){
+
+.popup-messages {
+	top: 25%;
+}
+
 }

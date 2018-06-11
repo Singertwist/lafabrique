@@ -249,7 +249,7 @@
 	float: right;
 }
 
-.menu-top-commander-texte-lien:last-child:hover .fixed-cart {
+.menu-top-commander-texte-lien:nth-last-child(2):hover .fixed-cart {
 	visibility: hidden;
 	opacity: 0;
 }
