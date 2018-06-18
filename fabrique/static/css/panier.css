@@ -25,6 +25,7 @@
 
 .composition-panier-final-item {
 	display: flex;
+	height: 124px; /* Nécessaire pour Internet Explorer */
 	min-height: 125px;
 	padding-bottom: 5px;
 	border-bottom: solid 1px lightgrey;
