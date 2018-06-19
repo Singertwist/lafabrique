@@ -35,8 +35,8 @@ class Cart(object):
 				self.composed_cart[product_id] = {'quantity': 1,'price': str(product.prix_unitaire), 'tva': str(product.taux_TVA.taux_applicable)}
 
 			else:
-				self.composed_cart[product_id]['quantity'] += quantity #Ajoute +1 à la quantité et met à jour le dictionnaire contenant la quantité. += signifie ajoute à la valeur initiale de quantité.
-
+				return "Same_articles" # Si l'article est déjà présent dans le panier composition, retourne un message d'erreur.
+				#self.composed_cart[product_id]['quantity'] += quantity #Ajoute +1 à la quantité et met à jour le dictionnaire contenant la quantité. += signifie ajoute à la valeur initiale de quantité.
 			self.save_composed()
 
 	def save(self):

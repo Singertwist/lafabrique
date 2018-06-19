@@ -16,7 +16,11 @@ def cart_add(request, product_id):
 	if form.is_valid():
 		cd = form.cleaned_data
 		next = cd['next'] # Permet d'enregistrer la page précédente et d'y retourner une fois la quantité ajoutée dans le panier.
-		cart.add(product=product, quantity=cd['quantity'])
+		var = cart.add(product=product, quantity=cd['quantity']) # Ajout de la variable var, cette variable permet de récupérer le message de validation afin d'afficher un message.
+
+		if var=="Same_articles":
+			messages.warning(request, '<p>Vous ne pouvez pas ajouter deux fois le même article !</p>')
+
 	return HttpResponseRedirect(next) # Redirection vers la page d'où le produit a été ajouté.
 
 def cart_remove(request, product_id):
@@ -57,7 +61,7 @@ def add_to_final_composed_cart(request, categorie_composed_cart):
 	if form.is_valid():
 		cd = form.cleaned_data
 		next = cd['next']
-		var = final_composed_cart.add_to_final_composed_cart(categorie_composed_cart=categorie_composed_cart, quantity=cd['quantity'], comment=cd['comment']) # Ajout de la variable var, cette varaible permet de récupérer le message de validationa fin d'afficher un message.
+		var = final_composed_cart.add_to_final_composed_cart(categorie_composed_cart=categorie_composed_cart, quantity=cd['quantity'], comment=cd['comment']) # Ajout de la variable var, cette variable permet de récupérer le message de validation afin d'afficher un message.
 		if var == "Sucess":
 			messages.success(request, '<p>YAHOU !</p><p>Votre composition a bien été ajoutée à votre panier !</p>')
 		if var =="Zero_quantity":
