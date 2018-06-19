@@ -21,11 +21,12 @@
 	padding: 15px;
 	border: solid 1px lightgrey;
 	margin-top: 25px;
+	display: flex; /* Nécessaire pour corriger bug affichage IE panier --> Ne prend pas en compte la min-height */
+	flex-direction: column; /* Nécessaire pour corriger bug affichage IE panier --> Ne prend pas en compte la min-height */
 }
 
 .composition-panier-final-item {
 	display: flex;
-	height: 124px; /* Nécessaire pour Internet Explorer */
 	min-height: 125px;
 	padding-bottom: 5px;
 	border-bottom: solid 1px lightgrey;
