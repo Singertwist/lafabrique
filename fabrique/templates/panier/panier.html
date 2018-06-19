@@ -120,19 +120,19 @@
                 <div>Discount : <span class="bold-total-panier">0.00€</span></div>
                 <div>Sous-Total : 
                   <span class="bold-total-panier">
-                    {% if cart.get_sub_total_price is None %}
+                    {% if final_composed_cart.get_total_ht_price_general is None %}
                       0.00€
                     {% else %}
-                      {{ cart.get_sub_total_price }}€
+                      {{ final_composed_cart.get_total_ht_price_general }}€
                     {% endif %}
                   </span>
                 </div>
                 <div>TVA : 
                   <span class="bold-total-panier">
-                    {% if cart.get_total_tva is None %}
+                    {% if final_composed_cart.get_total_tva_general is None %}
                       0.00€
                     {% else %} 
-                      {{ cart.get_total_tva }}€
+                      {{ final_composed_cart.get_total_tva_general }}€
                     {% endif %}
                   </span>
                 </div>
