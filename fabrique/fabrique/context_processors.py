@@ -2,7 +2,7 @@ from django.conf import settings
 from django.db.models import Q 
 from catalogue.models import Categories_Article, Sous_Categories_Article, Article
 from producteurs.models import Categories, Producteurs, Equipes
-from panier.cart import Cart
+from panier.cart import Cart, ComposedCart, FinalComposedCart
 
 #Fonction permettant d'afficher dans base-commander.html les données relatives aux catégories du menu commander.
 def menu_commander(request):
@@ -14,5 +14,10 @@ def menu_producteurs(request):
 	return {'menu_producteurs_categories': menu_producteurs_categories}
 
 def panier(request):
-	cart = Cart(request)
-	return {'cart':cart}
+	if bool(request.session.get('final_composed_cart')) or bool(request.session.get('cart')): #Condition nécessaire pour affciher si les deux paniers, final_composed_cart et cart sont vides.
+		final_composed_cart = FinalComposedCart(request)
+		cart = Cart(request)
+	else:
+		final_composed_cart = None
+		cart = None
+	return {'cart':cart, 'final_composed_cart':final_composed_cart}

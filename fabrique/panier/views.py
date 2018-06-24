@@ -75,13 +75,21 @@ def cart_remove_final_composed_cart(request, dict_key):
 
 def cart_add_quantity_final_composed_cart(request, dict_key):
 	final_composed_cart = FinalComposedCart(request)
-	final_composed_cart.add_quantity_final_composed_cart(dict_key)
-	return redirect('cart_detail')
+	form = CartAddProductForm(request.POST)
+	if form.is_valid():
+		cd = form.cleaned_data
+		next = cd['next']
+		final_composed_cart.add_quantity_final_composed_cart(dict_key=dict_key)
+	return redirect(next)
 
 def cart_remove_one_quantity_final_composed_cart(request, dict_key):
 	final_composed_cart = FinalComposedCart(request)
-	final_composed_cart.remove_one_quantity_final_composed_cart(dict_key)
-	return redirect('cart_detail')
+	form = CartAddProductForm(request.POST)
+	if form.is_valid():
+		cd = form.cleaned_data
+		next = cd['next']	
+		final_composed_cart.remove_one_quantity_final_composed_cart(dict_key)
+	return redirect(next)
 
 def cart_modify_final_composed_cart(request, categorie_composed_cart, dict_key):
 	categorie_composed_cart = get_object_or_404(Sous_Categories_Article, id=categorie_composed_cart)

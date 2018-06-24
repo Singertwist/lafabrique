@@ -45,52 +45,85 @@
                                     {% if request.get_full_path == url_cart %}
                                     <!-- Si navigateur se trouve sur la page du panier, alors, ne rien afficher. -->
                                     {% else %}
-                                    <div class="fixed-cart">
-                                        <div class="fixed-cart-suite">
-                                            <div class="fixed-cart-items">
-                                            {% for item in cart %}
-                                            {% with product=item.product %}
-                                                <div class="fixed-cart-item">
-                                                    {% thumbnail product.image "200x200" crop="center" as im %}
-                                                    <div class="fixed-cart-item-image" style="background-image:url({{ im.url }});"></div>
-                                                    {% endthumbnail %} 
-                                                    <div class="fixed-cart-item-texte">
-                                                        <div>{{ product.nom }}</div>
-                                                        <div>
-                                                            <form method="post" action="{% url 'cart_add' product.id %}">
-                                                            {% csrf_token %}
-                                                            {{ cart_product_form }}
-                                                            <input type="image" src="{% static 'img/icones/plus-2.png' %}" alt="Ajouter" />
-                                                            <input type="hidden" name="next" value="{{ request.path }}">
-                                                            </form>
-                                                            <form method="post" action="{% url 'cart_remove_one' product.id %}">
-                                                            {% csrf_token %}
-                                                            {{ cart_product_form }}
-                                                            <input type="image" src="{% static 'img/icones/remove.png' %}" alt="Enlever" />
-                                                            <input type="hidden" name="next" value="{{ request.path }}">
-                                                            </form>
-                                                            <p>x{{ item.quantity }}</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="fixed-cart-item-prix">{{ item.total_price }} €</div>
-                                                </div>
-                                            {% endwith %}
-                                            {% empty %}
-                                            <p>Votre Panier est actuellement vide.</p>
-                                            {% endfor %}
-                                            </div>
-                                            <div class="fixed-cart-total">
-                                                <div>Total</div>
-                                                <div>{{ cart.get_total_price }} €</div>
-                                            </div>
-                                            <div class="fixed-cart-icons">
-                                                <div><img src="{% static 'img/icones/credit-card.png' %}" title="Paiement Sécurisé" alt="secured-payment"/><p>Paiement Sécurisé</p></div>
+                                        <div class="fixed-cart">
+                                            <div class="fixed-cart-suite">
+                                                <div class="fixed-cart-items">
+                                                    {% if final_composed_cart == None and cart == None %}
+                                                        <p>Votre Panier est actuellement vide.</p>
+                                                    {% else %}  
+                                                        {% for item in cart %}
+                                                        {% with product=item.product %}
+                                                            <div class="fixed-cart-item">
+                                                                {% thumbnail product.image "200x200" crop="center" as im %}
+                                                                <div class="fixed-cart-item-image" style="background-image:url({{ im.url }});"></div>
+                                                                {% endthumbnail %} 
+                                                                <div class="fixed-cart-item-texte">
+                                                                    <div>{{ product.nom }}</div>
+                                                                    <div>
+                                                                        <form method="post" action="{% url 'cart_add' product.id %}">
+                                                                        {% csrf_token %}
+                                                                        {{ cart_product_form }}
+                                                                        <input type="image" src="{% static 'img/icones/plus-2.png' %}" alt="Ajouter" />
+                                                                        <input type="hidden" name="next" value="{{ request.path }}">
+                                                                        </form>
+                                                                        <form method="post" action="{% url 'cart_remove_one' product.id %}">
+                                                                        {% csrf_token %}
+                                                                        {{ cart_product_form }}
+                                                                        <input type="image" src="{% static 'img/icones/remove.png' %}" alt="Enlever" />
+                                                                        <input type="hidden" name="next" value="{{ request.path }}">
+                                                                        </form>
+                                                                        <p>x{{ item.quantity }}</p>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="fixed-cart-item-prix">{{ item.total_price }} €</div>
+                                                            </div>
+                                                        {% endwith %}
+                                                        {% empty %}
+                                                        {% endfor %}
 
-                                                <div><img src="{% static 'img/icones/ticket.png' %}" title="Tickets restaurants acceptés" alt="ticket-restaurant"/><p>Tickets Restaurants</p></div>
+                                                        <!-- Début du panier composition -->
+                                                        {% for key, item in final_composed_cart %}
+                                                            <div class="fixed-cart-item">
+                                                                {% thumbnail item.cat_name.image "200x200" crop="center" as im %}
+                                                                <div class="fixed-cart-item-image" style="background-image:url({{ im.url }});"></div>
+                                                                {% endthumbnail %} 
+                                                                <div class="fixed-cart-item-texte">
+                                                                    <div>{{ item.cat_name.nom }} à Composer</div>
+                                                                    <div>
+                                                                        <form action="{% url "cart_add_quantity_final_composed_cart" key %}" method="post">
+                                                                        {% csrf_token %}
+                                                                        {{ cart_product_form }}
+                                                                        <input type="image" src="{% static 'img/icones/plus-2.png' %}" alt="Ajouter" />
+                                                                        <input type="hidden" name="next" value="{{ request.path }}">
+                                                                        </form>
+                                                                        <form action="{% url "cart_remove_one_quantity_final_composed_cart" key %}" method="post">
+                                                                        {% csrf_token %}
+                                                                        {{ cart_product_form }}
+                                                                        <input type="image" src="{% static 'img/icones/remove.png' %}" alt="Enlever" />
+                                                                        <input type="hidden" name="next" value="{{ request.path }}">
+                                                                        </form>
+                                                                        <p>x{{ item.quantity }}</p>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="fixed-cart-item-prix">{{ item.total_ttc_composition_composition }} €</div>
+                                                            </div>
+                                                        {% empty %}
+                                                        {% endfor %}
+                                                    {% endif%}
+
+                                                </div>
+                                                <div class="fixed-cart-total">
+                                                    <div>Total</div>
+                                                    <div>{{ cart.get_total_price }} €</div>
+                                                </div>
+                                                <div class="fixed-cart-icons">
+                                                    <div><img src="{% static 'img/icones/credit-card.png' %}" title="Paiement Sécurisé" alt="secured-payment"/><p>Paiement Sécurisé</p></div>
+
+                                                    <div><img src="{% static 'img/icones/ticket.png' %}" title="Tickets restaurants acceptés" alt="ticket-restaurant"/><p>Tickets Restaurants</p></div>
+                                                </div>
+                                                <div class="fixed-cart-validated"><a href="{% url  'cart_detail'%}">Valider votre Panier</a></div>
                                             </div>
-                                            <div class="fixed-cart-validated"><a href="{% url  'cart_detail'%}">Valider votre Panier</a></div>
                                         </div>
-                                    </div>
                                     {% endif %}
                                 </div>
                                 <div class="menu-top-commander-texte-lien"><p><a href=""><img src="{% static 'img/icones/profile.png' %}" alt="shopping cart"></a></p></div>

@@ -33,14 +33,16 @@
                     </div>
                 </div>
                 <div class="composition-panier-final-item-quantite">
-                        <form action="{% url "cart_remove_one_quantity_final_composed_cart" key %}" method="get">
+                        <form action="{% url "cart_remove_one_quantity_final_composed_cart" key %}" method="post">
                           {{ cart_product_form }}
                           {% csrf_token %}
                           <input type="submit" value="&minus;">
                           <input type="hidden" name="next" value="{{ request.path }}">
                         </form>
                         <form><input type="text" value="{{ item.quantity }}" name="quantity-final-cart"></form>
-                        <form action="{% url "cart_add_quantity_final_composed_cart" key %}" method="get">
+                        <form action="{% url "cart_add_quantity_final_composed_cart" key %}" method="post">
+                          {{ cart_product_form }}
+                          {% csrf_token %}
                           <input type="submit" value="&plus;">
                           <input type="hidden" name="next" value="{{ request.path }}">
                         </form>
