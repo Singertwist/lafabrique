@@ -42,7 +42,7 @@ class ArticleAdmin(admin.ModelAdmin):
   fieldsets = (
     # Fieldset 1 : meta-info du produits
    ('Configuration générale du produit', {
-        'fields': ('nom', 'slug', 'categories', 'image', 'disponible', 'article_composer', 'sous_categories_articles')
+        'fields': ('nom', 'slug', 'categories', 'image', 'disponible', 'article_composer', 'type_article', 'sous_categories_articles')
     }),
 
     # Fieldset 2 : information nutritive du produits

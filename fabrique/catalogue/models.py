@@ -155,6 +155,7 @@ class Article(models.Model):
 	timestamp = models.DateTimeField(auto_now=False, auto_now_add=True, verbose_name='Date de création')
 	updated = models.DateTimeField(auto_now=True, auto_now_add=False, verbose_name='Date de mise à jour')
 	sous_categories_articles = models.ForeignKey(Type_Produit, verbose_name='Type d\'article')
+	type_article = models.BooleanField(verbose_name='Si article entrant dans composition plat : Article servant de base (cocher si oui) / Article servant d\'ingrédients (laisser vide)')
 
 	class Meta:
 		verbose_name = 'Article'
