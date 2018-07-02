@@ -1,4 +1,4 @@
-from catalogue.models import Categories_Article, Sous_Categories_Article, Article, Type_Produit
+from catalogue.models import Categories_Article, Sous_Categories_Article, Article, Type_Produit, Variations_Articles
 from decimal import Decimal
 from django.utils.crypto import get_random_string
 from django.conf import settings
@@ -21,9 +21,9 @@ class Cart(object):
 
 	def add(self, product, quantity=1):
 		product_id = str(product.id)
-		if product.article_composer == False:
+		if product.article.article_composer == False:
 			if product_id not in self.cart:
-				self.cart[product_id] = {'quantity': 1,'price': str(product.prix_unitaire), 'tva': str(product.taux_TVA.taux_applicable)}
+				self.cart[product_id] = {'quantity': 1,'price': str(product.prix_vente_unitaire), 'tva': str(product.article.taux_TVA.taux_applicable)}
 
 			else:
 				self.cart[product_id]['quantity'] += quantity #Ajoute +1 à la quantité et met à jour le dictionnaire contenant la quantité. += signifie ajoute à la valeur initiale de quantité.
@@ -32,7 +32,7 @@ class Cart(object):
 
 		else:
 			if product_id not in self.composed_cart:
-				self.composed_cart[product_id] = {'quantity': 1,'price': str(product.prix_unitaire), 'tva': str(product.taux_TVA.taux_applicable), 'base': bool(product.type_article)}
+				self.composed_cart[product_id] = {'quantity': 1,'price': str(product.prix_vente_unitaire), 'tva': str(product.article.taux_TVA.taux_applicable), 'base': str(product.type_article)}
 
 			else:
 				return "Same_articles" # Si l'article est déjà présent dans le panier composition, retourne un message d'erreur.
@@ -49,7 +49,7 @@ class Cart(object):
 
 	def remove(self, product): #Supprimer le produit, quelque soit la quantité.
    		product_id = str(product.id)
-   		if product.article_composer == False:
+   		if product.article.article_composer == False:
 	   		if product_id in self.cart:
 	   			del self.cart[product_id]
 	   		self.save()
@@ -77,7 +77,7 @@ class Cart(object):
 
 		product_ids = self.cart.keys() #Sélectionne les différentes clés du dictionnaires, dans notre cas l'id du produit, la quantité, le prix.
 
-		products = Article.objects.filter(id__in=product_ids) #On filtre sur les IDs présents dans le dictionnaire du panier.
+		products = Variations_Articles.objects.filter(id__in=product_ids) #On filtre sur les IDs présents dans le dictionnaire du panier.
 
 		for product in products:
 			self.cart[str(product.id)]['product'] = product
@@ -117,7 +117,7 @@ class ComposedCart(object):
 
 	def __iter__(self):
 		composed_products_ids = self.composed_cart.keys()
-		composed_products = Article.objects.filter(id__in=composed_products_ids)
+		composed_products = Variations_Articles.objects.filter(id__in=composed_products_ids)
 
 		for composed_product in composed_products:
 			self.composed_cart[str(composed_product.id)]['product'] = composed_product
@@ -209,7 +209,7 @@ class FinalComposedCart(object):
 			for k in self.final_composed_cart[i]['items'].keys(): #On récupére les ID des articles
 				final_composed_product_ids.append(k) #On met à jour la liste avec append afin de ne pas écraser les informations ajoutées précédemment.
 
-		final_composed_products = Article.objects.filter(id__in=final_composed_product_ids) #On peut extraire alors tous les articles avec et les stocker dans la variable
+		final_composed_products = Variations_Articles.objects.filter(id__in=final_composed_product_ids) #On peut extraire alors tous les articles avec et les stocker dans la variable
 
 		#Itération pour insérer le nom du produit dans le dictionnaire de la composition.
 		for i in self.final_composed_cart: # Pour toutes les compositions créées.

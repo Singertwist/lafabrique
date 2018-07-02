@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
 from django.http import HttpResponseRedirect
 from django.utils.crypto import get_random_string
-from catalogue.models import Categories_Article, Sous_Categories_Article, Article, Type_Produit
+from catalogue.models import Categories_Article, Sous_Categories_Article, Article, Type_Produit, Variations_Articles
 from panier.cart  import Cart, ComposedCart, FinalComposedCart
 from panier.forms import CartAddProductForm, ComposedCartAddProductForm
 from django.contrib import messages
@@ -10,7 +10,7 @@ from django.contrib import messages
 
 @require_POST
 def cart_add(request, product_id):
-	product = get_object_or_404(Article, id=product_id)
+	product = get_object_or_404(Variations_Articles, id=product_id)
 	cart = Cart(request)
 	form = CartAddProductForm(request.POST)
 	if form.is_valid():
@@ -25,13 +25,13 @@ def cart_add(request, product_id):
 
 def cart_remove(request, product_id):
 	cart = Cart(request)
-	product = get_object_or_404(Article, id=product_id)
+	product = get_object_or_404(Variations_Articles, id=product_id)
 	cart.remove(product)
 	return redirect('cart_detail')
 
 def cart_remove_one(request, product_id):
 	cart = Cart(request)
-	product = get_object_or_404(Article, id=product_id)
+	product = get_object_or_404(Variations_Articles, id=product_id)
 	form = CartAddProductForm(request.POST)
 	if form.is_valid():
 		cd = form.cleaned_data

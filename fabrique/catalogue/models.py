@@ -17,6 +17,7 @@ class Categories_Article(models.Model):
 	nom = models.CharField(unique=True, max_length=160, verbose_name='Nom de la catégorie')
 	slug = models.CharField(max_length=160)
 	ordre = models.IntegerField(unique=True, default=get_latest_ordre , validators=[MinValueValidator(1)], verbose_name='Ordre des rubriques dans le menu')
+	rubrique_principale = models.BooleanField(verbose_name='Catégorie Principale')
 	actif =  models.BooleanField(verbose_name='Actif / Inactif')
 	presentation_categorie = models.CharField(max_length=160)
 	timestamp = models.DateTimeField(auto_now=False, auto_now_add=True, verbose_name='Date de création')
@@ -80,7 +81,7 @@ class Allergie(models.Model):
 	def __str__(self):
 		return self.nom
 #Modèle permettant de définir les différentes unités des articles --> Kilogrammes, Litre, Centilitre, unités
-class Unite_Produit(models.Model):
+class Unite_Oeuvre(models.Model):
 	nom = models.CharField(max_length=160, verbose_name='Unité du produit')
 	slug = models.CharField(max_length=160)
 	active = models.BooleanField(verbose_name='Actif / Inactif')
@@ -116,8 +117,28 @@ class Type_Produit(models.Model):
 
 	def __str__(self):
 		return self.nom
+
+
+class Type_Variations_Articles(models.Model):
+	nom_type_variation_article = models.CharField(max_length=160, verbose_name='Type de Variations (Bases / Ingrédients / Plats Prêts')
+	slug = models.CharField(max_length=160)
+	timestamp = models.DateTimeField(auto_now=False, auto_now_add=True, verbose_name='Date de création')
+	updated = models.DateTimeField(auto_now=True, auto_now_add=False, verbose_name='Date de mise à jour')
+	
+	class Meta:
+		verbose_name = 'Type de Variations Articles'
+		verbose_name_plural = 'Type de Variations Articles'
+
+	def __unicode__(self):
+		return self.nom_type_variation_article
+
+	def __str__(self):
+		return self.nom_type_variation_article
+
+
+
 class Taux_TVA(models.Model):
-	nom_taux_applicable = models.CharField(max_length=160, verbose_name='Taux applicable')
+	nom_taux_applicable = models.CharField(max_length=160, verbose_name='Taux TVA applicable')
 	taux_applicable = models.DecimalField(max_digits=4, decimal_places=2)
 	timestamp = models.DateTimeField(auto_now=False, auto_now_add=True, verbose_name='Date de création')
 	updated = models.DateTimeField(auto_now=True, auto_now_add=False, verbose_name='Date de mise à jour')
@@ -131,6 +152,8 @@ class Taux_TVA(models.Model):
 
 	def __str__(self):
 		return self.nom_taux_applicable
+
+
 #Modèle permettant de définir un article.
 def upload_location_articles(instance, filename):
 	return "photos_articles/%s/%s" %(instance.slug, filename)
@@ -138,24 +161,24 @@ def upload_location_articles(instance, filename):
 class Article(models.Model):
 	nom = models.CharField(max_length=160, verbose_name='Nom de l\'article')
 	slug = models.CharField(max_length=160)
-	categories =  models.ManyToManyField(Sous_Categories_Article)
 	image = models.ImageField(upload_to=upload_location_articles)
 	disponible = models.BooleanField(verbose_name='Disponible / Non disponible')
 	article_composer = models.BooleanField(verbose_name='Article servant à composer un plat (cocher si oui)')
+	sous_categories_articles = models.ForeignKey(Type_Produit, verbose_name='Type d\'article')
+	taux_TVA = models.ForeignKey(Taux_TVA)
 	allergenes = models.ManyToManyField(Allergie, blank=True)
 	gluten_info = models.BooleanField(verbose_name='Contient du Gluten: Oui (cocher) / Non (ne pas cocher)')
 	vegeterien_info = models.BooleanField(verbose_name='Végéterien friendly: Oui (cocher) / Non (ne pas cocher)')
 	type_plat_info = models.BooleanField(verbose_name='Se consomme chaud (cocher) / froid (ne pas cocher)')
 	ingredients = models.TextField()
 	producteurs = models.ManyToManyField('producteurs.Producteurs', blank=True)
-	unite_produit = models.ForeignKey(Unite_Produit)
-	prix_unitaire = models.DecimalField(max_digits=19, decimal_places=2, validators=[MinValueValidator(Decimal('0.01'))])
-	taux_TVA = models.ForeignKey(Taux_TVA)
 	description = models.TextField()
 	timestamp = models.DateTimeField(auto_now=False, auto_now_add=True, verbose_name='Date de création')
 	updated = models.DateTimeField(auto_now=True, auto_now_add=False, verbose_name='Date de mise à jour')
-	sous_categories_articles = models.ForeignKey(Type_Produit, verbose_name='Type d\'article')
-	type_article = models.BooleanField(verbose_name='Si article entrant dans composition plat : Article servant de base (cocher si oui) / Article servant d\'ingrédients (laisser vide)')
+
+	# prix_unitaire = models.DecimalField(max_digits=19, decimal_places=2, validators=[MinValueValidator(Decimal('0.01'))])
+	# type_article = models.BooleanField(verbose_name='Si article entrant dans composition plat : Article servant de base (cocher si oui) / Article servant d\'ingrédients (laisser vide)')
+	# unite_produit = models.ForeignKey(Unite_Produit)
 
 	class Meta:
 		verbose_name = 'Article'
@@ -167,3 +190,28 @@ class Article(models.Model):
 
 	def __str__(self):
 		return self.nom
+
+class Variations_Articles(models.Model):
+	article = models.ForeignKey(Article)
+	nom_article_variation = models.CharField(max_length=160, verbose_name='Nom de la variation de l\'article')
+	categories =  models.ForeignKey(Sous_Categories_Article)
+	type_article = models.ForeignKey(Type_Variations_Articles)
+	prix_vente_unitaire = models.DecimalField(max_digits=19, decimal_places=2, validators=[MinValueValidator(Decimal('0.01'))])
+	variation_disponible = models.BooleanField(verbose_name='Variation Disponible / Non disponible')
+	unite_oeuvre = models.ForeignKey(Unite_Oeuvre, verbose_name='Unité d\'oeuvre')
+	quantite_mise_en_oeuvre = models.DecimalField(max_digits=19, decimal_places=2, validators=[MinValueValidator(Decimal('0.01'))])
+	prix_revient = models.DecimalField(max_digits=19, decimal_places=2, validators=[MinValueValidator(Decimal('0.01'))])
+	producteurs = models.ManyToManyField('producteurs.Producteurs', blank=True)
+	stock_disponible = models.DecimalField(max_digits=19, decimal_places=2, validators=[MinValueValidator(Decimal('0.01'))])
+
+	class Meta:
+		verbose_name = 'Variation Article'
+		verbose_name_plural = 'Variations_Articles Articles'
+		ordering = ['nom_article_variation']
+		
+	def __unicode__(self):
+		return self.nom_article_variation
+
+	def __str__(self):
+		return self.nom_article_variation	
+

@@ -26,8 +26,8 @@
 				<div id="big-popup{{ article.id }}" class="image-article-selection-plat">
 
 					<a href="#popup{{ article.id }}">
-						{% thumbnail article.image "500x500" as im %}
-						<img src="{{ im.url }}" alt="{{ article.nom|title }}"/>
+						{% thumbnail article.article.image "500x500" as im %}
+						<img src="{{ im.url }}" alt="{{ article.article.nom|title }}"/>
 						{% endthumbnail %} 
 					</a>
 				</div>
@@ -35,33 +35,31 @@
 				<div id="popup{{ article.id }}" class="overlay">
 					<div class="popup">
 						<a class="close" href="#big-popup{{ article.id }}">&times;</a>
-						{% thumbnail article.image "1000x1000" as im %}
+						{% thumbnail article.article.image "1000x1000" as im %}
 							<div class="image-popup" style="background-image:url({{ im.url }});"></div>
 						{% endthumbnail %} 
 						<div class="content-popup">
-							<div class="titre-plat-popup"><h1>{{ article.nom|title }}</h1></div>
+							<div class="titre-plat-popup"><h1>{{ article.article.nom|title }}</h1></div>
 							<div class="image-info-rapide">
-								{% if article.gluten_info == 0 and categories_articles.ordre != 1 %}
+								{% if article.article.gluten_info == 0 %}
 									<img src="{% static 'img/icones/gluten-free.png' %}" alt="gluten-free" title="Ne contient pas de Gluten"/>
 								{% else %}
 								{% endif %}	
-								{% if article.vegeterien_info == 1 and categories_articles.ordre != 1 %}
+								{% if article.article.vegeterien_info == 1 %}
 									<img src="{% static 'img/icones/radish-outline.png' %}" alt="vegetarien-friendly" title="Convient aux végétariens"/>
 								{% else %}
 								{% endif %}
-								{% if article.type_plat_info == 1 and categories_articles.ordre != 1 %}
+								{% if article.article.type_plat_info == 1 %}
 									<img src="{% static 'img/icones/fire.png' %}" alt="hot-dish" title="Plat chaud"/>
 								{% else %}
 								{% endif %}
-								{% if article.type_plat_info == 0 and categories_articles.ordre != 1 %}
+								{% if article.article.type_plat_info == 0 %}
 									<img src="{% static 'img/icones/snowflake.png' %}" alt="cold-dish" title="Plat froid"/>
 								{% else %}
 								{% endif %}
 							</div>
-							<div class="texte-plat-popup"><p>{{ article.description }}</p></div>
+							<div class="texte-plat-popup"><p>{{ article.article.description }}</p></div>
 							
-							{% if article.prix_min == None %}
-
 							<div class="info-plat-popup">
 								<div class="infos-plat-popup">
 									<img src="{% static 'img/icones/farm-grey.png' %}" alt="logo-producteurs"/>
@@ -80,7 +78,7 @@
 									<img src="{% static 'img/icones/ingredients.png' %}" alt="logo-producteurs"/> 
 									<h1>Ingrédients</h1>
 									<p>
-										{{ article.ingredients|title }}
+										{{ article.article.ingredients|title }}
 									</p>
 								</div>
 
@@ -88,7 +86,7 @@
 									<img src="{% static 'img/icones/allergies.png' %}" alt="logo-producteurs"/>
 									<h1>Allergènes</h1>
 									<p>
-										{% for allergenes in article.allergenes.all %}
+										{% for allergenes in article.article.allergenes.all %}
 											{{allergenes.nom|title }}<br/>
 										{% empty%}
 											Pas d'allergie associée
@@ -96,19 +94,16 @@
 									</p>
 								</div>
 							</div>
-							{% else %}
-							{% endif %}
 						</div>
 					</div>
 				</div>	
 				<!-- Fin de la popup présentation produit -->			
 				<div class="texte-article-selection-plat">
-					<div class="titre-texte-article-selection-plat"><h1>{{ article.nom|title }}</h1></div>
-					<div class="texte-texte-article-selection-plat"><p>{{ article.description }}</p></div>
+					<div class="titre-texte-article-selection-plat"><h1>{{ article.article.nom|title }}</h1></div>
+					<div class="texte-texte-article-selection-plat"><p>{{ article.article.description }}</p></div>
 				</div>
 				<div class="prix-texte-article-selection-plat">
-					{% if article.prix_min == None %} <!--S'il n'y a pas de prix minimum, cela veut dire que c'est un article à acheter, donc on afficher le prix du produit -->
-					<div class="sous-catprix-texte-article-selection-plat">{{ article.prix_unitaire }} €</div>
+					<div class="sous-catprix-texte-article-selection-plat">{{ article.prix_vente_unitaire }} €</div>
 					<div class="sous-catprix-texte-article-selection-plat">
 						<form method="post" action="{% url 'cart_add' article.id %}">
 							{% csrf_token %}
@@ -116,22 +111,7 @@
 							<input type="image" src="{% static 'img/icones/shopping-cart.png' %}" alt="shopping-cart" />
 							<input type="hidden" name="next" value="{{ request.path }}">
 						</form>
-					</div>
-					{% else %}
-					<div class="sous-catprix-texte-article-selection-plat">A partir de {{ article.prix_min }} €</div>
-					<div class="sous-catprix-texte-article-selection-plat">
-						{% if article.composer == 1 %}  <!-- Condition qui permet de savoir s'il est possible ou non de composer un plat. Permet d'afficher l'URL correspondante -->
-						<a href="{% url 'articles_plats_composer' article.slug article.id %}">
-							<img src="{% static 'img/icones/shopping-cart.png' %}" alt="shopping-cart"/>
-						</a>
-						{% else %}
-						<a href="{% url 'articles_plats_pret' article.slug article.id %}">
-							<img src="{% static 'img/icones/shopping-cart.png' %}" alt="shopping-cart"/>
-						</a>
-						{% endif %}
-					</div>
-					{% endif %}
-					
+					</div>				
 				</div>	
 			</div>
 
@@ -142,7 +122,4 @@
 			{% endfor %}
 
 		</div>
-		<script type="text/javascript" src="{% static 'js/menu-commander/menu-produits.js' %}"></script>
-		<script type="text/javascript" src="{% static 'js/menu-commander/classie.js' %}"></script>
-
 {% endblock %}

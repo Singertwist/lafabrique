@@ -50,124 +50,148 @@
 
 <div class="plat-composer">
 	<div class="plat-composer-choix">
-		{% for cat in type_produit %}
+<!-- 			{% regroup articles by type_article as articles_list %}
+				{% for type_article in articles_list %}
+					<h6>{{type_article.grouper}}</h6>
+						{% for article in type_article.list %}
+							<p>{{article.article.sous_categories_articles}}</p>
+							{% for article_in_cat in articles %}
+								{% if article_in_cat.type_article == type_article.grouper %}
+									{% if article_in_cat.article.sous_categories_articles.id == article.article.sous_categories_articles.id %}
+										{{article_in_cat.article.nom}}
+									{% else %}
+									{% endif %}
+								{% else %}
+								{% endif%}
+							{% endfor %}
+						{% endfor %}
+				{% endfor %}
+ -->
+
+ <!-- 
+	Organisation de la vue:
+	- On regroupe les articles par base / ingrédients: info contenue dans la variation de l'article (model VariationArticle) -> Sélectionner une variation et accéder aux attributs, il faut utiliser {{article.attributarticle}}.
+	- Chaque article est aussi un type d'articles (légumes, charcuterie...). Cette information se trouve dans la fiche article général (model Article) -> Accéder aux infos de la fiche globale article, il faut utiliser {{article_in_cat.article.attributdelafichegénérale}}.
+  -->
+		{% regroup articles by type_article as articles_list %}
+			{% for type_article in articles_list %}
 		<details open>
-			<summary>{{cat.nom}}</summary>
+			<summary>{{type_article.grouper}}</summary>
+				{% for article in type_article.list %}
+					<p>{{article.article.sous_categories_articles}}</p>
+						<div class="selection-plat">
+							{% for article_in_cat in articles %}
+								{% if article_in_cat.type_article == type_article.grouper %}
+									{% if article_in_cat.article.sous_categories_articles.id == article.article.sous_categories_articles.id %}
+										<div class="article-selection-plat">
+											<!-- Début de la popup présentation produit -->
+											<div id="big-popup{{ article.id }}" class="image-article-selection-plat">
 
-		<div class="selection-plat">
-			{% for article in articles %}
-			{% if cat.id == article.sous_categories_articles.id %}
-			<div class="article-selection-plat">
-				<!-- Début de la popup présentation produit -->
-				<div id="big-popup{{ article.id }}" class="image-article-selection-plat">
+												<a href="#popup{{ article.id }}">
+													{% thumbnail article_in_cat.article.image "500x500" as im %}
+													<img src="{{ im.url }}" alt="{{ article_in_cat.article.nom|title }}"/>
+													{% endthumbnail %} 
+												</a>
+											</div>
 
-					<a href="#popup{{ article.id }}">
-						{% thumbnail article.image "500x500" as im %}
-						<img src="{{ im.url }}" alt="{{ article.nom|title }}"/>
-						{% endthumbnail %} 
-					</a>
-				</div>
+											<div id="popup{{ article.id }}" class="overlay">
+												<div class="popup">
+													<a class="close" href="#big-popup{{ article.id }}">&times;</a>
+													{% thumbnail article_in_cat.article.image "1000x1000" as im %}
+														<div class="image-popup" style="background-image:url({{ im.url }});"></div>
+													{% endthumbnail %} 
+													<div class="content-popup">
+														<div class="titre-plat-popup"><h1>{{ article_in_cat.article.nom|title }}</h1></div>
+														<div class="image-info-rapide">
+															{% if article_in_cat.article.gluten_info == 0 %}
+																<img src="{% static 'img/icones/gluten-free.png' %}" alt="gluten-free" title="Ne contient pas de Gluten"/>
+															{% else %}
+															{% endif %}	
+															{% if article_in_cat.article.vegeterien_info == 1 %}
+																<img src="{% static 'img/icones/radish-outline.png' %}" alt="vegetarien-friendly" title="Convient aux végétariens"/>
+															{% else %}
+															{% endif %}
+															{% if article_in_cat.article.type_plat_info == 1 %}
+																<img src="{% static 'img/icones/fire.png' %}" alt="hot-dish" title="Plat chaud"/>
+															{% else %}
+															{% endif %}
+															{% if article_in_cat.article.type_plat_info == 0 %}
+																<img src="{% static 'img/icones/snowflake.png' %}" alt="cold-dish" title="Plat froid"/>
+															{% else %}
+															{% endif %}
+														</div>
+														<div class="texte-plat-popup"><p>{{ article_in_cat.article.description }}</p></div>
+														
+														{% if article.prix_min == None %}
 
-				<div id="popup{{ article.id }}" class="overlay">
-					<div class="popup">
-						<a class="close" href="#big-popup{{ article.id }}">&times;</a>
-						{% thumbnail article.image "1000x1000" as im %}
-							<div class="image-popup" style="background-image:url({{ im.url }});"></div>
-						{% endthumbnail %} 
-						<div class="content-popup">
-							<div class="titre-plat-popup"><h1>{{ article.nom|title }}</h1></div>
-							<div class="image-info-rapide">
-								{% if article.gluten_info == 0 and categories_articles.ordre != 1 %}
-									<img src="{% static 'img/icones/gluten-free.png' %}" alt="gluten-free" title="Ne contient pas de Gluten"/>
-								{% else %}
-								{% endif %}	
-								{% if article.vegeterien_info == 1 and categories_articles.ordre != 1 %}
-									<img src="{% static 'img/icones/radish-outline.png' %}" alt="vegetarien-friendly" title="Convient aux végétariens"/>
+														<div class="info-plat-popup">
+															<div class="infos-plat-popup">
+																<img src="{% static 'img/icones/farm-grey.png' %}" alt="logo-producteurs"/>
+																<h1>Les producteurs associés</h1>
+																<p>
+																	{% for producteurs in article.producteurs.all %}
+																		{{producteurs.nom|title }} {{producteurs.prenom|title }} <br/>
+																	{% empty%}
+																		Pas de producteurs associés
+																	{% endfor %}
+																	
+																</p>
+															</div>
+
+															<div class="infos-plat-popup">
+																<img src="{% static 'img/icones/ingredients.png' %}" alt="logo-producteurs"/> 
+																<h1>Ingrédients</h1>
+																<p>
+																	{{ article_in_cat.article.ingredients|title }}
+																</p>
+															</div>
+
+															<div class="infos-plat-popup">
+																<img src="{% static 'img/icones/allergies.png' %}" alt="logo-producteurs"/>
+																<h1>Allergènes</h1>
+																<p>
+																	{% for allergenes in article_in_cat.article.allergenes.all %}
+																		{{allergenes.nom|title }}<br/>
+																	{% empty%}
+																		Pas d'allergie associée
+																	{% endfor %}
+																</p>
+															</div>
+														</div>
+														{% else %}
+														{% endif %}
+													</div>
+												</div>
+											</div>	
+											<!-- Fin de la popup présentation produit -->			
+											<div class="texte-article-selection-plat">
+												<div class="titre-texte-article-selection-plat"><h1>{{ article_in_cat.article.nom|title }}</h1></div>
+												<div class="texte-texte-article-selection-plat"><p>{{ article_in_cat.article.description }}</p></div>
+											</div>
+											<div class="prix-texte-article-selection-plat">
+												<div class="sous-catprix-texte-article-selection-plat">{{ article.prix_vente_unitaire }} €</div>
+												<div class="sous-catprix-texte-article-selection-plat">
+													<form method="post" action="{% url 'cart_add' article.id %}">
+														{% csrf_token %}
+														{{ cart_product_form }}
+														<input type="image" src="{% static 'img/icones/shopping-cart.png' %}" alt="shopping-cart" />
+														<input type="hidden" name="next" value="{{ request.path }}">
+													</form>
+												</div>											
+											</div>	
+										</div>
+									{% else %}
+									{% endif %}
 								{% else %}
 								{% endif %}
-								{% if article.type_plat_info == 1 and categories_articles.ordre != 1 %}
-									<img src="{% static 'img/icones/fire.png' %}" alt="hot-dish" title="Plat chaud"/>
-								{% else %}
-								{% endif %}
-								{% if article.type_plat_info == 0 and categories_articles.ordre != 1 %}
-									<img src="{% static 'img/icones/snowflake.png' %}" alt="cold-dish" title="Plat froid"/>
-								{% else %}
-								{% endif %}
-							</div>
-							<div class="texte-plat-popup"><p>{{ article.description }}</p></div>
-							
-							{% if article.prix_min == None %}
+							{% empty %}
 
-							<div class="info-plat-popup">
-								<div class="infos-plat-popup">
-									<img src="{% static 'img/icones/farm-grey.png' %}" alt="logo-producteurs"/>
-									<h1>Les producteurs associés</h1>
-									<p>
-										{% for producteurs in article.producteurs.all %}
-											{{producteurs.nom|title }} {{producteurs.prenom|title }} <br/>
-										{% empty%}
-											Pas de producteurs associés
-										{% endfor %}
-										
-									</p>
-								</div>
+							<p>Aucun produit</p>
 
-								<div class="infos-plat-popup">
-									<img src="{% static 'img/icones/ingredients.png' %}" alt="logo-producteurs"/> 
-									<h1>Ingrédients</h1>
-									<p>
-										{{ article.ingredients|title }}
-									</p>
-								</div>
-
-								<div class="infos-plat-popup">
-									<img src="{% static 'img/icones/allergies.png' %}" alt="logo-producteurs"/>
-									<h1>Allergènes</h1>
-									<p>
-										{% for allergenes in article.allergenes.all %}
-											{{allergenes.nom|title }}<br/>
-										{% empty%}
-											Pas d'allergie associée
-										{% endfor %}
-									</p>
-								</div>
-							</div>
-							{% else %}
-							{% endif %}
+							{% endfor %}
 						</div>
-					</div>
-				</div>	
-				<!-- Fin de la popup présentation produit -->			
-				<div class="texte-article-selection-plat">
-					<div class="titre-texte-article-selection-plat"><h1>{{ article.nom|title }}</h1></div>
-					<div class="texte-texte-article-selection-plat"><p>{{ article.description }}</p></div>
-				</div>
-				<div class="prix-texte-article-selection-plat">
-					{% if article.prix_min == None %}
-					<div class="sous-catprix-texte-article-selection-plat">{{ article.prix_unitaire }} €</div>
-					<div class="sous-catprix-texte-article-selection-plat">
-						<form method="post" action="{% url 'cart_add' article.id %}">
-							{% csrf_token %}
-							{{ cart_product_form }}
-							<input type="image" src="{% static 'img/icones/shopping-cart.png' %}" alt="shopping-cart" />
-							<input type="hidden" name="next" value="{{ request.path }}">
-						</form>
-					</div>
-					{% else %}
-					<div class="sous-catprix-texte-article-selection-plat">A partir de {{ article.prix_min }} €</div>
-					<div class="sous-catprix-texte-article-selection-plat"><a href="{% url 'articles_plats_composer' article.slug %}"><img src="{% static 'img/icones/shopping-cart.png' %}" alt="shopping-cart"/></a></div>
-					{% endif %}
-					
-				</div>	
-			</div>
-			{% else %}
-			{% endif %}	
-			{% empty %}
-
-			<p>Aucun produit</p>
-
-			{% endfor %}
-		</div>
+				{% empty %}
+				{% endfor %}
 		
 		</details>
 		{% empty %}
@@ -183,11 +207,11 @@
 			{% for item in composed_cart %}
 	        	{% with product=item.product %}
 					<div class="plat-composer-panier-item">
-						{% thumbnail product.image "500x500" crop="center" as im %}
+						{% thumbnail product.article.image "500x500" crop="center" as im %}
 						<div class="plat-composer-panier-item-image" style="background-image:url({{ im.url }});"></div>
 						{% endthumbnail %} 
 						<div class="plat-composer-panier-item-nom">
-							<div class="plat-composer-panier-item-nom1">{{ product.nom }}</div>
+							<div class="plat-composer-panier-item-nom1">{{ product.article.nom }}</div>
 							<div class="plat-composer-panier-item-nom2">x {{ item.quantity }}</div>
 						</div>
 						<div class="plat-composer-panier-item-delete">

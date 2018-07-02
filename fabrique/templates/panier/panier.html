@@ -64,12 +64,12 @@
         {% for item in cart %}
           {% with product=item.product %}
             <div class="composition-panier-final-item">
-                {% thumbnail product.image "500x500" crop="center" as im %}
+                {% thumbnail product.article.image "500x500" crop="center" as im %}
                 <div class="composition-panier-final-item-image" style="background-image:url({{ im.url }});"></div>
                 {% endthumbnail %} 
                 <div class="composition-panier-final-item-description">
-                    <div>{{ product.nom }}</div>
-                    <div>{{ product.description }}</div>
+                    <div>{{ product.article.nom }}</div>
+                    <div>{{ product.article.description }}</div>
                 </div>
                 <div class="composition-panier-final-item-quantite">
                         <form action="{% url "cart_remove_one" product.id %}" method="post">
