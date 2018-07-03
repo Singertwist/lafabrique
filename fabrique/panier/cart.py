@@ -31,13 +31,16 @@ class Cart(object):
 			self.save()
 
 		else:
-			if product_id not in self.composed_cart:
-				self.composed_cart[product_id] = {'quantity': 1,'price': str(product.prix_vente_unitaire), 'tva': str(product.article.taux_TVA.taux_applicable), 'base': str(product.type_article)}
-
+			if sum(composed_item['base'] == "Bases" for composed_item in self.composed_cart.values()) == 1 and str(product.type_article) == "Bases": #On compte le nombre de fois qu'il y a de base dans la composition. S'il y a aucune base on peut ajouter une base. S'il y a une base et que l'article que l'on veut un article qui est une base alors on ne peut pas.
+				return "Only_one_base"
 			else:
-				return "Same_articles" # Si l'article est déjà présent dans le panier composition, retourne un message d'erreur.
-				#self.composed_cart[product_id]['quantity'] += quantity #Ajoute +1 à la quantité et met à jour le dictionnaire contenant la quantité. += signifie ajoute à la valeur initiale de quantité.
-			self.save_composed()
+				if product_id not in self.composed_cart:
+					self.composed_cart[product_id] = {'quantity': 1,'price': str(product.prix_vente_unitaire), 'tva': str(product.article.taux_TVA.taux_applicable), 'base': str(product.type_article)}
+
+				else:
+					return "Same_articles" # Si l'article est déjà présent dans le panier composition, retourne un message d'erreur.
+					#self.composed_cart[product_id]['quantity'] += quantity #Ajoute +1 à la quantité et met à jour le dictionnaire contenant la quantité. += signifie ajoute à la valeur initiale de quantité.
+				self.save_composed()
 
 	def save(self):
 		self.session['cart'] = self.cart
@@ -150,17 +153,15 @@ class FinalComposedCart(object):
 
 	def add_to_final_composed_cart(self, categorie_composed_cart, comment, quantity=1):
 		if sum(composed_item['quantity'] for composed_item in self.composed_cart.values()) > 1: # Condition empêchant l'ajout d'une composition au panier final si le panier composé est vide. Permet de s'assurer que la quantité est supérieur à 1 dans la panier composé.
-			if sum(composed_item['base'] for composed_item in self.composed_cart.values()) == 1: #Condition qui permet de s'assurer qu'il n'y a qu'une seule base ans la composition. Va chercher le champ boolean de la zone article "base". Si plusieurs bases d'ajouter, impossibilité de valider la composition.
-				composed_cart_id = get_random_string(50) + str(datetime.datetime.now()) # Permet de définir un ID pour chaque plat composé.
-				composed_cart_id = composed_cart_id.replace(" ", "") #Supprimer tous les espaces de la chaine de caractère.
-				categorie_composed_cart_id = str(categorie_composed_cart.id) # Permet de récupérer la catégorie du plat composé (sandwiches, soupe, salade).
-				comment = str(comment)
+			composed_cart_id = get_random_string(50) + str(datetime.datetime.now()) # Permet de définir un ID pour chaque plat composé.
+			composed_cart_id = composed_cart_id.replace(" ", "") #Supprimer tous les espaces de la chaine de caractère.
+			categorie_composed_cart_id = str(categorie_composed_cart.id) # Permet de récupérer la catégorie du plat composé (sandwiches, soupe, salade).
+			comment = str(comment)
 
-				self.final_composed_cart[composed_cart_id] = {'cat_composed_cart':categorie_composed_cart_id, 'quantity': 1, 'comment': comment, 'items':self.composed_cart}
-				self.save_final_composed()
-				return "Sucess"
-			else:
-				return "Only_one_base"
+			self.final_composed_cart[composed_cart_id] = {'cat_composed_cart':categorie_composed_cart_id, 'quantity': 1, 'comment': comment, 'items':self.composed_cart}
+			self.save_final_composed()
+			return "Sucess"
+
 		else:
 			return "Zero_quantity"
 
