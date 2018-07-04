@@ -78,7 +78,7 @@
 		<details open>
 			<summary>{{type_article.grouper}}</summary>
 				{% for article in type_article.list %}
-					<p>{{article.article.sous_categories_articles}}</p>
+					<p class="types-variations-articles">{{article.article.sous_categories_articles}} : </p>
 						<div class="selection-plat">
 							{% for article_in_cat in articles %}
 								{% if article_in_cat.type_article == type_article.grouper %}

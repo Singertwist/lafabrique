@@ -9,15 +9,16 @@
 
 .image-producteur {
 	width: 100%;
-	min-height: 400px;
+	min-height: 800px;
 	background-size: cover;
 	background-repeat: none;
 }
 
 .container-producteur:nth-child(2n+3) .image-producteur {
 	order: 2;
-	clip-path: polygon(5% 100%, 100% 100%, 100% 0, 15% 0);
-	-webkit-clip-path: polygon(5% 100%, 100% 100%, 100% 0, 15% 0);
+	/*clip-path: polygon(5% 100%, 100% 100%, 100% 0, 15% 0);
+	-webkit-clip-path: polygon(5% 100%, 100% 100%, 100% 0, 15% 0);*/
+	border-radius: 10px 0px 0px 10px;
 }
 
 .container-producteur .presentation-producteur {
@@ -26,8 +27,9 @@
 }
 
 .container-producteur:nth-child(2n+2) .image-producteur {
-	clip-path: polygon(0 100%, 95% 100%, 85% 0, 0 0);
-	-webkit-clip-path: polygon(0 100%, 95% 100%, 85% 0, 0 0);
+	/*clip-path: polygon(0 100%, 95% 100%, 85% 0, 0 0);
+	-webkit-clip-path: polygon(0 100%, 95% 100%, 85% 0, 0 0);*/
+	border-radius: 0px 10px 10px 0px;
 }
 
 .presentation-producteur h1 {

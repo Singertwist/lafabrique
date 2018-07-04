@@ -63,11 +63,15 @@ def add_to_final_composed_cart(request, categorie_composed_cart):
 	if form.is_valid():
 		cd = form.cleaned_data
 		next = cd['next']
-		var = final_composed_cart.add_to_final_composed_cart(categorie_composed_cart=categorie_composed_cart, quantity=cd['quantity'], comment=cd['comment']) # Ajout de la variable var, cette variable permet de récupérer le message de validation afin d'afficher un message.
-		if var == "Sucess":
-			messages.success(request, '<p>YAHOU !</p><p>Votre composition a bien été ajoutée à votre panier !</p>')
-		if var =="Zero_quantity":
+		if request.session.get('final_composed_cart') != None: # Condition nécessaire lorsque le panier composé n'est pas encore initialié (aucun article ajouté) et que l'on essaye d'ajouter un panier composé vide au panier final. Retour None et une erreur. Pour éviter cela, on vérifie si le panier est retourne une valeur None.
+			var = final_composed_cart.add_to_final_composed_cart(categorie_composed_cart=categorie_composed_cart, quantity=cd['quantity'], comment=cd['comment']) # Ajout de la variable var, cette variable permet de récupérer le message de validation afin d'afficher un message.
+			if var == "Sucess":
+				messages.success(request, '<p>YAHOU !</p><p>Votre composition a bien été ajoutée à votre panier !</p>')
+			if var =="Zero_quantity":
+				messages.warning(request, '<p>OUPS !</p><p> Veuillez au moins ajouter une base et un accompagnement à votre composition !</p>')
+		else:
 			messages.warning(request, '<p>OUPS !</p><p> Veuillez au moins ajouter une base et un accompagnement à votre composition !</p>')
+			return HttpResponseRedirect(next)
 	return HttpResponseRedirect(next)
 
 def cart_remove_final_composed_cart(request, dict_key):
