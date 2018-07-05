@@ -161,8 +161,9 @@ class FinalComposedCart(object):
 
 				self.final_composed_cart[composed_cart_id] = {'cat_composed_cart':categorie_composed_cart_id, 'quantity': 1, 'comment': comment, 'items':self.composed_cart}
 				self.save_final_composed()
+				self.composed_cart = {}
+				self.save_composed()
 				return "Sucess"
-
 			else:
 				return "Zero_quantity"
 		else:
