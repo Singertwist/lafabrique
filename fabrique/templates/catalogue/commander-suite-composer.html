@@ -212,7 +212,7 @@
 						{% endthumbnail %} 
 						<div class="plat-composer-panier-item-nom">
 							<div class="plat-composer-panier-item-nom1">{{ product.article.nom }}</div>
-							<div class="plat-composer-panier-item-nom2">x {{ item.quantity }}</div>
+							<div class="plat-composer-panier-item-nom2">x {{ item.quantity }} - {{ product.type_article }}</div>
 						</div>
 						<div class="plat-composer-panier-item-delete">
 							<form action="{% url "cart_remove_one" product.id %}" method="post">
