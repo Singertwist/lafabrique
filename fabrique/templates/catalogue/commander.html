@@ -7,13 +7,42 @@
 {% block commander %}
 	<!-- If qui permet de sélectionner la page principale (ici plat), si catégorie principale (1) est plat alors on affiche l'entête, sinon on n'affiche pas -->
 	{% if categories_articles.rubrique_principale == 1 %}
-
-		<div class="titre-concept"><h1>Notre spécial de la semaine</h1></div>
-		<div class="special-semaine" style="background-image:url({% static 'img/salade2.jpg' %});">
+		
+		<div class="titre-concept"><h1>Nos coups de coeur de la semaine !</h1></div>
+		
+		<div class="special-semaine">
+			<div class="gallery items-3">
+				{% for article_une in article_a_la_une %}
+					<div id="item-{{article_une.id}}" class="control-operator"></div>
+					{% thumbnail article_une.article.image "1000x1000" as im %}
+						<figure class="item" style="background-image:url({{im.url}});">
+					{% endthumbnail %} 
+					{% if article_une.article.article_composer != 1 %}
+						<a href="{% url 'articles_plats_pret' article_une.categories.slug article_une.categories.id %}#popup{{article_une.id}}"><p>{{article_une.article.description}}</p></a>
+					{% else %}
+						<a href="{% url 'articles_plats_composer' article_une.categories.slug article_une.categories.id %}#popup{{article_une.id}}"><p>{{article_une.article.description}}</p></a>
+					{% endif %}
+					</figure>
+				{% empty %}
+					<div id="item-0" class="control-operator"></div>
+					<figure class="item">
+					<h1>Aucun article à la une</h1>
+					</figure>
+				{% endfor %}
+			<div class="controls">
+				{% for article_une in article_a_la_une %}
+					<a href="#item-{{article_une.id}}" class="control-button">•</a>
+				{% empty %}
+					<a href="#item-0" class="control-button">•</a>
+				{% endfor %}
+			</div>
+			</div>
+		</div>
+<!-- 		<div class="special-semaine" style="background-image:url({% static 'img/salade2.jpg' %});">
 			<div>
 				<a href=""><p>Notre salade épinards, gorgonzola, oignons et poulets rotis au miel.</p></a>
 			</div>	
-		</div>
+		</div> -->
 
 	<div class="titre-concept"><h1>{{categories_articles.presentation_categorie}}</h1></div>
 

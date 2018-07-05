@@ -15,7 +15,9 @@ def articles_plats(request, slug, ordre):
 
 	cart_product_form = CartAddProductForm()
 
-	return render(request, "catalogue/commander.html", {'sous_categories_articles':sous_categories_articles, 'categories_articles':categories_articles, 'cart_product_form': cart_product_form})
+	article_a_la_une = Variations_Articles.objects.filter(article_une=1)
+
+	return render(request, "catalogue/commander.html", {'sous_categories_articles':sous_categories_articles, 'categories_articles':categories_articles, 'cart_product_form': cart_product_form, 'article_a_la_une':article_a_la_une})
 
 def articles_plats_composer(request, id, slug):
 	sous_categories_articles = get_object_or_404(Sous_Categories_Article, id=id, slug=slug) #On récupére les sous-catégories d'articles (sandwiches, soupe,...)

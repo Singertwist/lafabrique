@@ -3,7 +3,12 @@
 	background-image: url("../img/bg.png");
 }
 
-.special-semaine {
+.special-semaine { /* Pour avoir accès aux éléments de style du slider, il faut aller consulter le dossier slider/gallery.themes.css */
+	margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+/*.special-semaine {
 	height: 500px;
     background-attachment: fixed;
     background-position: center;
@@ -33,7 +38,7 @@
       border-radius: 15px;
       margin: auto;
       max-width: 50%;
-}
+}*/
 
 .selection-plat {
 	display: flex;

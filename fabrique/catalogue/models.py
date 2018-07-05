@@ -196,6 +196,7 @@ class Variations_Articles(models.Model):
 	nom_article_variation = models.CharField(max_length=160, verbose_name='Nom de la variation de l\'article')
 	categories =  models.ForeignKey(Sous_Categories_Article)
 	type_article = models.ForeignKey(Type_Variations_Articles)
+	article_une = models.BooleanField(verbose_name="Article en une? / Cocher si oui.")
 	prix_vente_unitaire = models.DecimalField(max_digits=19, decimal_places=2, validators=[MinValueValidator(Decimal('0.01'))])
 	variation_disponible = models.BooleanField(verbose_name='Variation Disponible / Non disponible')
 	unite_oeuvre = models.ForeignKey(Unite_Oeuvre, verbose_name='Unité d\'oeuvre')
