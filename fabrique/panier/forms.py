@@ -10,6 +10,6 @@ class CartAddProductForm(forms.Form):
 
 class ComposedCartAddProductForm(forms.Form):
 	quantity = forms.IntegerField(min_value=1, max_value=1, initial=1, widget=forms.HiddenInput)
-	comment = forms.CharField(label="Un petit commentaire à ajouter?", required=False, widget=forms.Textarea(attrs={'placeholder': 'Un petit quelque chose à nous dire ?', }))
+	comment = forms.CharField(label="Un petit commentaire à ajouter?", required=False, widget=forms.Textarea(attrs={'placeholder': 'Un petit quelque chose à nous dire ? - Max 150 caractères', 'maxlength':'150'}))
 	next =  forms.CharField(widget=forms.HiddenInput, max_length=2000)
 

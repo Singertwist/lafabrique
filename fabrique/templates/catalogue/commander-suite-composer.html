@@ -229,12 +229,6 @@
 	        <p>Votre panier est vide</p>
 	        {% endfor %}
 	    </div>
-<!-- 		<div class="requirements">
-			<h2>Un petit commentaire à ajouter?</h2>
-			<textarea placeholder="Une envie, une suggestion dans la préparation de votre commande, pas de problème, faites le savoir!">
-			</textarea>
-		</div>	 -->
-
 		<div class="plat-composer-panier-boutton">
 			<form action="{% url "add_to_final_composed_cart" sous_categories_articles.id %}" method="post">
 	            {{ cart_product_form }}

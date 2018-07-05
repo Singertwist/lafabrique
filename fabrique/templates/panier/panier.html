@@ -30,6 +30,8 @@
                         {{ forloop.last|yesno:",&#44;"|safe }} <!-- Permet d'ajouter des virgules entre les ingrédients sauf au dernier ingrédient -->
                     {% empty %}
                     {% endfor %}
+                    <br/>
+                    Commentaire ajouté : {{ item.comment }}
                     </div>
                 </div>
                 <div class="composition-panier-final-item-quantite">
