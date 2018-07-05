@@ -25,7 +25,10 @@
                     {% empty %}
                     {% endfor %}
                     <br/>
+                    {% if item.comment != "" %}
                     Commentaire ajouté : {{ item.comment }}
+                    {% else %}
+                    {% endif %}
                     </div>
                 </div>
                 <div class="composition-panier-final-item-quantite">
