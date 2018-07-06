@@ -205,7 +205,7 @@
 		</div>
 		<div class="plat-composer-panier-container-item">
 
-		{% regroup composed_cart by base as articles_list %}
+		{% regroup composed_cart|dictsort:"base" by base as articles_list %}
 
 
 		{% for articles in articles_list %}
