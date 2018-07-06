@@ -238,7 +238,7 @@
 		{% endfor %}
 	    </div>
 		<div class="plat-composer-panier-boutton">
-			<form action="{% url "add_to_final_composed_cart" sous_categories_articles.id %}" method="post">
+			<form action="{% url "remove_composed_cart" sous_categories_articles.id %}" method="post">
 	            {{ cart_product_form }}
 	            {% csrf_token %}
 	            <button type="submit" alt="Supprimer votre Composition" title="Supprimer votre Composition">Supprimer votre Composition</button>

@@ -118,6 +118,14 @@ class ComposedCart(object):
 		composed_cart = self.session.get('composed_cart')
 		self.composed_cart = composed_cart
 
+	def remove_composed_cart(self, categorie_composed_cart):
+		self.composed_cart = {}
+		self.save_composed()
+
+	def save_composed(self):
+		self.session['composed_cart'] = self.composed_cart
+		self.session.modified = True
+
 	def __iter__(self):
 		if self.composed_cart != None: #Ajouter si vide et que l'on supprime les cookies, sinon cela génère des erreurs. Génère une erreur avec l'ajout du code pour regrouper les différents éléments dans la composition.
 			composed_products_ids = self.composed_cart.keys()

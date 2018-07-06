@@ -74,6 +74,16 @@ def add_to_final_composed_cart(request, categorie_composed_cart):
 			return HttpResponseRedirect(next)
 	return HttpResponseRedirect(next)
 
+def remove_composed_cart(request, categorie_composed_cart):
+	categorie_composed_cart = get_object_or_404(Sous_Categories_Article, id=categorie_composed_cart)
+	composed_cart = ComposedCart(request)
+	form = ComposedCartAddProductForm(request.POST)
+	if form.is_valid():
+			cd = form.cleaned_data
+			next = cd['next']
+			composed_cart.remove_composed_cart(categorie_composed_cart=categorie_composed_cart)
+	return HttpResponseRedirect(next)
+
 def cart_remove_final_composed_cart(request, dict_key):
 	final_composed_cart = FinalComposedCart(request)
 	final_composed_cart.remove_final_composed_cart(dict_key)

@@ -26,5 +26,6 @@ urlpatterns = [
     url(r'^remove-one-final-composed-cart/(?P<dict_key>.+)/$', views.cart_remove_one_quantity_final_composed_cart, name='cart_remove_one_quantity_final_composed_cart'),
     url(r'^remove-one/(?P<product_id>\d+)/$', views.cart_remove_one, name='cart_remove_one'),
     url(r'^add-composed-cart/(?P<categorie_composed_cart>\d+)/$', views.add_to_final_composed_cart, name='add_to_final_composed_cart'),
+    url(r'^remove-composed-cart/(?P<categorie_composed_cart>\d+)/$', views.remove_composed_cart, name='remove_composed_cart'),
     url(r'^cart-modify-final-composed-cart/(?P<categorie_composed_cart>\d+)-(?P<dict_key>.+)/$', views.cart_modify_final_composed_cart, name='cart_modify_final_composed_cart'),
 ]
