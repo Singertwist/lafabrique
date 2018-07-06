@@ -204,6 +204,58 @@
 			<div class="plat-composer-panier-entete2"><img src="{% static 'img/icones/shopping-cart-white.png' %}" alt="shopping-cart"/></div>
 		</div>
 		<div class="plat-composer-panier-container-item">
+
+		{% regroup composed_cart by base as articles_list %}
+
+
+		{% for articles in articles_list %}
+		    <p>{{ articles.grouper }}</p>
+		    
+		        {% for article in articles.list %}
+			        {% with product=article.product %}
+							<div class="plat-composer-panier-item">
+								{% thumbnail product.article.image "500x500" crop="center" as im %}
+								<div class="plat-composer-panier-item-image" style="background-image:url({{ im.url }});"></div>
+								{% endthumbnail %} 
+								<div class="plat-composer-panier-item-nom">
+									<div class="plat-composer-panier-item-nom1">{{ product.article.nom }}</div>
+									<div class="plat-composer-panier-item-nom2">x {{ article.quantity }} - {{ product.type_article }}</div>
+								</div>
+								<div class="plat-composer-panier-item-delete">
+									<form action="{% url "cart_remove_one" product.id %}" method="post">
+				                        {{ cart_product_form }}
+				                        {% csrf_token %}
+				                        <input type="image" src="{% static 'img/icones/cancel.png' %}" alt="Supprimer" title="Supprimer"/>
+				                        <input type="hidden" name="next" value="{{ request.path }}">
+			                      	</form>
+								</div>
+							</div>
+			        {% endwith %}
+			    {% empty %} 
+		        {% endfor %}
+		{% empty%}
+		<p>Votre panier est vide</p>
+		{% endfor %}
+	    </div>
+		<div class="plat-composer-panier-boutton">
+			<form action="{% url "add_to_final_composed_cart" sous_categories_articles.id %}" method="post">
+	            {{ cart_product_form }}
+	            {% csrf_token %}
+	            <button type="submit" alt="Supprimer votre Composition" title="Supprimer votre Composition">Supprimer votre Composition</button>
+	            <input type="hidden" name="next" value="{{ request.path }}">
+	      	</form>
+			<form action="{% url "add_to_final_composed_cart" sous_categories_articles.id %}" method="post">
+	            {{ composed_cart_product_form }}
+	            {% csrf_token %}
+	            <button type="submit" alt="Ajouter au Panier" title="Ajouter au Panier">Valider Votre Composition</button>
+	            <input type="hidden" name="next" value="{{ request.path }}">
+	      	</form>
+		</div>
+	</div>
+
+</div>
+{% endblock %}
+<!-- Sauvegarde boucle suite à rajout regroup tag -->
 			{% for item in composed_cart %}
 	        	{% with product=item.product %}
 					<div class="plat-composer-panier-item">
@@ -228,22 +280,3 @@
 	      	{% empty %}
 	        <p>Votre panier est vide</p>
 	        {% endfor %}
-	    </div>
-		<div class="plat-composer-panier-boutton">
-			<form action="{% url "add_to_final_composed_cart" sous_categories_articles.id %}" method="post">
-	            {{ cart_product_form }}
-	            {% csrf_token %}
-	            <button type="submit" alt="Supprimer votre Composition" title="Supprimer votre Composition">Supprimer votre Composition</button>
-	            <input type="hidden" name="next" value="{{ request.path }}">
-	      	</form>
-			<form action="{% url "add_to_final_composed_cart" sous_categories_articles.id %}" method="post">
-	            {{ composed_cart_product_form }}
-	            {% csrf_token %}
-	            <button type="submit" alt="Ajouter au Panier" title="Ajouter au Panier">Valider Votre Composition</button>
-	            <input type="hidden" name="next" value="{{ request.path }}">
-	      	</form>
-		</div>
-	</div>
-
-</div>
-{% endblock %}

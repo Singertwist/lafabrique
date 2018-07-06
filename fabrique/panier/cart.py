@@ -119,18 +119,19 @@ class ComposedCart(object):
 		self.composed_cart = composed_cart
 
 	def __iter__(self):
-		composed_products_ids = self.composed_cart.keys()
-		composed_products = Variations_Articles.objects.filter(id__in=composed_products_ids)
+		if self.composed_cart != None: #Ajouter si vide et que l'on supprime les cookies, sinon cela génère des erreurs. Génère une erreur avec l'ajout du code pour regrouper les différents éléments dans la composition.
+			composed_products_ids = self.composed_cart.keys()
+			composed_products = Variations_Articles.objects.filter(id__in=composed_products_ids)
 
-		for composed_product in composed_products:
-			self.composed_cart[str(composed_product.id)]['product'] = composed_product
+			for composed_product in composed_products:
+				self.composed_cart[str(composed_product.id)]['product'] = composed_product
 
-		for composed_item in self.composed_cart.values():
-			composed_item['price'] = Decimal(composed_item['price'])
-			composed_item['tva'] = Decimal(composed_item['tva'])
-			composed_item['total_price'] = composed_item['price'] * composed_item['quantity']
-			composed_item['total_composed_item_tva'] = composed_item['total_price'] - composed_item['total_price'] / composed_item['tva'] #Calcul du total de TVA par article.
-			yield composed_item
+			for composed_item in self.composed_cart.values():
+				composed_item['price'] = Decimal(composed_item['price'])
+				composed_item['tva'] = Decimal(composed_item['tva'])
+				composed_item['total_price'] = composed_item['price'] * composed_item['quantity']
+				composed_item['total_composed_item_tva'] = composed_item['total_price'] - composed_item['total_price'] / composed_item['tva'] #Calcul du total de TVA par article.
+				yield composed_item
 
 	def __len__(self):
 		if not self.composed_cart: #Condition si on arrive directement sur la page de composition d'un plat et qu'il n'y pas de dictionnaire de créé.
