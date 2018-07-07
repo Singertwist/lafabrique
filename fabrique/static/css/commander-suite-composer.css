@@ -85,6 +85,14 @@
 	overflow-y: scroll;
 }
 
+.plat-composer-panier-container-item .article-grouper-nom {
+	border-bottom: solid 1px lightgrey;
+	padding: 5px;
+	margin: 0px;
+	margin-right: 10px;
+	color: grey;
+}
+
 .plat-composer-panier-item {
 	display: flex;
 	padding: 5px;

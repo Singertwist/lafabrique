@@ -209,7 +209,7 @@
 
 
 		{% for articles in articles_list %}
-		    <p>{{ articles.grouper }}</p>
+		    <p class="article-grouper-nom">{{ articles.grouper }} :</p>
 		    
 		        {% for article in articles.list %}
 			        {% with product=article.product %}
