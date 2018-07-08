@@ -1,0 +1,7 @@
+.type-client-container {
+	display: flex;
+	border: dashed;
+	max-width: 1500px;
+	margin: auto;
+	padding: auto;
+}

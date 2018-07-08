@@ -1,0 +1,37 @@
+{% extends "base-commander.html" %}
+{% load static %}
+{% load thumbnail %}
+
+{% block orders-create %}
+<div class="sum-up-checkout">
+
+	<div class="information-sum-up">
+		<div class="information-details">
+			<p>Vos Informations : </p>
+			<div class="texte-page-connexion2-connexion">
+				<form method="post" action="">
+					<p>Nom:</p>
+					<input type="texte" name="nom" placeholder="Nom">
+					<p>Prénom</p>
+					<input type="text" name="prenom" placeholder="Prénom">
+					<p>Adresse Email</p>
+					<input type="email" name="adresse-email-connexion" placeholder="Email">
+					<p>Adresse</p>
+					<input type="text" name="adresse" placeholder="Adresse">
+					<p>Ville:</p>
+					<input type="text" name="Ville" placeholder="Ville">
+					<p>Code Postal</p>
+					<input type="number" step="1" maxlength="5" name="Code Postal" placeholder="Code Postal">
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<div class="cart-sum-up">
+
+	</div>	
+
+
+</div>
+
+{% endblock %}

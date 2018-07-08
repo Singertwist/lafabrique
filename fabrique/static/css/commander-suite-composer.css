@@ -224,17 +224,9 @@ summary {
 }
 
 .plat-composer {
-	flex-direction: column-reverse;
 }
 
 .plat-composer-panier {
-	position: relative;
-	top: 0px;
-	margin: auto;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
 }
-
 
 }

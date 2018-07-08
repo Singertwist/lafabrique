@@ -13,19 +13,11 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url, include
+from django.conf.urls import url
 from django.contrib import admin
-from django.conf import settings
-from django.conf.urls.static import static
+from . import views
 
 urlpatterns = [
-    url(r'^admin/', include(admin.site.urls)),
-    url(r'^accueil/', include('accueil.urls')),
-    url(r'^commander/', include('panier.urls')),
-    url(r'^commander/', include('catalogue.urls')),
-    url(r'^producteurs/', include('producteurs.urls')),
-    url(r'^commandes/', include('commandes.urls')),
+	url(r'checkout-account/$', views.checkout_account, name='checkout_account'),
+	url(r'orders-create/$', views.orders_create, name='orders_create'),
 ]
-
-if settings.DEBUG is True:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) # Nécessaire pour uploader des images et les ouvrir.

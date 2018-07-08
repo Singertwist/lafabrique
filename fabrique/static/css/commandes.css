@@ -1,0 +1,129 @@
+/* Checkout-account css style */
+
+.checkout-account-container {
+	max-width: 1500px;
+	display: flex;
+	margin: auto;
+	padding: auto;
+}
+
+.checkout-account {
+	width: 50%;
+	margin: 5px;
+}
+
+.header-checkout-account {
+	background-color: #F3F3F3;
+	text-align: center;
+	font-size: 18px;
+}
+
+.header-checkout-account, .content-checkout-account {
+	border: solid 1px lightgrey;
+	margin-bottom: 5px;
+}
+
+.content-checkout-account {
+	height: 400px;
+}
+
+.content-checkout-account-text {
+	padding: 10px;
+	text-align: justify;
+}
+
+.content-checkout-account h1 {
+	text-align: center;
+	font-weight: normal;
+	letter-spacing: 2px;
+}
+
+.buttons-content-checkout-account {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.checkout-account-standard {
+	width: 50%;
+	text-align: center;
+	margin: 15px;
+	border: solid grey 1px;
+}
+
+.checkout-account-standard > a {
+	display: block;
+	padding: 15px;
+	color: grey;
+	transition-duration: 0.5s;
+}
+
+.checkout-account-standard > a:hover {
+	background-color: #333333;
+	color: #FFFFFF;
+	transition-duration: 0.5s;
+}
+
+.buttons-content-checkout-account form {
+	width: 80%;
+}
+
+.buttons-content-checkout-account input {
+	display: block;
+	width: 100%;
+	height: 40px;
+	margin-top: 10px;
+	border: solid 1px lightgrey;
+}
+
+.buttons-content-checkout-account input:last-child {
+	margin-top: 50px;
+	height: 50px;
+	color: #CE3734;
+	font-weight: bold;
+	border: solid 2px #CE3734;
+	background-color: #FFFFFF;
+	transition-duration: 0.3s;
+	border-radius: 10px;
+}
+
+.buttons-content-checkout-account input:last-child:hover {
+	color: #E98D5E;
+	border-color: #E98D5E;
+    transition-duration: 0.5s;
+}
+
+/* orders-create (informations pour validation de la commande) */
+.sum-up-checkout {
+	border: dotted;
+	display: flex;
+}
+
+.information-sum-up {
+	width: 65%;
+	border: dashed;
+}
+
+.cart-sum-up {
+	border: dashed;
+	width: 35%;
+}
+
+@media only screen and (max-width: 699px){
+
+/* Checkout-account css style */
+.checkout-account-container {
+	flex-direction: column;
+}
+
+.checkout-account {
+	width: calc(100% - 10px);
+	margin: 5px;
+}
+
+.content-checkout-account {
+	height: 450px;
+}
+
+
+}
