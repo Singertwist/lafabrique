@@ -415,7 +415,7 @@
 
 /*Fin menu */
 
-@media only screen and (max-width: 699px){
+@media only screen and (max-width: 900px){
 
     .site-pusher
     {
@@ -523,7 +523,7 @@
 }
 
 
-@media all and (min-width: 900px) {
+@media all and (min-width: 699px) {
 
 
 }

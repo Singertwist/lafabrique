@@ -71,7 +71,7 @@
                     <div>{{ product.article.description }}</div>
                 </div>
                 <div class="composition-panier-final-item-quantite">
-                        <form action="{% url "cart_remove_one" product.id %}" method="post">
+                        <form action=checkout_account method="post">
                           {{ cart_product_form }}
                           {% csrf_token %}
                           <input type="submit" value="&minus;">
@@ -150,12 +150,10 @@
         </div> 
         <div class="bouton-validation-panier">
             <div>
-                <a href="">Continuer vos Achats</a>
+                <a href="{% url 'articles_plats' menu_commander_categories.0.slug menu_commander_categories.0.ordre %}">Continuer vos Achats</a>
             </div>
             <div>
-                <form method="get" action="{% url 'checkout_account' %}">
-                    <input type="submit" name="cart-validation" value="Valider le Panier" class="composition-panier-final-info-date-style1">
-                </form>
+                <a href="{% url 'checkout_account' %}">Valider le Panier</a>
             </div>
         </div>     
     </div> 
