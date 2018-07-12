@@ -18,6 +18,6 @@ from django.contrib import admin
 from . import views
 
 urlpatterns = [
-	url(r'checkout-account/$', views.checkout_account, name='checkout_account'),
-	url(r'orders-create/$', views.orders_create, name='orders_create'),
+	url(r'connexion/$', views.checkout_account, name='checkout_account'),
+	url(r'resume/$', views.orders_create, name='orders_create'),
 ]
