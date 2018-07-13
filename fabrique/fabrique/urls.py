@@ -13,19 +13,28 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url, include
+from django.urls import path, include
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    url(r'^admin/', include(admin.site.urls)),
-    url(r'^accueil/', include('accueil.urls')),
-    url(r'^commander/', include('panier.urls')),
-    url(r'^commander/', include('catalogue.urls')),
-    url(r'^producteurs/', include('producteurs.urls')),
-    url(r'^commandes/', include('commandes.urls')),
+    path('admin/', admin.site.urls),
+    path('accueil/', include('accueil.urls')),
+    path('commander/', include('panier.urls')),
+    path('commander/', include('catalogue.urls')),
+    path('producteurs/', include('producteurs.urls')),
+    path('commandes/', include('commandes.urls')),
 ]
 
 if settings.DEBUG is True:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) # Nécessaire pour uploader des images et les ouvrir.
+
+# urlpatterns = [
+#     url(r'^admin/', include(admin.site.urls)),
+#     url(r'^accueil/', include('accueil.urls')),
+#     url(r'^commander/', include('panier.urls')),
+#     url(r'^commander/', include('catalogue.urls')),
+#     url(r'^producteurs/', include('producteurs.urls')),
+#     url(r'^commandes/', include('commandes.urls')),
+# ]

@@ -13,13 +13,22 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
+from django.urls import path, include
+#from django.conf.urls import url Ancienne méthode de codification des URL.
 from django.contrib import admin
 from . import views
 
 urlpatterns = [
-    url(r'composer/(?P<slug>.+)-(?P<id>\d+)$', views.articles_plats_composer, name='articles_plats_composer'),
-    url(r'pret/(?P<slug>.+)-(?P<id>\d+)$', views.articles_plats_pret, name='articles_plats_pret'),
-    url(r'(?P<slug>.+)-(?P<ordre>\d+)$', views.articles_plats, name='articles_plats'),
+    path('composer/<str:slug>-<int:id>', views.articles_plats_composer, name='articles_plats_composer'),
+    path('pret/<slug:slug>-<int:id>', views.articles_plats_pret, name='articles_plats_pret'),
+    path('<slug:slug>-<int:ordre>', views.articles_plats, name='articles_plats'),
     #url(r'desserts/', views.articles_desserts, name='articles_desserts'),
 ]
+
+
+# urlpatterns = [
+#     path('composer/(?P<slug>.+)-(?P<id>\d+)$', views.articles_plats_composer, name='articles_plats_composer'),
+#     url(r'pret/(?P<slug>.+)-(?P<id>\d+)$', views.articles_plats_pret, name='articles_plats_pret'),
+#     url(r'(?P<slug>.+)-(?P<ordre>\d+)$', views.articles_plats, name='articles_plats'),
+#     #url(r'desserts/', views.articles_desserts, name='articles_desserts'),
+# ]

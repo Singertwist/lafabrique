@@ -71,7 +71,7 @@
                     <div>{{ product.article.description }}</div>
                 </div>
                 <div class="composition-panier-final-item-quantite">
-                        <form action=checkout_account method="post">
+                        <form action="{% url "cart_remove_one" product.id %}" method="post">
                           {{ cart_product_form }}
                           {% csrf_token %}
                           <input type="submit" value="&minus;">

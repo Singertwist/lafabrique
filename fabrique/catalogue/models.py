@@ -40,7 +40,7 @@ def upload_location_sous_categorie(instance, filename):
 class Sous_Categories_Article(models.Model):
 	nom = models.CharField(max_length=160, verbose_name='Nom de la sous-catégorie')
 	slug = models.CharField(max_length=160)
-	categorie = models.ForeignKey(Categories_Article)
+	categorie = models.ForeignKey(Categories_Article, on_delete=models.PROTECT)
 	description = models.TextField()
 	image = models.ImageField(upload_to=upload_location_sous_categorie)
 	prix_min = models.DecimalField(max_digits=19, decimal_places=2, verbose_name='Prix de l\'article le plus bas de la catégorie', validators=[MinValueValidator(Decimal('0.01'))]) #Prix d'appel. on doit définir le nombre de digit du champ et après la virgule ==> ici jusqu'à 1 milliard, avec 2 chiffres après la virgule.
@@ -164,8 +164,8 @@ class Article(models.Model):
 	image = models.ImageField(upload_to=upload_location_articles)
 	disponible = models.BooleanField(verbose_name='Disponible / Non disponible')
 	article_composer = models.BooleanField(verbose_name='Article servant à composer un plat (cocher si oui)')
-	sous_categories_articles = models.ForeignKey(Type_Produit, verbose_name='Type d\'article')
-	taux_TVA = models.ForeignKey(Taux_TVA)
+	sous_categories_articles = models.ForeignKey(Type_Produit, verbose_name='Type d\'article', on_delete=models.PROTECT)
+	taux_TVA = models.ForeignKey(Taux_TVA, on_delete=models.PROTECT)
 	allergenes = models.ManyToManyField(Allergie, blank=True)
 	gluten_info = models.BooleanField(verbose_name='Contient du Gluten: Oui (cocher) / Non (ne pas cocher)')
 	vegeterien_info = models.BooleanField(verbose_name='Végéterien friendly: Oui (cocher) / Non (ne pas cocher)')
@@ -192,14 +192,14 @@ class Article(models.Model):
 		return self.nom
 
 class Variations_Articles(models.Model):
-	article = models.ForeignKey(Article)
+	article = models.ForeignKey(Article, on_delete=models.PROTECT)
 	nom_article_variation = models.CharField(max_length=160, verbose_name='Nom de la variation de l\'article')
-	categories =  models.ForeignKey(Sous_Categories_Article)
-	type_article = models.ForeignKey(Type_Variations_Articles)
+	categories =  models.ForeignKey(Sous_Categories_Article, on_delete=models.PROTECT)
+	type_article = models.ForeignKey(Type_Variations_Articles, on_delete=models.PROTECT)
 	article_une = models.BooleanField(verbose_name="Article en une? / Cocher si oui.")
 	prix_vente_unitaire = models.DecimalField(max_digits=19, decimal_places=2, validators=[MinValueValidator(Decimal('0.01'))])
 	variation_disponible = models.BooleanField(verbose_name='Variation Disponible / Non disponible')
-	unite_oeuvre = models.ForeignKey(Unite_Oeuvre, verbose_name='Unité d\'oeuvre')
+	unite_oeuvre = models.ForeignKey(Unite_Oeuvre, verbose_name='Unité d\'oeuvre', on_delete=models.PROTECT)
 	quantite_mise_en_oeuvre = models.DecimalField(max_digits=19, decimal_places=2, validators=[MinValueValidator(Decimal('0.01'))])
 	prix_revient = models.DecimalField(max_digits=19, decimal_places=2, validators=[MinValueValidator(Decimal('0.01'))])
 	producteurs = models.ManyToManyField('producteurs.Producteurs', blank=True)
