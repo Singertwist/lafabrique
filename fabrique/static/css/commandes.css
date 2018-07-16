@@ -1,15 +1,28 @@
 /* Checkout-account css style */
-
+.checkout-account-container-image {
+	background-image: url('../img/vitchakorn-koonyosying-494178-unsplash.jpg');
+	background-size: cover;
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
 .checkout-account-container {
 	max-width: 1500px;
 	display: flex;
-	margin: auto;
-	padding: auto;
+	background-color: #FFFFFF;
+	margin: 45px;
+	padding: 15px;
+	border-radius: 10px;
+	box-shadow: 1px 1px 12px;
 }
 
 .checkout-account {
 	width: 50%;
 	margin: 5px;
+	display: flex;
+	flex-direction: column;
+	min-height: 500px;
 }
 
 .header-checkout-account {
@@ -24,7 +37,7 @@
 }
 
 .content-checkout-account {
-	height: 400px;
+	flex: 1;
 }
 
 .content-checkout-account-text {
@@ -118,12 +131,6 @@
 
 .checkout-account {
 	width: calc(100% - 10px);
-	margin: 5px;
 }
-
-.content-checkout-account {
-	height: 450px;
-}
-
 
 }

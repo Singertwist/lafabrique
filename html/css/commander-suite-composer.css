@@ -57,6 +57,7 @@
 	background-color: #F5F3F4;
 	min-height: 200px;
 	border-radius: 10px;
+	box-shadow: 1px 1px 12px #555;
 }
 
 .plat-composer-panier-entete {
