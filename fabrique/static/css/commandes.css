@@ -7,14 +7,38 @@
 	align-items: center;
 	justify-content: center;
 }
+
 .checkout-account-container {
 	max-width: 1500px;
-	display: flex;
-	background-color: #FFFFFF;
 	margin: 45px;
 	padding: 15px;
+	background-color: #FFFFFF;
 	border-radius: 10px;
 	box-shadow: 1px 1px 12px;
+}
+
+.checkout-account-container > p {
+	text-align: center;
+	font-size: 12px;
+}
+
+.checkout-account-container > p a {
+	color: grey;
+	padding: 0px 10px 0px 10px;
+	letter-spacing: 1px;
+}
+
+.checkout-account-container > p a:nth-child(3) {
+	font-weight: bold;
+}
+
+.checkout-account-container > p a:hover {
+	color: #333333;
+}
+
+
+.checkout-account-container-bis {
+	display: flex;
 }
 
 .checkout-account {
@@ -125,7 +149,7 @@
 @media only screen and (max-width: 699px){
 
 /* Checkout-account css style */
-.checkout-account-container {
+.checkout-account-container-bis {
 	flex-direction: column;
 }
 

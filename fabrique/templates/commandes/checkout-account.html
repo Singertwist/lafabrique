@@ -5,47 +5,54 @@
 {% block checkout-account %}
 <div class="checkout-account-container-image">
 	<div class="checkout-account-container">
-
-		<div class="checkout-account">
-			
-			<div class="header-checkout-account">
-				<p>Je suis un nouveau client </p>
-			</div>
-			<div class="content-checkout-account">
-				<p class="content-checkout-account-text">Créez un compte client, c'est facile et rapide ! Grâce à votre compte, vous n'aurez pas besoin de renseigner vos données personnelles à chaque commande et vous pourrez bénéficier d'avantages spéciaux, comme le suivi de vos commandes.</p>
-				<div class="buttons-content-checkout-account">
-					<div class="checkout-account-standard">
-						<a href="">Créer un compte</a>
-					</div>
-					<div>- OU -</div>
-					<div class="checkout-account-standard">
-						<a href="">Continuer en tant que visiteur</a>
+		<p>
+			<a href="{% url 'articles_plats' menu_commander_categories.0.slug menu_commander_categories.0.ordre %}">Retour à la boutique</a> >
+			<a href="{% url 'cart_detail' %}">Votre panier</a> >
+			<a href="#">Identification</a> > 
+			<a href="#">Validation & Paiement</a> > 
+			<a href="#">Confirmation</a>
+		</p>
+		<div class="checkout-account-container-bis">
+			<div class="checkout-account">
+				
+				<div class="header-checkout-account">
+					<p>Je suis un nouveau client </p>
+				</div>
+				<div class="content-checkout-account">
+					<p class="content-checkout-account-text">Créez un compte client, c'est facile et rapide ! Grâce à votre compte, vous n'aurez pas besoin de renseigner vos données personnelles à chaque commande et vous pourrez bénéficier d'avantages spéciaux, comme le suivi de vos commandes.</p>
+					<div class="buttons-content-checkout-account">
+						<div class="checkout-account-standard">
+							<a href="">Créer un compte</a>
+						</div>
+						<div>- OU -</div>
+						<div class="checkout-account-standard">
+							<a href="">Continuer en tant que visiteur</a>
+						</div>
 					</div>
 				</div>
+
 			</div>
 
+			<div class="checkout-account">
+
+				<div class="header-checkout-account">
+					<p>Je possède déjà un compte</p>
+				</div>
+				<div class="content-checkout-account">
+					<h1>Heureux de vous revoir!</h1>		
+					<div class="buttons-content-checkout-account">
+						<form method="post" action="">
+							<p>E-Mail :</p>
+							<input type="email" name="adresse-email-connexion" placeholder="Email">
+							<p>Mot de passe :</p>
+							<input type="password" name="mdp-connexion" placeholder="Mot de passe">
+							<input type="submit" name="connexion" value="SE CONNECTER">
+						</form>
+					</div>	
+				</div>
+
+			</div>	
 		</div>
-
-		<div class="checkout-account">
-
-			<div class="header-checkout-account">
-				<p>Je possède déjà un compte</p>
-			</div>
-			<div class="content-checkout-account">
-				<h1>Heureux de vous revoir!</h1>		
-				<div class="buttons-content-checkout-account">
-					<form method="post" action="">
-						<p>E-Mail :</p>
-						<input type="email" name="adresse-email-connexion" placeholder="Email">
-						<p>Mot de passe :</p>
-						<input type="password" name="mdp-connexion" placeholder="Mot de passe">
-						<input type="submit" name="connexion" value="SE CONNECTER">
-					</form>
-				</div>	
-			</div>
-
-		</div>	
-
 	</div>
 </div>
 {% endblock %}
