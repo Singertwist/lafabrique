@@ -3,35 +3,133 @@
 {% load thumbnail %}
 
 {% block orders-create %}
-<div class="sum-up-checkout">
+<div class="sum-up-checkout-container">
+	<h1> Validation & Paiement</h1>
+	<div class="sum-up-checkout-container-bis">
+		
+		<p>
+			<a href="{% url 'articles_plats' menu_commander_categories.0.slug menu_commander_categories.0.ordre %}">Retour à la boutique</a> >
+			<a href="{% url 'cart_detail' %}">Votre panier</a> >
+			<a href="{% url 'checkout_account' %}">Identification</a> > 
+			<a href="#">Validation & Paiement</a> > 
+			<a href="#">Confirmation</a>
+		</p>
+		<div class="sum-up-checkout">
 
-	<div class="information-sum-up">
-		<div class="information-details">
-			<p>Vos Informations : </p>
-			<div class="texte-page-connexion2-connexion">
-				<form method="post" action="">
-					<p>Nom:</p>
-					<input type="texte" name="nom" placeholder="Nom">
-					<p>Prénom</p>
-					<input type="text" name="prenom" placeholder="Prénom">
-					<p>Adresse Email</p>
-					<input type="email" name="adresse-email-connexion" placeholder="Email">
-					<p>Adresse</p>
-					<input type="text" name="adresse" placeholder="Adresse">
-					<p>Ville:</p>
-					<input type="text" name="Ville" placeholder="Ville">
-					<p>Code Postal</p>
-					<input type="number" step="1" max="99999" name="Code Postal" placeholder="Code Postal">
-				</form>
+			<div class="information-sum-up">
+				<div class="information-details">
+					<p>Vos Informations Personnelles :</p>
+					<div class="information-details-personnel">
+						<form method="post" action="">
+							<div class="information-details-personnel-subcontainer">
+								<div class="information-details-personnel-first-part">
+									<p>Nom:</p>
+									<input type="texte" name="nom" placeholder="Nom">
+									<p>Prénom:</p>
+									<input type="text" name="prenom" placeholder="Prénom">
+									<p>Adresse:</p>
+									<input type="text" name="adresse" placeholder="Adresse">
+									<p>Code Postal:</p>
+									<input type="number" step="1" max="99999" name="Code Postal" placeholder="Code Postal">
+									<p>Ville:</p>
+									<input type="text" name="Ville" placeholder="Ville">
+								</div>	
+							
+								<div class="information-details-personnel-second-part">
+									<p>Adresse Email:</p>
+									<input type="email" name="adresse-email-connexion" placeholder="Email">
+									<p>*Si les informations sont incorrectes, n'hésitez pas à les corriger.</p>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+				<div class="information-details-paiement">
+					<p>Informations de Paiement :</p>
+					<form method="post" action="">
+						<div class="information-details-paiement-first-part">
+							<p>Nom du possesseur de la carte:</p>
+							<input type="texte" name="cart_holder_name" placeholder="Nom Indiqué sur la Carte">
+							<p>Numéro de carte:</p>
+							<input type="texte" name="cart_number" placeholder="Numéro de la carte">
+						</div>
+						<div class="information-details-paiement-second-part">
+							<div class="information-details-paiement-second-part-bis">
+								<p>Date de validité:</p>
+								<input type="texte" name="validity_cart" placeholder="Date de validité">
+							</div>
+							<div class="information-details-paiement-second-part-bis">
+								<p>Code Secret:</p>
+								<input type="password" name="secret_keys" placeholder="Code Secret">
+							</div>
+						</div>
+						<input type="submit" value="Valider votre Commande et Payer">
+					</form>
+				</div>
 			</div>
+
+			<div class="cart-sum-up">
+				<div class="cart-sum-up-details">
+					<p>Votre Commande <a href="">Modifier votre Panier</a> </p>
+				{% if final_composed_cart == None or cart == None %} <!-- Condition nécessaire pour afficher un panier vide ou non lors que les deux paniers, cart et final_composed_cart sont vides -->
+				      Votre panier est vide.
+
+				{% else %}
+
+				      {% for key, item in final_composed_cart %}
+				            <div class="composition-panier-final-item">
+				                {% thumbnail item.cat_name.image "500x500" crop="center" as im %}
+				                <div class="composition-panier-final-item-image" style="background-image:url({{ im.url }});"></div>
+				                {% endthumbnail %} 
+				                <div class="composition-panier-final-item-description">
+				                    <div>{{ item.cat_name.nom }} à Composer</div>
+				                    <div>
+				                    Ingrédients choisis : 
+				                    {% for sub_items in item.items.values %}
+				                        {{sub_items.product}} <!-- Les ingrédients composants la composition réalisée -->
+				                        {{ forloop.last|yesno:",&#44;"|safe }} <!-- Permet d'ajouter des virgules entre les ingrédients sauf au dernier ingrédient -->
+				                    {% empty %}
+				                    {% endfor %}
+				                    <br/>
+				                    {% if item.comment != "" %}
+				                    Commentaire ajouté : {{ item.comment }}
+				                    {% else %}
+				                    {% endif %}
+				                    </div>
+				                </div>
+				                <div class="validation-cart-payment"> x {{ item.quantity }}</div>
+				                <div class="composition-panier-final-item-prix">{{ item.total_ttc_composition_composition }} €</div>
+				            </div>
+
+				        {% empty %}
+				        {% endfor %}
+
+				        {% for item in cart %}
+				          {% with product=item.product %}
+				            <div class="composition-panier-final-item">
+				                {% thumbnail product.article.image "500x500" crop="center" as im %}
+				                <div class="composition-panier-final-item-image" style="background-image:url({{ im.url }});"></div>
+				                {% endthumbnail %} 
+				                <div class="composition-panier-final-item-description">
+				                    <div>{{ product.article.nom }}</div>
+				                    <div>{{ product.article.description }}</div>
+				                </div>
+				                <div class="validation-cart-payment">x {{ item.quantity }}</div>
+				                <div class="composition-panier-final-item-prix">{{ item.total_price }} €</div>
+				            </div>
+
+				          {% endwith %}
+
+				        {% empty %}
+				        {% endfor %}
+
+     			 {% endif %}
+				</div>
+			</div>	
+
+
 		</div>
 	</div>
-
-	<div class="cart-sum-up">
-
-	</div>	
-
-
 </div>
 
 {% endblock %}
