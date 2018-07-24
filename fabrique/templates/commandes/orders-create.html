@@ -15,9 +15,60 @@
 			<a href="#">Confirmation</a>
 		</p>
 		<div class="sum-up-checkout">
+			<div class="information-sum-up">
+				<div class="information-details">
+					<p>Vos Informations Personnelles :</p>
+					<div class="information-details-personnel">
+						<form method="post" action="">
+							<div class="information-details-personnel-subcontainer">
+								<div class="information-details-personnel-first-part">
+									<p>Nom:</p>
+									<input type="texte" name="nom" placeholder="Nom">
+									<p>Prénom:</p>
+									<input type="text" name="prenom" placeholder="Prénom">
+									<p>Adresse:</p>
+									<input type="text" name="adresse" placeholder="Adresse">
+									<p>Code Postal:</p>
+									<input type="number" step="1" max="99999" name="Code Postal" placeholder="Code Postal">
+									<p>Ville:</p>
+									<input type="text" name="Ville" placeholder="Ville">
+								</div>	
+							
+								<div class="information-details-personnel-second-part">
+									<p>Adresse Email:</p>
+									<input type="email" name="adresse-email-connexion" placeholder="Email">
+									<p>*Si les informations sont incorrectes, n'hésitez pas à les corriger.</p>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+				<div class="information-details-paiement">
+					<p>Informations de Paiement :</p>
+					<form method="post" action="">
+						<div class="information-details-paiement-first-part">
+							<p>Nom du possesseur de la carte:</p>
+							<input type="texte" name="cart_holder_name" placeholder="Nom Indiqué sur la Carte">
+							<p>Numéro de carte:</p>
+							<input type="texte" name="cart_number" placeholder="Numéro de la carte">
+						</div>
+						<div class="information-details-paiement-second-part">
+							<div class="information-details-paiement-second-part-bis">
+								<p>Date de validité:</p>
+								<input type="texte" name="validity_cart" placeholder="Date de validité">
+							</div>
+							<div class="information-details-paiement-second-part-bis">
+								<p>Code Secret:</p>
+								<input type="password" name="secret_keys" placeholder="Code Secret">
+							</div>
+						</div>
+						<input type="submit" value="Valider votre Commande et Payer">
+					</form>
+				</div>
+			</div>	
 			<div class="cart-sum-up">
 				<div class="cart-sum-up-details">
-					<p>Votre Commande <a href="">Modifier votre Panier</a> </p>
+					<p>Votre Commande <a href="{% url 'cart_detail' %}">Modifier votre Panier</a> </p>
 				{% if final_composed_cart == None or cart == None %} <!-- Condition nécessaire pour afficher un panier vide ou non lors que les deux paniers, cart et final_composed_cart sont vides -->
 				      Votre panier est vide.
 
@@ -72,60 +123,45 @@
 
      			 {% endif %}
 				</div>
-			</div>
-			<div class="information-sum-up">
-				<div class="information-details">
-					<p>Vos Informations Personnelles :</p>
-					<div class="information-details-personnel">
-						<form method="post" action="">
-							<div class="information-details-personnel-subcontainer">
-								<div class="information-details-personnel-first-part">
-									<p>Nom:</p>
-									<input type="texte" name="nom" placeholder="Nom">
-									<p>Prénom:</p>
-									<input type="text" name="prenom" placeholder="Prénom">
-									<p>Adresse:</p>
-									<input type="text" name="adresse" placeholder="Adresse">
-									<p>Code Postal:</p>
-									<input type="number" step="1" max="99999" name="Code Postal" placeholder="Code Postal">
-									<p>Ville:</p>
-									<input type="text" name="Ville" placeholder="Ville">
-								</div>	
-							
-								<div class="information-details-personnel-second-part">
-									<p>Adresse Email:</p>
-									<input type="email" name="adresse-email-connexion" placeholder="Email">
-									<p>*Si les informations sont incorrectes, n'hésitez pas à les corriger.</p>
-								</div>
-							</div>
-						</form>
+				<div class="total-cart-sum-up-details">
+					<div class="total-cart-sum-up-details-price">
+						<p>Date et heure de retrait</p><p>01/01/2018 à 15h00</p>
+					</div>
+					<div class="total-cart-sum-up-details-price">
+						<p>Total Hors Taxe (HT) :</p>
+						<p>
+							{% if final_composed_cart.get_total_ht_price_general is None %}
+                      			0.00 €
+                   			{% else %}
+                      			{{ final_composed_cart.get_total_ht_price_general }} €
+                    		{% endif %}
+						</p>
+					</div>
+					<div class="total-cart-sum-up-details-price">
+						<p>Dont Réduction :</p><p>0.00 €</p>
+					</div>
+					<div class="total-cart-sum-up-details-price">
+						<p>Dont TVA :</p>
+						<p>
+		                    {% if final_composed_cart.get_total_tva_general is None %}
+		                      0.00€
+		                    {% else %} 
+		                      {{ final_composed_cart.get_total_tva_general }}€
+		                    {% endif %}
+						</p>
+					</div>
+					<div class="total-cart-sum-up-details-price">
+						<p>Toutes Taxes Comprises (TTC) :</p>
+						<p>
+		                    {% if final_composed_cart.get_total_ttc_price_general is None %}
+		                      0.00€
+		                    {% else %}
+		                      {{ final_composed_cart.get_total_ttc_price_general}}€
+		                    {% endif %}
+						</p>
 					</div>
 				</div>
-				<div class="information-details-paiement">
-					<p>Informations de Paiement :</p>
-					<form method="post" action="">
-						<div class="information-details-paiement-first-part">
-							<p>Nom du possesseur de la carte:</p>
-							<input type="texte" name="cart_holder_name" placeholder="Nom Indiqué sur la Carte">
-							<p>Numéro de carte:</p>
-							<input type="texte" name="cart_number" placeholder="Numéro de la carte">
-						</div>
-						<div class="information-details-paiement-second-part">
-							<div class="information-details-paiement-second-part-bis">
-								<p>Date de validité:</p>
-								<input type="texte" name="validity_cart" placeholder="Date de validité">
-							</div>
-							<div class="information-details-paiement-second-part-bis">
-								<p>Code Secret:</p>
-								<input type="password" name="secret_keys" placeholder="Code Secret">
-							</div>
-						</div>
-						<input type="submit" value="Valider votre Commande et Payer {{ final_composed_cart.get_total_ttc_price_general}}€">
-					</form>
-				</div>
-			</div>	
-
-
+			</div>
 		</div>
 	</div>
 </div>

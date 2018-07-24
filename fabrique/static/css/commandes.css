@@ -284,6 +284,23 @@
 	margin: auto;
 }
 
+.total-cart-sum-up-details-price {
+	display: flex;
+}
+
+.total-cart-sum-up-details-price > p {
+	width: 50%;
+	margin: 10px 0px 0px 0px;
+}
+
+.total-cart-sum-up-details-price > p:nth-child(even) {
+	text-align: right;
+}
+
+.total-cart-sum-up-details-price:last-child {
+	font-weight: bold;
+}
+
 @media only screen and (max-width: 900px){
 
 /* Checkout-account css style */
