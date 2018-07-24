@@ -193,6 +193,18 @@
 	margin: 0px 30px 30px 30px;
 }
 
+.cart-sum-up-details > p {
+	display: flex;
+	align-items: center;
+}
+
+.cart-sum-up-details a {
+	color: #CE3734;
+	font-size: 12px;
+	flex: 1;
+	text-align: right;
+}
+
 .information-details > p, .information-details-paiement > p, .cart-sum-up-details > p {
 	color: grey;
 	letter-spacing: 1px;
@@ -254,6 +266,7 @@
 	color: #CE3734;
 	font-size: 18px;
 	transition-duration: 0.5s;
+	white-space: normal; /* Wrap tetx inside the input button */
 }
 
 .information-details-paiement input[type=submit]:hover {
