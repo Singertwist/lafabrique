@@ -205,6 +205,10 @@
 	text-align: right;
 }
 
+.cart-sum-up-details a:hover {
+	color: #E98D5E;
+}
+
 .information-details > p, .information-details-paiement > p, .cart-sum-up-details > p {
 	color: grey;
 	letter-spacing: 1px;
