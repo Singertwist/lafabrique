@@ -21,7 +21,8 @@ from . import views
 
 urlpatterns = [
 	path('connexion/', views.checkout_account, name='checkout_account'),
-	path('resume/', views.orders_create, name='orders_create'),
+	path('resume/', views.order_create, name='order_create'),
+	path('succes/', views.order_created, name='order_created'),
 ]
 
 # urlpatterns = [

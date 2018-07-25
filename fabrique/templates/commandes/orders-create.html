@@ -19,10 +19,10 @@
 				<div class="information-details">
 					<p>Vos Informations Personnelles :</p>
 					<div class="information-details-personnel">
-						<form method="post" action="">
+						<form method="post" action=".">
 							<div class="information-details-personnel-subcontainer">
 								<div class="information-details-personnel-first-part">
-									<p>Nom:</p>
+<!-- 									<p>Nom:</p>
 									<input type="texte" name="nom" placeholder="Nom">
 									<p>Prénom:</p>
 									<input type="text" name="prenom" placeholder="Prénom">
@@ -31,15 +31,18 @@
 									<p>Code Postal:</p>
 									<input type="number" step="1" max="99999" name="Code Postal" placeholder="Code Postal">
 									<p>Ville:</p>
-									<input type="text" name="Ville" placeholder="Ville">
+									<input type="text" name="Ville" placeholder="Ville"> -->
+									{{ form.as_p }}
 								</div>	
 							
 								<div class="information-details-personnel-second-part">
-									<p>Adresse Email:</p>
-									<input type="email" name="adresse-email-connexion" placeholder="Email">
+<!-- 									<p>Adresse Email:</p>
+									<input type="email" name="adresse-email-connexion" placeholder="Email"> -->
 									<p>*Si les informations sont incorrectes, n'hésitez pas à les corriger.</p>
 								</div>
 							</div>
+							<input type="submit" value="Valider votre Commande et Payer">
+						{% csrf_token %}
 						</form>
 					</div>
 				</div>
@@ -63,6 +66,7 @@
 							</div>
 						</div>
 						<input type="submit" value="Valider votre Commande et Payer">
+						{% csrf_token %}
 					</form>
 				</div>
 			</div>	
