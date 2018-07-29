@@ -1,5 +1,5 @@
 from django.db import models
-from catalogue.models import Article, Variations_Articles
+from catalogue.models import Article, Variations_Articles, Sous_Categories_Article
 # Create your models here.
 
 class Order(models.Model):
@@ -24,7 +24,8 @@ class Order(models.Model):
 
 class OrderItem(models.Model):
 	order = models.ForeignKey(Order, related_name='items', on_delete=models.CASCADE)
-	product = models.ForeignKey(Variations_Articles, related_name='order_items', on_delete=models.PROTECT)
+	type_product = models.ForeignKey(Sous_Categories_Article, verbose_name="Catégorie Article", on_delete=models.PROTECT)
+	product = models.ManyToManyField(Variations_Articles, max_length=1000, verbose_name='Article')
 	price = models.DecimalField(max_digits=10, decimal_places=2)
 	quantity = models.PositiveIntegerField(default=1)
 
@@ -33,8 +34,6 @@ class OrderItem(models.Model):
 
 	def get_cost(self):
 		return self.price * self.quantity
-
-
 
 
 

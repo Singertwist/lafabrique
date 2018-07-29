@@ -84,6 +84,7 @@ class Cart(object):
 
 		for product in products:
 			self.cart[str(product.id)]['product'] = product
+			self.cart[str(product.id)]['cat_name'] = product.categories
 
 		for item in self.cart.values():
 			item['price'] = Decimal(item['price'])
@@ -107,6 +108,8 @@ class Cart(object):
 
 	def clear(self):
 		del self.session['cart']
+		del self.session['composed_cart']
+		del self.session['final_composed_cart']
 		self.session.modified = True
 
 
