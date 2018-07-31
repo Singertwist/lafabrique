@@ -85,18 +85,18 @@
 									{% if article_in_cat.article.sous_categories_articles.id == article.article.sous_categories_articles.id %}
 										<div class="article-selection-plat">
 											<!-- Début de la popup présentation produit -->
-											<div id="big-popup{{ article.id }}" class="image-article-selection-plat">
+											<div id="big-popup{{ article_in_cat.id }}" class="image-article-selection-plat">
 
-												<a href="#popup{{ article.id }}">
+												<a href="#popup{{ article_in_cat.id }}">
 													{% thumbnail article_in_cat.article.image "500x500" as im %}
 													<img src="{{ im.url }}" alt="{{ article_in_cat.article.nom|title }}"/>
 													{% endthumbnail %} 
 												</a>
 											</div>
 
-											<div id="popup{{ article.id }}" class="overlay">
+											<div id="popup{{ article_in_cat.id }}" class="overlay">
 												<div class="popup">
-													<a class="close" href="#big-popup{{ article.id }}">&times;</a>
+													<a class="close" href="#big-popup{{ article_in_cat.id }}">&times;</a>
 													{% thumbnail article_in_cat.article.image "1000x1000" as im %}
 														<div class="image-popup" style="background-image:url({{ im.url }});"></div>
 													{% endthumbnail %} 
