@@ -3,18 +3,8 @@
 {% load thumbnail %}
 
 {% block orders-create %}
-    {% for key, item in final_composed_cart %}
-      {{key}}
-      {{item}}
-    {% empty %}
-    {% endfor %}
-
-    {% for item in cart %}
-    	{{item}}
-    {% empty %}
-    {% endfor %}
 <div class="sum-up-checkout-container">
-	<h1> Validation & Paiement</h1>
+	<h1>Validation & Paiement</h1>
 	<div class="sum-up-checkout-container-bis">
 		
 		<p>
@@ -181,3 +171,14 @@
 </div>
 
 {% endblock %}
+
+    {% for key, item in final_composed_cart %}
+      {{key}}
+      {{item}}
+    {% empty %}
+    {% endfor %}
+
+    {% for item in cart %}
+    	{{item}}
+    {% empty %}
+    {% endfor %}

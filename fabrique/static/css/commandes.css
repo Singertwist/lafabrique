@@ -1,6 +1,6 @@
 /* Checkout-account css style */
 .checkout-account-container-image {
-	background-image: url('../img/vitchakorn-koonyosying-494178-unsplash.jpg');
+	background-image: url('../img/identification-commande.jpg');
 	background-size: cover;
 	min-height: 100vh;
 	display: flex;
@@ -131,7 +131,7 @@
 }
 
 /* orders-create (informations pour validation de la commande) */
-.sum-up-checkout-container {
+.sum-up-checkout-container, .order-confirmation {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -154,7 +154,7 @@
 	margin: 0;
 }
 
-.sum-up-checkout-container > h1 {
+.sum-up-checkout-container > h1, .order-confirmation> h1 {
 	color: #CE3734;
 	font-weight: normal;
 	font-size: 45px;
@@ -270,7 +270,7 @@
 	color: #CE3734;
 	font-size: 18px;
 	transition-duration: 0.5s;
-	white-space: normal; /* Wrap tetx inside the input button */
+	white-space: normal; /* Wrap text inside the input button */
 }
 
 .information-details-paiement input[type=submit]:hover {
@@ -301,10 +301,56 @@
 	font-weight: bold;
 }
 
+/* Confirmation de la commande order-created.html */
+.order-confirmation-image {
+	background-image: url('../img/order-validated.jpg');
+	background-size: cover;
+	min-height: 100vh;
+}
+
+.order-confirmation > p:nth-child(2) {
+	font-size: 35px;
+	letter-spacing: 0.5px;
+}
+
+.order-confirmation > p:last-child {
+	margin: 20px;
+}
+
+.order-confirmation > p:last-child a {
+	border: solid 2px #CE3734;
+	color: #CE3734;
+	margin: 20px;
+	padding: 15px;
+	font-size: 25px;
+	transition-duration: 0.5s;
+}
+
+.order-confirmation > p:last-child a:hover {
+	color: #E98D5E;
+	border-color: #E98D5E;
+	transition-duration: 0.5s;
+}
+
+.order-confirmation  > p > a:nth-child(4) {
+	font-weight: normal;
+}
+
+.order-confirmation  > p > a:nth-child(5) {
+	font-weight: bold;
+}
+
+.order-confirmation img {
+	width: 100%;
+	max-width: 256px;
+	height: auto;
+}
+
+
 @media only screen and (max-width: 1100px){
 
 /* Checkout-account css style */
-.checkout-account-container-bis {
+ {
 	flex-direction: column;
 }
 
@@ -317,7 +363,7 @@
 	flex-direction: column-reverse;
 }
 
-.information-details-personnel-subcontainer {
+.information-details-personnel-subcontainer, .order-confirmation {
 	flex-direction: column;
 }
 
@@ -328,6 +374,10 @@
 
 .information-details-personnel-first-part , .information-details-personnel-second-part {
 	width: 100%;
+}
+
+.order-confirmation > p:last-child a {
+	display: block;
 }
 
 

@@ -54,6 +54,7 @@
 	Organisation de la vue:
 	- On regroupe les articles par base / ingrédients: info contenue dans la variation de l'article (model VariationArticle) -> Sélectionner une variation et accéder aux attributs, il faut utiliser {{item.attributarticle}}.
 	- Chaque article est aussi un type d'articles (légumes, charcuterie...). Cette information se trouve dans la fiche article général (model Article) -> Accéder aux infos de la fiche globale article, il faut utiliser {{item.article.attributdelafichegénérale}}.
+	Documentation: https://gist.github.com/ChrisLTD/957014
   -->
 
 	    {% regroup articles by type_article as articles_list %}

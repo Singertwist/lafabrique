@@ -37,7 +37,7 @@ def order_create(request):
 
 			form = OrderCreateForm()
 			cart.clear() and final_composed_cart.clear()
-			return render(request, "commandes/orders-created.html", {'cart':cart, 'final_composed_cart':final_composed_cart, 'form':form })
+			return render(request, "commandes/orders-created.html", {'order':order})
 		
 		form = OrderCreateForm()
 		return render(request, "commandes/orders-create.html", {'cart':cart, 'final_composed_cart':final_composed_cart, 'form':form})
