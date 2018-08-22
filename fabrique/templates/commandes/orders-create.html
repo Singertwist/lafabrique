@@ -18,57 +18,68 @@
 			<div class="information-sum-up">
 				<div class="information-details">
 					<p>Vos Informations Personnelles :</p>
-					<div class="information-details-personnel">
-						<form method="post" action=".">
-							<div class="information-details-personnel-subcontainer">
-								<div class="information-details-personnel-first-part">
-<!-- 									<p>Nom:</p>
-									<input type="texte" name="nom" placeholder="Nom">
-									<p>Prénom:</p>
-									<input type="text" name="prenom" placeholder="Prénom">
-									<p>Adresse:</p>
-									<input type="text" name="adresse" placeholder="Adresse">
-									<p>Code Postal:</p>
-									<input type="number" step="1" max="99999" name="Code Postal" placeholder="Code Postal">
-									<p>Ville:</p>
-									<input type="text" name="Ville" placeholder="Ville"> -->
-									{{ form.as_p }}
-								</div>	
-							
-								<div class="information-details-personnel-second-part">
-<!-- 									<p>Adresse Email:</p>
-									<input type="email" name="adresse-email-connexion" placeholder="Email"> -->
-									<p>*Si les informations sont incorrectes, n'hésitez pas à les corriger.</p>
+					<form method="post" action=".">
+						<div class="information-details-personnel">	
+								<div class="information-details-personnel-subcontainer">
+									<div class="information-details-personnel-first-part">
+										<p>{{ form.prenom.label_tag }}</p>
+										{{ form.prenom.errors }}
+										{{ form.prenom }}
+
+										<p>{{ form.nom.label_tag }}</p>
+										{{ form.nom.errors }}
+										{{ form.nom }}
+
+										<p>{{ form.adresse.label_tag }}</p>
+										{{ form.adresse.errors }}
+										{{ form.adresse }}
+
+										<p>{{ form.code_postal.label_tag }}</p>
+										{{ form.code_postal.errors }}
+										{{ form.code_postal }}
+
+										<p>{{ form.ville.label_tag }}</p>
+										{{ form.ville.errors }}
+										{{ form.ville }}
+									</div>	
+								
+									<div class="information-details-personnel-second-part">
+										<p>{{ form.email.label_tag }}</p>
+										{{ form.email.errors }}
+										{{ form.email }}
+										<p>*Si les informations sont incorrectes, n'hésitez pas à les corriger.</p>
+									</div>
+								</div>						
+						</div>
+						<div class="information-details-paiement">
+							<p>Informations de Paiement :</p>
+								<div class="information-details-paiement-first-part">
+									<p>{{ form.card_holder_name.label_tag }}</p>
+										{{ form.card_holder_name.errors }}
+										{{ form.card_holder_name }}
+									<p>{{ form.card_number.label_tag }}</p>
+										{{ form.card_number.errors }}
+										{{ form.card_number }}	
 								</div>
-							</div>
-							<input type="submit" value="Valider votre Commande et Payer">
-						{% csrf_token %}
-						</form>
-					</div>
-				</div>
-				<div class="information-details-paiement">
-					<p>Informations de Paiement :</p>
-					<form method="post" action="">
-						<div class="information-details-paiement-first-part">
-							<p>Nom du possesseur de la carte:</p>
-							<input type="texte" name="cart_holder_name" placeholder="Nom Indiqué sur la Carte">
-							<p>Numéro de carte:</p>
-							<input type="texte" name="cart_number" placeholder="Numéro de la carte">
+								<div class="information-details-paiement-second-part">
+									<div class="information-details-paiement-second-part-bis">
+										<p>{{ form.card_validity_date.label_tag }}</p>
+											{{ form.card_validity_date.errors }}
+											{{ form.card_validity_date }}	
+									</div>
+									<div class="information-details-paiement-second-part-bis">
+										<p>{{ form.ccv_number.label_tag }}</p>
+											{{ form.ccv_number.errors }}
+											{{ form.ccv_number }}	
+									</div>
+								</div>
+								<input type="submit" value="Valider votre Commande et Payer">
+								{% csrf_token %}
 						</div>
-						<div class="information-details-paiement-second-part">
-							<div class="information-details-paiement-second-part-bis">
-								<p>Date de validité:</p>
-								<input type="texte" name="validity_cart" placeholder="Date de validité">
-							</div>
-							<div class="information-details-paiement-second-part-bis">
-								<p>Code Secret:</p>
-								<input type="password" name="secret_keys" placeholder="Code Secret">
-							</div>
-						</div>
-						<input type="submit" value="Valider votre Commande et Payer">
-						{% csrf_token %}
+
 					</form>
 				</div>
+
 			</div>	
 			<div class="cart-sum-up">
 				<div class="cart-sum-up-details">
@@ -148,7 +159,7 @@
 						<p>Dont TVA :</p>
 						<p>
 		                    {% if final_composed_cart.get_total_tva_general is None %}
-		                      0.00€
+		                      0.00 €
 		                    {% else %} 
 		                      {{ final_composed_cart.get_total_tva_general }}€
 		                    {% endif %}
@@ -158,7 +169,7 @@
 						<p>Toutes Taxes Comprises (TTC) :</p>
 						<p>
 		                    {% if final_composed_cart.get_total_ttc_price_general is None %}
-		                      0.00€
+		                      0.00 €
 		                    {% else %}
 		                      {{ final_composed_cart.get_total_ttc_price_general}}€
 		                    {% endif %}

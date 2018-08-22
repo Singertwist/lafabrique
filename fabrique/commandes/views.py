@@ -2,8 +2,12 @@ from django.shortcuts import render
 from panier.cart  import Cart, ComposedCart, FinalComposedCart
 from .models import Order, OrderItem
 from .forms import OrderCreateForm
+from django.conf import settings
+import stripe
 
 # Create your views here.
+
+stripe.api_key = settings.STRIPE_PUBLIC_KEY
 
 def checkout_account(request):
 	return render(request, "commandes/checkout-account.html", {})
@@ -35,12 +39,27 @@ def order_create(request):
 						list_products.product.add(*list_items) # On ajoute à la ligne de commande les ingrédients de la composition.
 						list_items = [] # On vide la liste pour permettre de créer une nouvelle liste avec de nouveaux ingrédients le cas échéant.
 
+			# try:
+			# 	customer = stripe.Charge.create(
+			# 		amount = 499,
+			# 		currency = "eur",
+			# 		description = 'Example',
+			# 		card = form.cleaned_data['stripe_id'],
+			# 		)
+
+				form = OrderCreateForm()
+				cart.clear() and final_composed_cart.clear()
+				return render(request, "commandes/orders-created.html", {'order':order})
+
+			# except stripe.CardError as e:
+			# 	messages.warning(request, '<p>La carte a été refusée, veuillez réessayer.</p>')
+
+			else: # Si le formulaire n'est pas valide.
+				form = OrderCreateForm(request.POST) #On recharge la page avec les données renseignées en montrant l'erreur.
+				return render(request, "commandes/orders-create.html", {'cart':cart, 'final_composed_cart':final_composed_cart, 'form':form})
+		else:
 			form = OrderCreateForm()
-			cart.clear() and final_composed_cart.clear()
-			return render(request, "commandes/orders-created.html", {'order':order})
-		
-		form = OrderCreateForm()
-		return render(request, "commandes/orders-create.html", {'cart':cart, 'final_composed_cart':final_composed_cart, 'form':form})
+			return render(request, "commandes/orders-create.html", {'cart':cart, 'final_composed_cart':final_composed_cart, 'form':form})
 	
 	else:
 		form = OrderCreateForm()
@@ -48,3 +67,4 @@ def order_create(request):
 
 def order_created(request):
 	return render(request, "commandes/orders-create.html", {})
+

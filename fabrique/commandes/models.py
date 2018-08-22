@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import RegexValidator
 from catalogue.models import Article, Variations_Articles, Sous_Categories_Article
 # Create your models here.
 
@@ -7,7 +8,7 @@ class Order(models.Model):
 	nom = models.CharField(max_length=160, verbose_name='Nom')
 	email = models.EmailField()
 	adresse = models.CharField(max_length=250, verbose_name='Adresse')
-	code_postal = models.CharField(max_length=5, verbose_name='Code Postal')
+	code_postal = models.CharField(max_length=5, verbose_name='Code Postal', validators=[RegexValidator('^(([0-8][0-9])|(9[0-5]))[0-9]{3}$', message="Veuillez entrer un code postal valide")])
 	ville = models.CharField(max_length=100, verbose_name='Ville')
 	created = models.DateTimeField(auto_now_add=True)
 	updated = models.DateTimeField(auto_now=True)

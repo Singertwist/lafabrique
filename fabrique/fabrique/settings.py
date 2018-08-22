@@ -142,3 +142,11 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 #Clé permettant de stocker la session du panier pour chaque utilisateur
 CART_SESSION_ID = 'cart'
+
+#Clé pour stripe - Paiement en ligne
+if DEBUG is True:
+    STRIPE_PUBLIC_KEY = os.environ.get("STRIPE_SECRET_KEY", "pk_test_1AiqNuKYFbce4IWTuC6s3FlW")
+    STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY", "sk_test_U3bRVCZcWDfg5QNyoC8LYrFf")
+else:
+    STRIPE_PUBLIC_KEY = os.environ.get("STRIPE_SECRET_KEY", "pk_test_1AiqNuKYFbce4IWTuC6s3FlW")
+    STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY", "sk_test_U3bRVCZcWDfg5QNyoC8LYrFf")
