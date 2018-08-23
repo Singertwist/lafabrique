@@ -8,6 +8,25 @@
 	  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" /> <!-- Pour les périphériques mobiles afin que la largeur di site s'adapte à la largeur de l'écran mobile -->
 	  <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
 	  <link rel="stylesheet" href="{% static 'js/aos-master/aos.css' %}" />
+
+    <!-- Début chargement javascript -->
+    <!-- Script pour le menu responsive -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <!-- Fin script menu responsive -->
+    <!-- Script pour présentation dynamique "Notre concept" -->
+    <script src="{% static 'js/aos-master/aos.js' %}"></script>
+        <script>
+          AOS.init({
+            easing: 'ease-in-quad'
+          });
+    </script>
+    <script type="text/javascript" src="{% static 'js/responsive-menu/app.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/menu-commander/menu-produits.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/menu-commander/classie.js' %}"></script>
+    <!-- Fin pour présentation dynamique "Notre concept" -->    
+    <!-- Fin chargement javascript-->
+
+
 	</head>
 	<body>
 
@@ -56,22 +75,6 @@
 
         <div class="site-cache" id="site-cache"></div>
     </div>
-    <!-- Début chargement javascript -->
-    <!-- Script pour le menu responsive -->
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <!-- Fin script menu responsive -->
-    <!-- Script pour présentation dynamique "Notre concept" -->
-    <script src="{% static 'js/aos-master/aos.js' %}"></script>
-        <script>
-          AOS.init({
-            easing: 'ease-in-quad'
-          });
-    </script>
-    <script type="text/javascript" src="{% static 'js/responsive-menu/app.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/menu-commander/menu-produits.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/menu-commander/classie.js' %}"></script>
-    <!-- Fin pour présentation dynamique "Notre concept" -->    
-    <!-- Fin chargement javascript-->
 
     </body>
 </html>

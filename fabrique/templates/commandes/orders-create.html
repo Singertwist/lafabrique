@@ -18,7 +18,7 @@
 			<div class="information-sum-up">
 				<div class="information-details">
 					<p>Vos Informations Personnelles :</p>
-					<form method="post" action=".">
+					<form id="cart-payment" method="post" action=".">
 						<div class="information-details-personnel">	
 								<div class="information-details-personnel-subcontainer">
 									<div class="information-details-personnel-first-part">
@@ -68,13 +68,14 @@
 											{{ form.card_validity_date }}	
 									</div>
 									<div class="information-details-paiement-second-part-bis">
-										<p>{{ form.ccv_number.label_tag }}</p>
-											{{ form.ccv_number.errors }}
-											{{ form.ccv_number }}	
+										<p>{{ form.cvv_number.label_tag }}</p>
+											{{ form.cvv_number.errors }}
+											{{ form.cvv_number }}	
 									</div>
 								</div>
 								<input type="submit" value="Valider votre Commande et Payer">
 								{% csrf_token %}
+								{{ form.stripe_id }}
 						</div>
 
 					</form>
@@ -180,6 +181,12 @@
 		</div>
 	</div>
 </div>
+
+<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+<script type="text/javascript">
+  Stripe.setPublishableKey('{{stripe_pk_key}}');
+</script>
+<script type="text/javascript" src="{% static 'js/stripe/app.js' %}"></script>
 
 {% endblock %}
 
