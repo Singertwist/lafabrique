@@ -4,6 +4,7 @@ from .models import Order, OrderItem
 from .forms import OrderCreateForm
 from django.conf import settings
 import stripe
+from decimal import Decimal
 
 # Create your views here.
 
@@ -25,15 +26,23 @@ def order_create(request):
 		if cart != None or final_composed_cart != None: # Condition nécessaire car renvoi une erreur si le panier est vide et que l'on arrive sur la page.Si le panier est vide, cela ne sert à rien de réaliser une requête.
 			form = OrderCreateForm(request.POST)
 			if form.is_valid():
+				# On récupère le montant global de la commande qui est calculé dans le module Panier --> Dernière méthode
+				amount = int(final_composed_cart.get_total_ttc_price_general() * 100) # On multiplie par 100 ce montant, car Stripe n'accepte que ces montant entier.
 				try:
 					customer = stripe.Charge.create(
-						amount = 2000,
+						amount = amount,
 						currency = "EUR",
 						source = form.cleaned_data['stripe_id'],
 						description = "The product charged to the user"
 						)
-
+					
 					order = form.save()
+
+					# Indiquer que la commande est payée
+					order.paid = True
+					order.save()
+
+					# Création des différents items de la commande
 					if cart != None: # Si le panier courant comportant tous les items non composés n'est pas vide, on ajoute les éléments à la base de données.
 						for item in cart: # Boucle qui permet de parcourir le dictionnaire contenant les différents éléments de la commande.
 							product = OrderItem.objects.create(order=order, type_product=item['cat_name'], price=item['price'], quantity=item['quantity']) # On créé une ligne dans la base de données concernant cette commmande.
