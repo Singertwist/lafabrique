@@ -5,6 +5,7 @@ from .forms import OrderCreateForm
 from django.conf import settings
 import stripe
 from decimal import Decimal
+from django.contrib import messages
 
 # Create your views here.
 
@@ -41,7 +42,9 @@ def order_create(request):
 
 					# Indiquer que la commande est payée
 					order.paid = True 
+					# Sauvegarde le montant de la commande dans le modèle
 					order.montant_commande = final_composed_cart.get_total_ttc_price_general()
+					# On sauvegarde le formulaire
 					order.save()
 
 					# Création des différents items de la commande
@@ -64,7 +67,9 @@ def order_create(request):
 						return render(request, "commandes/orders-created.html", {'order':order})
 				
 				except stripe.error.CardError as e:
-					messages.warning(request, '<p>La carte a été refusée, veuillez réessayer.</p>')
+					form = OrderCreateForm(request.POST) #On recharge la page avec les données renseignées en montrant l'erreur.
+					messages.warning(request, '<p>Les informations liées à la carte semblent être erronées. Veuillez les vérifier et réessayer.</p>')
+					return render(request, "commandes/orders-create.html", {'cart':cart, 'final_composed_cart':final_composed_cart, 'form':form, 'stripe_pk_key':stripe_pk_key})
 
 			else: # Si le formulaire n'est pas valide.
 				form = OrderCreateForm(request.POST) #On recharge la page avec les données renseignées en montrant l'erreur.

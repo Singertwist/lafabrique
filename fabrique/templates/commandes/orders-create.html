@@ -3,6 +3,21 @@
 {% load thumbnail %}
 
 {% block orders-create %}
+
+	{% if messages %}
+		<div class="popup-messages-overlay">
+			<div class="popup-messages">
+				<a class="close-popup-message" href="#">&times;</a>
+				{% for message in messages %}
+					<div class="{{ message.tags }}">
+						<div class="image-popup-messages"></div>
+						<div>{{ message|safe }}</div>
+					</div>	
+				{% endfor %}
+			</div>
+		</div>
+	{% endif %}
+
 <div class="sum-up-checkout-container">
 	<h1>Validation & Paiement</h1>
 	<div class="sum-up-checkout-container-bis">
@@ -54,6 +69,7 @@
 						<div class="information-details-paiement">
 							<p>Informations de Paiement :</p>
 								<div class="information-details-paiement-first-part">
+									<p id="stripe-error-card"></p>
 									<p>{{ form.card_holder_name.label_tag }}</p>
 										{{ form.card_holder_name.errors }}
 										{{ form.card_holder_name }}

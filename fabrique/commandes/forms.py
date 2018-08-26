@@ -6,7 +6,7 @@ class OrderCreateForm(forms.ModelForm):
 	card_holder_name = forms.CharField(max_length=255, label='Nom du possesseur de la carte :')
 	card_number = forms.IntegerField(min_value=0, label='Numéro de carte :') #Nombre minimum de digit sur une carte 13 et nombre max 16.
 	card_validity_date = forms.CharField(max_length=5, label ='Date de validité :', validators=[RegexValidator('(0[1-9]|1[0-2])\/[0-9]{2}', message="Veuillez saisir une date d'expiration valide au format MM/AA")])
-	cvv_number = forms.IntegerField(min_value=99, max_value=1000, label='Code Secret (CVV) :')
+	cvv_number = forms.IntegerField(min_value=100, max_value=9999, label='Code Secret (CVV) :')
 	stripe_id = forms.CharField(widget=forms.HiddenInput())
 	class Meta:
 		model = Order

@@ -240,6 +240,14 @@
 	margin : 5px 0px 5px 0px;
 }
 
+.information-details-paiement-first-part #stripe-error-card {
+	text-align: center;
+	padding: 5px;
+	color: red;
+	border: solid 1px red;
+	display: none;
+}
+
 .information-details-paiement-first-part input {
 	width: 100%;
 	height: 40px;
