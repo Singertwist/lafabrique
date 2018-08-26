@@ -14,15 +14,10 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <!-- Fin script menu responsive -->
     <!-- Script pour présentation dynamique "Notre concept" -->
-    <script src="{% static 'js/aos-master/aos.js' %}"></script>
-        <script>
-          AOS.init({
-            easing: 'ease-in-quad'
-          });
-    </script>
     <script type="text/javascript" src="{% static 'js/responsive-menu/app.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/menu-commander/menu-produits.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/menu-commander/classie.js' %}"></script>
+    <script src="{% static 'js/aos-master/aos.js' %}"></script>
     <!-- Fin pour présentation dynamique "Notre concept" -->    
     <!-- Fin chargement javascript-->
 
@@ -75,6 +70,12 @@
 
         <div class="site-cache" id="site-cache"></div>
     </div>
-
+    <!-- Lancement du ease and out js / Nécessaire de le placer à la fin sinon, DOM n'est pas prêt -->
+    <!-- https://github.com/michalsnik/aos/issues/127 -->
+    <script>
+          AOS.init({
+            easing: 'ease-in-quad'
+          });
+    </script>
     </body>
 </html>
