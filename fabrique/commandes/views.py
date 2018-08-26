@@ -27,6 +27,7 @@ def order_create(request):
 			form = OrderCreateForm(request.POST)
 			if form.is_valid():
 				# On récupère le montant global de la commande qui est calculé dans le module Panier --> Dernière méthode
+				order = form.save(commit=False)
 				amount = int(final_composed_cart.get_total_ttc_price_general() * 100) # On multiplie par 100 ce montant, car Stripe n'accepte que ces montant entier.
 				try:
 					customer = stripe.Charge.create(
@@ -39,7 +40,8 @@ def order_create(request):
 					order = form.save()
 
 					# Indiquer que la commande est payée
-					order.paid = True
+					order.paid = True 
+					order.montant_commande = final_composed_cart.get_total_ttc_price_general()
 					order.save()
 
 					# Création des différents items de la commande

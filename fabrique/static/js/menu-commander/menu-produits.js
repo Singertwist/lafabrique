@@ -1,4 +1,19 @@
-    function init() {
+    $(function(){
+    $(window).scroll(function(){
+        if ($(this).scrollTop() > 300){
+            $('.menu-top-commander').addClass('menu-top-commander-smaller');
+            $('.fixed-cart').addClass('fixed-cart-smaller');
+        }
+        else{
+            $('.menu-top-commander').removeClass('menu-top-commander-smaller');
+            $('.fixed-cart').removeClass('fixed-cart-smaller');
+        }
+    });
+});
+
+/*Ancienne version du fichier avec Bug de Javascript (erreur null). Fonctionne mais génère des messages d'erreur dans la console.*/
+
+/*    function init() {
         window.addEventListener('scroll', function(e){
             var distanceY = window.pageYOffset || document.documentElement.scrollTop,
                 shrinkOn = 300,
@@ -19,3 +34,4 @@
         });
     }
     window.onload = init();
+*/
