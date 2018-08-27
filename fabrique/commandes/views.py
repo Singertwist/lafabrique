@@ -29,14 +29,18 @@ def order_create(request):
 			form = OrderCreateForm(request.POST)
 			if form.is_valid():
 				# On récupère le montant global de la commande qui est calculé dans le module Panier --> Dernière méthode
-				order = form.save(commit=False)
+				order = form.save(commit=False) # Nécesessaire pour récupérer une instance de la commande (n° d'id nécessaire pour créer la commande) sans sauvegarder daans la base de données.
 				amount = int(final_composed_cart.get_total_ttc_price_general() * 100) # On multiplie par 100 ce montant, car Stripe n'accepte que ces montant entier.
+				# Création du numéro de commande à partir de la date du jour
+				now = datetime.date.today() # On récupérère la date du jour
+				now = now.isoformat() # On convertit en string la date du jour
+
 				try:
 					customer = stripe.Charge.create(
 						amount = amount,
 						currency = "EUR",
 						source = form.cleaned_data['stripe_id'],
-						description = "The product charged to the user"
+						description = now + "-" + str(order.id) # On créé le numéro de facture à partir de la date du jour + un tiret + numéri d'ID de la base de données.
 						)
 					
 					order = form.save()
@@ -45,9 +49,7 @@ def order_create(request):
 					order.paid = True 
 					# Sauvegarde le montant de la commande dans le modèle
 					order.montant_commande = final_composed_cart.get_total_ttc_price_general()
-					# Création du numéro de commande
-					now = datetime.date.today()
-					now = now.isoformat()
+					# Sauvegarde du numéro de commande dans la base de données
 					order.order_number = now + "-" + str(order.id)
 					# On sauvegarde le formulaire
 					order.save()
