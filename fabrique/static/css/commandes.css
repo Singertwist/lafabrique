@@ -131,12 +131,24 @@
 }
 
 /* Gestion des erreurs formulaire carte bancaire */
+
+/*Style pour les cartes stripe */
 .information-details-paiement-first-part #stripe-error-card {
 	text-align: center;
 	padding: 5px;
 	color: red;
 	border: solid 1px red;
 	display: none;
+}
+
+/* Style pour les erreurs relatives au formulaire django */
+.information-details-personnel-first-part ul {
+	margin: 0px 0px 5px 0px;
+	padding: 5px;
+	color: red;
+	border: solid 1px red;
+	list-style-type: none;
+	text-align: center;
 }
 
 /* orders-create (informations pour validation de la commande) */
