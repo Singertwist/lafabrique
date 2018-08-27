@@ -4,6 +4,7 @@ from catalogue.models import Article, Variations_Articles, Sous_Categories_Artic
 # Create your models here.
 
 class Order(models.Model):
+	order_number = models.CharField(max_length=160, verbose_name='Numéro de Commande', null=True)
 	prenom = models.CharField(max_length=160, verbose_name='Prénom')
 	nom = models.CharField(max_length=160, verbose_name='Nom')
 	email = models.EmailField()

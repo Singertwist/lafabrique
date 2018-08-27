@@ -6,6 +6,7 @@ from django.conf import settings
 import stripe
 from decimal import Decimal
 from django.contrib import messages
+import datetime
 
 # Create your views here.
 
@@ -44,6 +45,10 @@ def order_create(request):
 					order.paid = True 
 					# Sauvegarde le montant de la commande dans le modèle
 					order.montant_commande = final_composed_cart.get_total_ttc_price_general()
+					# Création du numéro de commande
+					now = datetime.date.today()
+					now = now.isoformat()
+					order.order_number = now + "-" + str(order.id)
 					# On sauvegarde le formulaire
 					order.save()
 
