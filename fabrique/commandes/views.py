@@ -76,6 +76,7 @@ def order_create(request):
 				return render(request, "commandes/orders-create.html", {'cart':cart, 'final_composed_cart':final_composed_cart, 'form':form, 'stripe_pk_key':stripe_pk_key})
 		else:
 			form = OrderCreateForm(request.POST)
+			messages.warning(request, "<p>Veuillez ajouter quelque chose à votre panier avant de passer à l'étape du paiement.</p>")
 			return render(request, "commandes/orders-create.html", {'cart':cart, 'final_composed_cart':final_composed_cart, 'form':form, 'stripe_pk_key':stripe_pk_key})
 	
 	else:

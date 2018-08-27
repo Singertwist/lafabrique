@@ -8,7 +8,7 @@ class Order(models.Model):
 	nom = models.CharField(max_length=160, verbose_name='Nom')
 	email = models.EmailField()
 	adresse = models.CharField(max_length=250, verbose_name='Adresse')
-	code_postal = models.CharField(max_length=5, verbose_name='Code Postal', validators=[RegexValidator('^(([0-8][0-9])|(9[0-5]))[0-9]{3}$', message="Veuillez entrer un code postal valide")])
+	code_postal = models.CharField(max_length=5, verbose_name='Code Postal', validators=[RegexValidator('^(([0-8][0-9])|(9[0-5]))[0-9]{3}$', message="Veuillez renseigner un code postal valide")])
 	ville = models.CharField(max_length=100, verbose_name='Ville')
 	created = models.DateTimeField(auto_now_add=True)
 	montant_commande = models.DecimalField(decimal_places=2, max_digits=10, null=True)
