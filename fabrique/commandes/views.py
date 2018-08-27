@@ -68,7 +68,7 @@ def order_create(request):
 				
 				except stripe.error.CardError as e:
 					form = OrderCreateForm(request.POST) #On recharge la page avec les données renseignées en montrant l'erreur.
-					messages.warning(request, '<p>Les informations liées à la carte semblent être erronées. Veuillez les vérifier et réessayer.</p>')
+					messages.warning(request, e)
 					return render(request, "commandes/orders-create.html", {'cart':cart, 'final_composed_cart':final_composed_cart, 'form':form, 'stripe_pk_key':stripe_pk_key})
 
 			else: # Si le formulaire n'est pas valide.

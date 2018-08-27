@@ -130,6 +130,15 @@
     transition-duration: 0.5s;
 }
 
+/* Gestion des erreurs formulaire carte bancaire */
+.information-details-paiement-first-part #stripe-error-card {
+	text-align: center;
+	padding: 5px;
+	color: red;
+	border: solid 1px red;
+	display: none;
+}
+
 /* orders-create (informations pour validation de la commande) */
 .sum-up-checkout-container, .order-confirmation {
 	display: flex;
@@ -238,14 +247,6 @@
 
 .information-details-paiement-first-part p {
 	margin : 5px 0px 5px 0px;
-}
-
-.information-details-paiement-first-part #stripe-error-card {
-	text-align: center;
-	padding: 5px;
-	color: red;
-	border: solid 1px red;
-	display: none;
 }
 
 .information-details-paiement-first-part input {
