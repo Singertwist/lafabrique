@@ -4,9 +4,9 @@ from .models import Order
 
 class OrderCreateForm(forms.ModelForm):
 	card_holder_name = forms.CharField(max_length=255, label='Nom du possesseur de la carte :', widget=forms.TextInput(attrs={'placeholder': 'Nom et Prénom incrits sur la carte - Ex: Dupont Claude'}))
-	card_number = forms.IntegerField(min_value=0, label='Numéro de carte :', widget=forms.TextInput(attrs={'placeholder': 'Le numéro de la carte bancaire - Ex : 4242 4242 4242 4242'})) #Nombre minimum de digit sur une carte 13 et nombre max 16.
-	card_validity_date = forms.CharField(max_length=5, label ='Date de validité :', validators=[RegexValidator('(0[1-9]|1[0-2])\/[0-9]{2}', message="Veuillez saisir une date d'expiration valide au format MM/AA")], widget=forms.TextInput(attrs={'placeholder': 'Date de validité au format MM/AA'}))
-	cvv_number = forms.IntegerField(min_value=100, max_value=9999, label='Code Secret (CVV) :', widget=forms.PasswordInput(attrs={'placeholder': 'Le code secret - Ex: 123'}))
+	card_number = forms.IntegerField(min_value=0, label='Numéro de carte :', widget=forms.TextInput(attrs={'placeholder': 'Le numéro de la carte bancaire - Ex : 4242 4242 4242 4242', 'maxlength': '16' })) #Nombre minimum de digit sur une carte 13 et nombre max 16.
+	card_validity_date = forms.CharField(max_length=5, label ='Date de validité :', validators=[RegexValidator('(0[1-9]|1[0-2])\/[0-9]{2}', message="Veuillez saisir une date d'expiration valide au format MM/AA")], widget=forms.TextInput(attrs={'placeholder': 'Date de validité au format MM/AA', 'maxlength': '5'}))
+	cvv_number = forms.IntegerField(min_value=100, max_value=9999, label='Code Secret (CVV) :', widget=forms.PasswordInput(attrs={'placeholder': 'Le code secret - Ex: 123', 'maxlength': '4'}))
 	stripe_id = forms.CharField(widget=forms.HiddenInput())
 	class Meta:
 		model = Order
