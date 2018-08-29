@@ -203,10 +203,6 @@ div .bold-total-panier {
   	padding: 0px 5px 2px 5px;
   	border: 1px solid lightgrey;
 }
-.composition-panier-final-info-date div:first-child form label {
-	text-align: center;
-	color: #CE3734;
-}
 
 .composition-panier-final-info-date div:first-child form input[type=text] {
   background-image: url("../img/icones/clock.png");
@@ -310,7 +306,14 @@ input[type=text]:focus {
 	margin-bottom: 30px;
 	margin-right: 0px;
 	text-align: center;
+}
 
+.composition-panier-final-info-date div form input[type=text] {
+	width: 70%;
+	height: 40px;
+	min-width: 180px;
+	margin: auto;
+	padding: auto;
 }
 
 .composition-panier-final-info-total {

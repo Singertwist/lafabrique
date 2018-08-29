@@ -87,7 +87,6 @@
                 </div>
                 <div class="composition-panier-final-item-supprimer">
                     <a href="{% url "cart_remove" product.id %}"><img src="{% static 'img/icones/cancel.png' %}" alt="Supprimer" title="Supprimer"/></a>
-                    <a href=""><img src="{% static 'img/icones/edit.png' %}" alt="Modifier" title="Modifier"/></a>
                 </div>
                 <div class="composition-panier-final-item-prix">{{ item.total_price }} €</div>
             </div>
@@ -104,7 +103,6 @@
                     <p>Date et heure de retrait de la commande: </p>
                     <form>
                         <input type="text" placeholder="Sélectionner votre jour et heure" name="datepicker" id="datepicker" value="" />
-                        <input type="checkbox" id="date-picker-confirmation" name="date-picker-confirmation" value="ok"/><label for="date-picker-confirmation">Je confirme la date de retrait.</label>
                     </form>
                 </div>
                 <div>
@@ -157,8 +155,40 @@
             </div>
         </div>     
     </div> 
-    <script type="text/javascript" src="{% static 'js/menu-commander/menu-produits.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/menu-commander/classie.js' %}"></script>
+
+<!-- Javascript date picker  -->
+    <script type="text/javascript" src="{% static 'js/date-picker/jquery-ui.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/date-picker/jquery-ui-timepicker-addon.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/date-picker/i18n/jquery-ui-timepicker-addon-i18n.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/date-picker/jquery-ui-sliderAccess.js' %}"></script>
+        <script type="text/javascript">
+            
+            $(function(){
+        
+                $('.composition-panier-final-info-date').each(function(i){
+                    $('#datepicker').datetimepicker({
+                        timeFormat: 'HH:mm',
+                        dateFormat: 'dd.mm.yy',
+                        firstDay: 1,
+                        stepHour: 1,
+                        stepMinute: 10,
+                        hourMin: {% now "H" %},
+                        hourMax: 16,
+                        monthNames: ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
+                        monthNamesShort: ['Jan','Fév','Mar','Avr','Mai','Jui','Jui','Aoû','Sep','Oct','Nov','Déc'],
+                        dayNames: ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'],
+                        dayNamesShort: ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'],
+                        dayNamesMin: ['Di','Lu','Ma','Me','Je','Ve','Sa'],
+                        prevText: 'Précédent',
+                        nextText: 'Suivant',
+                    });
+                });
+            });
+            
+        </script>
+      <link rel="stylesheet" property="stylesheet" media="all" type="text/css" href="{% static 'css/date-picker/jquery-ui.css' %}" />
+      <link rel="stylesheet" property="stylesheet" media="all" type="text/css" href="{% static 'js/date-picker/css/jquery-ui-timepicker-addon.css' %}" />
+<!-- Fin Javascript date picker  -->
 
 {% endblock %}
 
