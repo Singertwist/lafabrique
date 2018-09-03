@@ -100,10 +100,17 @@
         <div class="composition-panier-final-info">
             <div class="composition-panier-final-info-date"> 
                 <div>
-                    <p>Date et heure de retrait de la commande: </p>
-                    <form>
-                        <input type="text" placeholder="Sélectionner votre jour et heure" name="datepicker" id="datepicker" value="" />
+                    {{ date_picking_form.picking_date.errors }}
+                    <p>{{ date_picking_form.picking_date.label_tag }}</p>
+                    <form method="post" action="." >
+                      {{ date_picking_form.picking_date }}
+                      {% csrf_token %}
+                      <input type="submit" id="date-picking-submit-form"value="Appliquer la date"></input>
                     </form>
+
+<!--                     <form>
+                        <input type="text" placeholder="Sélectionner votre jour et heure" name="datepicker" id="datepicker" value="" />
+                    </form> -->
                 </div>
                 <div>
                     <p>
@@ -151,7 +158,8 @@
                 <a href="{% url 'articles_plats' menu_commander_categories.0.slug menu_commander_categories.0.ordre %}">Continuer vos Achats</a>
             </div>
             <div>
-                <a href="{% url 'checkout_account' %}">Valider le Panier</a>
+                <a href=""><label for="date-picking-submit-form" tabindex="0">Valider le Panier</label></a> <!-- Nécessaire pour valider unformulaire avec boutton en dehors du formulaire -->
+                <!-- Info ici: https://stackoverflow.com/questions/7020659/submit-form-using-a-button-outside-the-form-tag -->
             </div>
         </div>     
     </div> 
@@ -166,7 +174,7 @@
             $(function(){
         
                 $('.composition-panier-final-info-date').each(function(i){
-                    $('#datepicker').datetimepicker({
+                    $('#id_picking_date').datetimepicker({
                         timeFormat: 'HH:mm',
                         dateFormat: 'dd.mm.yy',
                         firstDay: 1,

@@ -3,8 +3,8 @@ from django.views.decorators.http import require_POST
 from django.http import HttpResponseRedirect
 from django.utils.crypto import get_random_string
 from catalogue.models import Categories_Article, Sous_Categories_Article, Article, Type_Produit, Variations_Articles
-from panier.cart  import Cart, ComposedCart, FinalComposedCart
-from panier.forms import CartAddProductForm, ComposedCartAddProductForm
+from panier.cart  import Cart, ComposedCart, FinalComposedCart, CartDataValidation
+from panier.forms import CartAddProductForm, ComposedCartAddProductForm, DatePickerForm
 from django.contrib import messages
 # Create your views here.
 
@@ -44,6 +44,7 @@ def cart_remove_one(request, product_id):
 def cart_detail(request):
 	cart_product_form = CartAddProductForm()
 	composed_cart = ComposedCart(request)
+	cart_data_validation = CartDataValidation(request)
 
 	if bool(request.session.get('final_composed_cart')) or bool(request.session.get('cart')): #Condition nécessaire pour affciher si les deux paniers, final_composed_cart et cart sont vides.
 		final_composed_cart = FinalComposedCart(request)
@@ -51,8 +52,16 @@ def cart_detail(request):
 	else:
 		final_composed_cart = None
 		cart = None
+
+	date_picking_form = DatePickerForm(request.POST or None)
+	if date_picking_form.is_valid():
+		date = date_picking_form.cleaned_data['picking_date']
+		cart_data_validation.add_date(date=date)
+		date_picking_form = DatePickerForm()
+		return redirect('checkout_account')
 	#final_composed_cart = request.session.get('final_composed_cart')
-	return render(request, 'panier/panier.html', {'cart':cart, 'composed_cart':composed_cart, 'cart_product_form':cart_product_form, 'final_composed_cart':final_composed_cart})
+
+	return render(request, 'panier/panier.html', {'cart':cart, 'composed_cart':composed_cart, 'cart_product_form':cart_product_form, 'final_composed_cart':final_composed_cart, 'date_picking_form':date_picking_form, 'cart_data_validation':cart_data_validation})
 
 #Création d'un plat personnalisé
 

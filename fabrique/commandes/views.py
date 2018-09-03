@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from panier.cart  import Cart, ComposedCart, FinalComposedCart
+from panier.cart  import Cart, ComposedCart, FinalComposedCart, CartDataValidation
 from .models import Order, OrderItem
 from .forms import OrderCreateForm
 from django.conf import settings
@@ -18,6 +18,7 @@ def checkout_account(request):
 	return render(request, "commandes/checkout-account.html", {})
 
 def order_create(request):
+	cart_data_validation = CartDataValidation(request)
 	if bool(request.session.get('final_composed_cart')) or bool(request.session.get('cart')): #Condition nécessaire pour afficher si les deux paniers, final_composed_cart et cart sont vides.
 		final_composed_cart = FinalComposedCart(request)
 		cart = Cart(request)
@@ -81,19 +82,19 @@ def order_create(request):
 				except stripe.error.CardError as e:
 					form = OrderCreateForm(request.POST) #On recharge la page avec les données renseignées en montrant l'erreur.
 					messages.warning(request, e)
-					return render(request, "commandes/orders-create.html", {'cart':cart, 'final_composed_cart':final_composed_cart, 'form':form, 'stripe_pk_key':stripe_pk_key})
+					return render(request, "commandes/orders-create.html", {'cart':cart, 'final_composed_cart':final_composed_cart, 'form':form, 'stripe_pk_key':stripe_pk_key, 'cart_data_validation':cart_data_validation})
 
 			else: # Si le formulaire n'est pas valide.
 				form = OrderCreateForm(request.POST) #On recharge la page avec les données renseignées en montrant l'erreur.
-				return render(request, "commandes/orders-create.html", {'cart':cart, 'final_composed_cart':final_composed_cart, 'form':form, 'stripe_pk_key':stripe_pk_key})
+				return render(request, "commandes/orders-create.html", {'cart':cart, 'final_composed_cart':final_composed_cart, 'form':form, 'stripe_pk_key':stripe_pk_key, 'cart_data_validation':cart_data_validation})
 		else:
 			form = OrderCreateForm(request.POST)
 			messages.warning(request, "<p>Veuillez ajouter quelque chose à votre panier avant de passer à l'étape du paiement.</p>")
-			return render(request, "commandes/orders-create.html", {'cart':cart, 'final_composed_cart':final_composed_cart, 'form':form, 'stripe_pk_key':stripe_pk_key})
+			return render(request, "commandes/orders-create.html", {'cart':cart, 'final_composed_cart':final_composed_cart, 'form':form, 'stripe_pk_key':stripe_pk_key, 'cart_data_validation':cart_data_validation})
 	
 	else:
 		form = OrderCreateForm()
-		return render(request, "commandes/orders-create.html", {'cart':cart, 'final_composed_cart':final_composed_cart, 'form':form, 'stripe_pk_key':stripe_pk_key})
+		return render(request, "commandes/orders-create.html", {'cart':cart, 'final_composed_cart':final_composed_cart, 'form':form, 'stripe_pk_key':stripe_pk_key, 'cart_data_validation':cart_data_validation})
 
 def order_created(request):
 	return render(request, "commandes/orders-create.html", {})

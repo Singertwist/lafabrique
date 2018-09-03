@@ -10,14 +10,17 @@ class Cart(object):
 		cart = self.session.get('cart')
 		composed_cart = self.session.get('composed_cart')
 		final_composed_cart = self.session.get('final_composed_cart')
+		cart_data_validation = self.session.get('cart_data_validation')
 
-		if not cart and not composed_cart and not final_composed_cart:
+		if not cart and not composed_cart and not final_composed_cart and not cart_data_validation:
 			cart = self.session['cart'] = {}
 			composed_cart = self.session['composed_cart'] = {}
 			final_composed_cart = self.session['final_composed_cart'] = {}
+			cart_data_validation = self.session['cart_data_validation'] = {}
 		self.cart = cart
 		self.composed_cart = composed_cart
 		self.final_composed_cart = final_composed_cart
+		self.cart_data_validation = cart_data_validation
 
 	def add(self, product, quantity=1):
 		product_id = str(product.id)
@@ -118,8 +121,20 @@ class Cart(object):
 class ComposedCart(object):
 	def __init__(self, request):
 		self.session = request.session
+		cart = self.session.get('cart')
 		composed_cart = self.session.get('composed_cart')
+		final_composed_cart = self.session.get('final_composed_cart')
+		cart_data_validation = self.session.get('cart_data_validation')
+
+		if not cart and not composed_cart and not final_composed_cart and not cart_data_validation:
+			cart = self.session['cart'] = {}
+			composed_cart = self.session['composed_cart'] = {}
+			final_composed_cart = self.session['final_composed_cart'] = {}
+			cart_data_validation = self.session['cart_data_validation'] = {}
+		self.cart = cart
 		self.composed_cart = composed_cart
+		self.final_composed_cart = final_composed_cart
+		self.cart_data_validation = cart_data_validation
 
 	def remove_composed_cart(self, categorie_composed_cart):
 		self.composed_cart = {}
@@ -145,23 +160,25 @@ class ComposedCart(object):
 				yield composed_item
 
 	def __len__(self):
-		if not self.composed_cart: #Condition si on arrive directement sur la page de composition d'un plat et qu'il n'y pas de dictionnaire de créé.
-			return 0
-		else: 
-			return sum(composed_item['quantity'] for composed_item in self.composed_cart.values())
+		return sum(composed_item['quantity'] for composed_item in self.composed_cart.values())
 
 class FinalComposedCart(object):
 	def __init__(self, request):
 		self.session = request.session
-
 		cart = self.session.get('cart')
-		self.cart = cart
-
 		composed_cart = self.session.get('composed_cart')
-		self.composed_cart = composed_cart
-
 		final_composed_cart = self.session.get('final_composed_cart')
+		cart_data_validation = self.session.get('cart_data_validation')
+
+		if not cart and not composed_cart and not final_composed_cart and not cart_data_validation:
+			cart = self.session['cart'] = {}
+			composed_cart = self.session['composed_cart'] = {}
+			final_composed_cart = self.session['final_composed_cart'] = {}
+			cart_data_validation = self.session['cart_data_validation'] = {}
+		self.cart = cart
+		self.composed_cart = composed_cart
 		self.final_composed_cart = final_composed_cart
+		self.cart_data_validation = cart_data_validation
 
 	def add_to_final_composed_cart(self, categorie_composed_cart, comment, quantity=1):
 		if sum(composed_item['quantity'] for composed_item in self.composed_cart.values()) > 1: # Condition empêchant l'ajout d'une composition au panier final si le panier composé est vide. Permet de s'assurer que la quantité est supérieur à 1 dans la panier composé.
@@ -362,7 +379,41 @@ class FinalComposedCart(object):
 			total_ttc_composition_final = 0 # On réiniialise la valeur pour recommencer le cumul à zéro.
 			total_tva_composition_final = 0 # On réiniialise la valeur pour recommencer le cumul à zéro.
 		return sum(Decimal(v['total_ttc_composition_composition']) for v in self.final_composed_cart.values()) + sum(Decimal(item['price']) * item['quantity'] for item in self.cart.values()) - round(sum(Decimal(v['total_tva_composition_final']) for v in self.final_composed_cart.values()) + sum(round(Decimal(item['total_item_tva']),2) for item in self.cart.values()),2)
-		
+
+class CartDataValidation(object):
+	def __init__(self, request):
+		self.session = request.session
+		cart = self.session.get('cart')
+		composed_cart = self.session.get('composed_cart')
+		final_composed_cart = self.session.get('final_composed_cart')
+		cart_data_validation = self.session.get('cart_data_validation')
+
+		if not cart and not composed_cart and not final_composed_cart and not cart_data_validation:
+			cart = self.session['cart'] = {}
+			composed_cart = self.session['composed_cart'] = {}
+			final_composed_cart = self.session['final_composed_cart'] = {}
+			cart_data_validation = self.session['cart_data_validation'] = {}
+		self.cart = cart
+		self.composed_cart = composed_cart
+		self.final_composed_cart = final_composed_cart
+		self.cart_data_validation = cart_data_validation		
+
+	def add_date(self, date):
+		date = str(date)
+		if date not in self.cart:
+			self.cart_data_validation['date'] = {'picking_date': date}
+
+		self.save()
+
+	def save(self):
+		self.session['cart_data_validation'] = self.cart_data_validation
+		self.session.modified = True
+
+	def __iter__(self):
+		for data in self.cart_data_validation.values():
+			data['date'] = datetime.datetime.strptime(data['picking_date'][:19], "%Y-%m-%d %H:%M:%S").date() # Pour info: https://stackoverflow.com/questions/36753868/python-convert-dictionary-of-string-times-to-date-times
+			data['time'] = datetime.datetime.strptime(data['picking_date'][:19], "%Y-%m-%d %H:%M:%S").time() # Pour info suite https://stackoverflow.com/questions/18039680/django-get-only-date-from-datetime-strptime
+			yield data
 
 
 		# if bool(self.final_composed_cart) is True: # Condition qui vérifie si le dictionnaire est vide, s'il est vide, renvoi des dictionnaire vide.

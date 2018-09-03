@@ -157,7 +157,14 @@
 				</div>
 				<div class="total-cart-sum-up-details">
 					<div class="total-cart-sum-up-details-price">
-						<p>Date et heure de retrait</p><p>01/01/2018 à 15h00</p>
+						<p>Date et heure de retrait</p>
+						<p>
+							{% for picking_date in cart_data_validation %}
+  								{{picking_date.date}} à {{picking_date.time}}
+							{% empty %}
+							Aucune date de retrait renseignée. Veuillez en renseigner une dans le panier.
+							{% endfor %}
+						</p>
 					</div>
 					<div class="total-cart-sum-up-details-price">
 						<p>Total Hors Taxe (HT) :</p>
