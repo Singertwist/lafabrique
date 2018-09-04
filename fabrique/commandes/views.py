@@ -57,6 +57,8 @@ def order_create(request):
 					order.montant_commande = final_composed_cart.get_total_ttc_price_general()
 					# Sauvegarde du numéro de commande dans la base de données
 					order.order_number = now + "-" + str(order.id) + "-" + random_string
+					# Sauvegarde de la date et heure de retrait
+					order.picking_date = cart_data_validation.picking_date()
 					# On sauvegarde le formulaire
 					order.save()
 

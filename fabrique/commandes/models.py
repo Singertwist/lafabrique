@@ -15,6 +15,8 @@ class Order(models.Model):
 	montant_commande = models.DecimalField(decimal_places=2, max_digits=10, null=True)
 	updated = models.DateTimeField(auto_now=True)
 	paid = models.BooleanField(default=False)
+	picking_date = models.DateTimeField(verbose_name='Date et Heure de Retrait', null=True)
+	closed_order = models.BooleanField(verbose_name='Commande cloturée (cocher si terminée)', default=False)
 
 	class Meta:
 		ordering = ('-created',)

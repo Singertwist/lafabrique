@@ -415,8 +415,11 @@ class CartDataValidation(object):
 			data['time'] = datetime.datetime.strptime(data['picking_date'][:19], "%Y-%m-%d %H:%M:%S").time() # Pour info suite https://stackoverflow.com/questions/18039680/django-get-only-date-from-datetime-strptime
 			yield data
 
-
-		# if bool(self.final_composed_cart) is True: # Condition qui vérifie si le dictionnaire est vide, s'il est vide, renvoi des dictionnaire vide.
+	def picking_date(self):
+		for data in self.cart_data_validation.values():
+			data['datetime'] = data['picking_date']
+		return data['datetime']
+	# if bool(self.final_composed_cart) is True: # Condition qui vérifie si le dictionnaire est vide, s'il est vide, renvoi des dictionnaire vide.
 		# 	for i in self.final_composed_cart: #Pour chaque composition présent dans le panier contenant toutes les compositions
 		# 		final_composed_product_ids = self.final_composed_cart[i]['items'].keys() # On extrait les ID des articles du dictionnaire item (contenant les différents articles de la composition).
 		# 		final_composed_items = self.final_composed_cart[i]['items'].values() # On extrait également les valeurs relatives à ces articles.
