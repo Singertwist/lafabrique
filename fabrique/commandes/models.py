@@ -19,7 +19,7 @@ class Order(models.Model):
 	closed_order = models.BooleanField(verbose_name='Commande cloturée (cocher si terminée)', default=False)
 
 	class Meta:
-		ordering = ('-created',)
+		ordering = ('-picking_date', '-closed_order')
 
 	def __str__(self):
 		return 'Order {}'.format(self.id)
