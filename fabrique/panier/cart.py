@@ -110,11 +110,8 @@ class Cart(object):
 		return sum(Decimal(item['price']) * item['quantity'] for item in self.cart.values()) - sum(round(Decimal(item['total_item_tva']),2) for item in self.cart.values())
 
 	def clear(self):
-		del self.session['cart']
-		del self.session['composed_cart']
-		del self.session['final_composed_cart']
-		self.session.modified = True
-
+		self.cart = {}
+		self.save()
 
 # Méthodes spécifiques au panier composable
 
@@ -235,6 +232,10 @@ class FinalComposedCart(object):
 	def save_composed(self):
 		self.session['composed_cart'] = self.composed_cart
 		self.session.modified = True
+
+	def clear(self):
+		self.final_composed_cart = {}
+		self.save_final_composed()
 
 	def __iter__(self):
 		# Extraction des articles des différentes compositions #
@@ -419,6 +420,10 @@ class CartDataValidation(object):
 		for data in self.cart_data_validation.values():
 			data['datetime'] = data['picking_date']
 		return data['datetime']
+
+	def clear(self):
+		self.cart_data_validation = {}
+		self.save()
 	# if bool(self.final_composed_cart) is True: # Condition qui vérifie si le dictionnaire est vide, s'il est vide, renvoi des dictionnaire vide.
 		# 	for i in self.final_composed_cart: #Pour chaque composition présent dans le panier contenant toutes les compositions
 		# 		final_composed_product_ids = self.final_composed_cart[i]['items'].keys() # On extrait les ID des articles du dictionnaire item (contenant les différents articles de la composition).
