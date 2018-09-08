@@ -285,9 +285,9 @@ class FinalComposedCart(object):
 			for final_composed_item in self.final_composed_cart[k]['items'].values():
 				total_ttc_composition_final += final_composed_item['total_price'] # On additionne tous les valeurs de total_price pour chaque dictionnaire items
 				total_tva_composition_final += final_composed_item['total_composed_item_tva'] # On additionne tous les valeurs de total_tva pour chaque dictionnaire items
-			self.final_composed_cart[k]['total_ttc_composition_composition'] = total_ttc_composition_final * self.final_composed_cart[k]['quantity']# On insère le total calculé dans le dictionnaire que l'on multiplie par la quantité dans la composition
-			self.final_composed_cart[k]['total_tva_composition_final'] = total_tva_composition_final * self.final_composed_cart[k]['quantity'] # On insère le total calculé dans le dictionnaire
-			self.final_composed_cart[k]['total_ht_composition_final'] = (total_ttc_composition_final - total_tva_composition_final) * self.final_composed_cart[k]['quantity'] # On calcule et n insère le total calculé dans le dictionnaire
+			self.final_composed_cart[k]['total_ttc_composition_composition'] = round(Decimal(total_ttc_composition_final * self.final_composed_cart[k]['quantity']),2)# On insère le total calculé dans le dictionnaire que l'on multiplie par la quantité dans la composition
+			self.final_composed_cart[k]['total_tva_composition_final'] = round(Decimal(total_tva_composition_final * self.final_composed_cart[k]['quantity']),2) # On insère le total calculé dans le dictionnaire
+			self.final_composed_cart[k]['total_ht_composition_final'] = round(Decimal((total_ttc_composition_final - total_tva_composition_final) * self.final_composed_cart[k]['quantity']),2) # On calcule et n insère le total calculé dans le dictionnaire
 			total_ttc_composition_final = 0 # On réiniialise la valeur pour recommencer le cumul à zéro.
 			total_tva_composition_final = 0 # On réiniialise la valeur pour recommencer le cumul à zéro.
 
@@ -348,9 +348,9 @@ class FinalComposedCart(object):
 			for final_composed_item in self.final_composed_cart[k]['items'].values():
 				total_ttc_composition_final += final_composed_item['total_price'] # On additionne tous les valeurs de total_price pour chaque dictionnaire items
 				total_tva_composition_final += final_composed_item['total_composed_item_tva'] # On additionne tous les valeurs de total_tva pour chaque dictionnaire items
-			self.final_composed_cart[k]['total_ttc_composition_composition'] = total_ttc_composition_final * self.final_composed_cart[k]['quantity']# On insère le total calculé dans le dictionnaire que l'on multiplie par la quantité dans la composition
-			self.final_composed_cart[k]['total_tva_composition_final'] = total_tva_composition_final * self.final_composed_cart[k]['quantity'] # On insère le total calculé dans le dictionnaire
-			self.final_composed_cart[k]['total_ht_composition_final'] = (total_ttc_composition_final - total_tva_composition_final) * self.final_composed_cart[k]['quantity'] # On calcule et n insère le total calculé dans le dictionnaire
+			self.final_composed_cart[k]['total_ttc_composition_composition'] = round(Decimal(total_ttc_composition_final * self.final_composed_cart[k]['quantity']),2)# On insère le total calculé dans le dictionnaire que l'on multiplie par la quantité dans la composition
+			self.final_composed_cart[k]['total_tva_composition_final'] = round(Decimal(total_tva_composition_final * self.final_composed_cart[k]['quantity']),2) # On insère le total calculé dans le dictionnaire
+			self.final_composed_cart[k]['total_ht_composition_final'] = round(Decimal((total_ttc_composition_final - total_tva_composition_final) * self.final_composed_cart[k]['quantity']),2) # On calcule et n insère le total calculé dans le dictionnaire
 			total_ttc_composition_final = 0 # On réiniialise la valeur pour recommencer le cumul à zéro.
 			total_tva_composition_final = 0 # On réiniialise la valeur pour recommencer le cumul à zéro.
 		
