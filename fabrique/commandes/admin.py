@@ -16,7 +16,9 @@ class OrderItemAdmin(admin.ModelAdmin):
 	list_display = ['order', 'type_product', 'obtenir_articles', 'price', 'quantity']
 
 	def obtenir_articles(self, obj):
-		return "<br/>".join([p.nom_article_variation for p in obj.product.all()])
+		return ",".join([p.nom_article_variation for p in obj.product.all()])
+	obtenir_articles.short_description = 'Articles commandés' #Renommer l'entête de colonne
+	obtenir_articles.allow_tags = True 
 
 
 
