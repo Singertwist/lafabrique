@@ -79,7 +79,7 @@
 }
 
 .image-article-selection-plat img:hover {
-	cursor: zoom-in;
+	cursor: pointer;
 	filter: grayscale(50%);
 	transition-duration: 1s;
 }

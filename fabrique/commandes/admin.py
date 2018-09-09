@@ -12,5 +12,14 @@ class OrderAdmin(admin.ModelAdmin):
 	list_filter = ['paid', 'created', 'updated']
 	inlines = [OrderItemInline]
 
+class OrderItemAdmin(admin.ModelAdmin):
+	list_display = ['order', 'type_product', 'obtenir_articles', 'price', 'quantity']
+
+	def obtenir_articles(self, obj):
+		return "<br/>".join([p.nom_article_variation for p in obj.product.all()])
+
+
+
 admin.site.register(Order, OrderAdmin)
+admin.site.register(OrderItem, OrderItemAdmin)
 
