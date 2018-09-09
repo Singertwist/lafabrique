@@ -20,7 +20,7 @@
                     <div>
                     Ingrédients choisis : 
                     {% for sub_items in item.items.values %}
-                        {{sub_items.product}} <!-- Les ingrédients composants la composition réalisée -->
+                        {{sub_items.product.nom_article_variation}} <!-- Les ingrédients composants la composition réalisée -->
                         {{ forloop.last|yesno:",&#44;"|safe }} <!-- Permet d'ajouter des virgules entre les ingrédients sauf au dernier ingrédient -->
                     {% empty %}
                     {% endfor %}

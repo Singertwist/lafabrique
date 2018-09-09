@@ -3,6 +3,8 @@ from decimal import Decimal
 from django.utils.crypto import get_random_string
 from django.conf import settings
 import datetime
+import simplejson as json
+from django.forms.models import model_to_dict
 
 class Cart(object):
 	def __init__(self, request):
@@ -150,10 +152,10 @@ class ComposedCart(object):
 				self.composed_cart[str(composed_product.id)]['product'] = composed_product
 
 			for composed_item in self.composed_cart.values():
-				composed_item['price'] = Decimal(composed_item['price'])
-				composed_item['tva'] = Decimal(composed_item['tva'])
-				composed_item['total_price'] = composed_item['price'] * composed_item['quantity']
-				composed_item['total_composed_item_tva'] = composed_item['total_price'] - composed_item['total_price'] / composed_item['tva'] #Calcul du total de TVA par article.
+				composed_item['price'] = json.dumps(Decimal(composed_item['price']))
+				composed_item['tva'] = json.dumps(Decimal(composed_item['tva']))
+				composed_item['total_price'] = json.dumps(Decimal(composed_item['price']) * composed_item['quantity'])
+				composed_item['total_composed_item_tva'] = json.dumps(Decimal(composed_item['total_price']) - Decimal(composed_item['total_price']) / Decimal(composed_item['tva'])) #Calcul du total de TVA par article.
 				yield composed_item
 
 	def __len__(self):
@@ -251,7 +253,7 @@ class FinalComposedCart(object):
 			for final_composed_products_dict_ids in self.final_composed_cart[i]['items'].keys(): #On sélectionne dans un dictionnaire les IDs des différents articles ajoutés.
 				for final_composed_product in final_composed_products: # Pour chaque article présent dans la Queryset des différents articles
 					if str(final_composed_product.id) in final_composed_products_dict_ids: # Si l'ID de mon article est présent dans le dictionnaire d'ID
-						self.final_composed_cart[i]['items'][str(final_composed_products_dict_ids)]['product'] = final_composed_product #Alors je peux ajouter le nom de l'article dans un clé "produit".
+						self.final_composed_cart[i]['items'][str(final_composed_products_dict_ids)]['product'] = model_to_dict(final_composed_product, fields=['id', 'nom_article_variation']) #Alors je peux ajouter le nom de l'article dans un clé "produit".
 
 		# Extraction des catégories de chaque composition #
 		final_composed_cat_ids = [] # Création d'une liste pour récupérer les ID de chaque catégorie de compositions
@@ -265,17 +267,17 @@ class FinalComposedCart(object):
 			for final_composed_cart_cats_id in self.final_composed_cart[k]['cat_composed_cart']:
 				for final_composed_cat in final_composed_cats:
 					if str(final_composed_cat.id) in final_composed_cart_cats_id:
-						self.final_composed_cart[k]['cat_name'] = final_composed_cat
+						self.final_composed_cart[k]['cat_name'] = model_to_dict(final_composed_cat, fields=['id', 'nom', str('image')])
 
 		# Mise en forme du dictionnaires Items
 		for k in self.final_composed_cart.keys():
 			# final_composed_cat = self.final_composed_cart[k]['cat_name']	
 			# yield final_composed_cat
 			for final_composed_item in self.final_composed_cart[k]['items'].values():
-				final_composed_item['price'] = Decimal(final_composed_item['price'])
-				final_composed_item['tva'] = Decimal(final_composed_item['tva'])
-				final_composed_item['total_price'] = final_composed_item['price'] * final_composed_item['quantity']
-				final_composed_item['total_composed_item_tva'] = final_composed_item['total_price'] - final_composed_item['total_price'] / final_composed_item['tva']
+				final_composed_item['price'] = json.dumps(Decimal(final_composed_item['price']))
+				final_composed_item['tva'] = json.dumps(Decimal(final_composed_item['tva']))
+				final_composed_item['total_price'] = json.dumps(Decimal(final_composed_item['price']) * Decimal(final_composed_item['quantity']))
+				final_composed_item['total_composed_item_tva'] = json.dumps(Decimal(final_composed_item['total_price']) - Decimal(final_composed_item['total_price']) / Decimal(final_composed_item['tva']), use_decimal=True)
 				# yield final_composed_item
 
 		# Calcul des totaux pour chaque composition (tva...)
@@ -283,11 +285,11 @@ class FinalComposedCart(object):
 		total_tva_composition_final = 0 # Déclaration de la variable
 		for k in self.final_composed_cart.keys():
 			for final_composed_item in self.final_composed_cart[k]['items'].values():
-				total_ttc_composition_final += final_composed_item['total_price'] # On additionne tous les valeurs de total_price pour chaque dictionnaire items
-				total_tva_composition_final += final_composed_item['total_composed_item_tva'] # On additionne tous les valeurs de total_tva pour chaque dictionnaire items
-			self.final_composed_cart[k]['total_ttc_composition_composition'] = round(Decimal(total_ttc_composition_final * self.final_composed_cart[k]['quantity']),2)# On insère le total calculé dans le dictionnaire que l'on multiplie par la quantité dans la composition
-			self.final_composed_cart[k]['total_tva_composition_final'] = round(Decimal(total_tva_composition_final * self.final_composed_cart[k]['quantity']),2) # On insère le total calculé dans le dictionnaire
-			self.final_composed_cart[k]['total_ht_composition_final'] = round(Decimal((total_ttc_composition_final - total_tva_composition_final) * self.final_composed_cart[k]['quantity']),2) # On calcule et n insère le total calculé dans le dictionnaire
+				total_ttc_composition_final += Decimal(final_composed_item['total_price']) # On additionne tous les valeurs de total_price pour chaque dictionnaire items
+				total_tva_composition_final += Decimal(final_composed_item['total_composed_item_tva']) # On additionne tous les valeurs de total_tva pour chaque dictionnaire items
+			self.final_composed_cart[k]['total_ttc_composition_composition'] = json.dumps(round(Decimal(total_ttc_composition_final * self.final_composed_cart[k]['quantity']),2))# On insère le total calculé dans le dictionnaire que l'on multiplie par la quantité dans la composition
+			self.final_composed_cart[k]['total_tva_composition_final'] = json.dumps(round(Decimal(total_tva_composition_final * self.final_composed_cart[k]['quantity']),2)) # On insère le total calculé dans le dictionnaire
+			self.final_composed_cart[k]['total_ht_composition_final'] = json.dumps(round((Decimal(total_ttc_composition_final) - Decimal(total_tva_composition_final)) * self.final_composed_cart[k]['quantity'],2)) # On calcule et n insère le total calculé dans le dictionnaire
 			total_ttc_composition_final = 0 # On réiniialise la valeur pour recommencer le cumul à zéro.
 			total_tva_composition_final = 0 # On réiniialise la valeur pour recommencer le cumul à zéro.
 
