@@ -128,7 +128,7 @@
 				                    </div>
 				                </div>
 				                <div class="validation-cart-payment"> x {{ item.quantity }}</div>
-				                <div class="composition-panier-final-item-prix">{{ item.total_ttc_composition_composition }} €</div>
+				                <div class="composition-panier-final-item-prix">{{ item.total_ttc_composition_composition|floatformat:2 }} €</div>
 				            </div>
 
 				        {% empty %}
@@ -145,7 +145,7 @@
 				                    <div>{{ product.article.description }}</div>
 				                </div>
 				                <div class="validation-cart-payment">x {{ item.quantity }}</div>
-				                <div class="composition-panier-final-item-prix">{{ item.total_price }} €</div>
+				                <div class="composition-panier-final-item-prix">{{ item.total_price|floatformat:2 }} €</div>
 				            </div>
 
 				          {% endwith %}
@@ -172,7 +172,7 @@
 							{% if final_composed_cart.get_total_ht_price_general is None %}
                       			0.00 €
                    			{% else %}
-                      			{{ final_composed_cart.get_total_ht_price_general }} €
+                      			{{ final_composed_cart.get_total_ht_price_general|floatformat:2 }} €
                     		{% endif %}
 						</p>
 					</div>
@@ -185,7 +185,7 @@
 		                    {% if final_composed_cart.get_total_tva_general is None %}
 		                      0.00 €
 		                    {% else %} 
-		                      {{ final_composed_cart.get_total_tva_general }}€
+		                      {{ final_composed_cart.get_total_tva_general|floatformat:2 }}€
 		                    {% endif %}
 						</p>
 					</div>
@@ -195,7 +195,7 @@
 		                    {% if final_composed_cart.get_total_ttc_price_general is None %}
 		                      0.00 €
 		                    {% else %}
-		                      {{ final_composed_cart.get_total_ttc_price_general}}€
+		                      {{ final_composed_cart.get_total_ttc_price_general|floatformat:2}}€
 		                    {% endif %}
 						</p>
 					</div>

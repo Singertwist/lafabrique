@@ -148,7 +148,7 @@
 										<div class="texte-texte-article-selection-plat"><p>{{ item.article.description }}</p></div>
 									</div>
 										<div class="prix-texte-article-selection-plat">
-											<div class="sous-catprix-texte-article-selection-plat">{{ item.prix_vente_unitaire }} €</div>
+											<div class="sous-catprix-texte-article-selection-plat">{{ item.prix_vente_unitaire|floatformat:2 }} €</div>
 											<div class="sous-catprix-texte-article-selection-plat">
 												<form method="post" action="{% url 'cart_add' item.id %}">
 													{% csrf_token %}

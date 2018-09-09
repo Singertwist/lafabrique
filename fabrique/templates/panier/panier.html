@@ -129,7 +129,7 @@
                     {% if final_composed_cart.get_total_ht_price_general is None %}
                       0.00€
                     {% else %}
-                      {{ final_composed_cart.get_total_ht_price_general }}€
+                      {{ final_composed_cart.get_total_ht_price_general|floatformat:2 }}€
                     {% endif %}
                   </span>
                 </div>
@@ -138,7 +138,7 @@
                     {% if final_composed_cart.get_total_tva_general is None %}
                       0.00€
                     {% else %} 
-                      {{ final_composed_cart.get_total_tva_general }}€
+                      {{ final_composed_cart.get_total_tva_general|floatformat:2 }}€
                     {% endif %}
                   </span>
                 </div>
@@ -147,7 +147,7 @@
                     {% if final_composed_cart.get_total_ttc_price_general is None %}
                       0.00€
                     {% else %}
-                      {{ final_composed_cart.get_total_ttc_price_general}}€
+                      {{ final_composed_cart.get_total_ttc_price_general|floatformat:2}}€
                     {% endif %}
                   </span>
                 </div>
