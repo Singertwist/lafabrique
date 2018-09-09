@@ -29,7 +29,7 @@ class Order(models.Model):
 
 class OrderItem(models.Model):
 	order = models.ForeignKey(Order, related_name='items', on_delete=models.CASCADE)
-	type_product = models.ForeignKey(Sous_Categories_Article, verbose_name="Catégorie Article", on_delete=models.PROTECT, null=True)
+	type_product = models.ForeignKey(Sous_Categories_Article, verbose_name="Catégorie Article", on_delete=models.PROTECT)
 	product = models.ManyToManyField(Variations_Articles, max_length=1000, verbose_name='Article')
 	price = models.DecimalField(max_digits=10, decimal_places=2)
 	quantity = models.PositiveIntegerField(default=1)

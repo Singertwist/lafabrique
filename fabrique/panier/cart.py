@@ -253,7 +253,7 @@ class FinalComposedCart(object):
 			for final_composed_products_dict_ids in self.final_composed_cart[i]['items'].keys(): #On sélectionne dans un dictionnaire les IDs des différents articles ajoutés.
 				for final_composed_product in final_composed_products: # Pour chaque article présent dans la Queryset des différents articles
 					if str(final_composed_product.id) in final_composed_products_dict_ids: # Si l'ID de mon article est présent dans le dictionnaire d'ID
-						self.final_composed_cart[i]['items'][str(final_composed_products_dict_ids)]['product'] = model_to_dict(final_composed_product, fields=['id', 'nom_article_variation']) #Alors je peux ajouter le nom de l'article dans un clé "produit".
+						self.final_composed_cart[i]['items'][str(final_composed_products_dict_ids)]['product'] = model_to_dict(final_composed_product, fields=['id', 'nom_article_variation']) #Alors je peux ajouter le nom de l'article dans un clé "produit". Information concernant la sérialisation d'objet (Queryset) https://stackoverflow.com/questions/21925671/convert-django-model-object-to-dict-with-all-of-the-fields-intact
 
 		# Extraction des catégories de chaque composition #
 		final_composed_cat_ids = [] # Création d'une liste pour récupérer les ID de chaque catégorie de compositions
@@ -267,14 +267,14 @@ class FinalComposedCart(object):
 			for final_composed_cart_cats_id in self.final_composed_cart[k]['cat_composed_cart']:
 				for final_composed_cat in final_composed_cats:
 					if str(final_composed_cat.id) in final_composed_cart_cats_id:
-						self.final_composed_cart[k]['cat_name'] = model_to_dict(final_composed_cat, fields=['id', 'nom', str('image')])
+						self.final_composed_cart[k]['cat_name'] = model_to_dict(final_composed_cat, fields=['id', 'nom', str('image')]) #Information concernant la sérialisation d'objet (Queryset) https://stackoverflow.com/questions/21925671/convert-django-model-object-to-dict-with-all-of-the-fields-intact
 
 		# Mise en forme du dictionnaires Items
 		for k in self.final_composed_cart.keys():
 			# final_composed_cat = self.final_composed_cart[k]['cat_name']	
 			# yield final_composed_cat
 			for final_composed_item in self.final_composed_cart[k]['items'].values():
-				final_composed_item['price'] = json.dumps(Decimal(final_composed_item['price']))
+				final_composed_item['price'] = json.dumps(Decimal(final_composed_item['price'])) # Information concernant la sérialization de Decimal https://stackoverflow.com/questions/1960516/python-json-serialize-a-decimal-object
 				final_composed_item['tva'] = json.dumps(Decimal(final_composed_item['tva']))
 				final_composed_item['total_price'] = json.dumps(Decimal(final_composed_item['price']) * Decimal(final_composed_item['quantity']))
 				final_composed_item['total_composed_item_tva'] = json.dumps(Decimal(final_composed_item['total_price']) - Decimal(final_composed_item['total_price']) / Decimal(final_composed_item['tva']), use_decimal=True)
