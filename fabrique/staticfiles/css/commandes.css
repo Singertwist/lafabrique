@@ -1,0 +1,405 @@
+/* Checkout-account css style */
+.checkout-account-container-image {
+	background-image: url('../img/identification-commande.jpg');
+	background-size: cover;
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.checkout-account-container {
+	max-width: 1500px;
+	margin: 45px;
+	padding: 15px;
+	background-color: #FFFFFF;
+	border-radius: 10px;
+	box-shadow: 1px 1px 12px;
+}
+
+.checkout-account-container > p {
+	text-align: center;
+	font-size: 12px;
+}
+
+.checkout-account-container > p a {
+	color: grey;
+	padding: 0px 10px 0px 10px;
+	letter-spacing: 1px;
+}
+
+.checkout-account-container > p a:nth-child(3) {
+	font-weight: bold;
+}
+
+.checkout-account-container > p a:hover {
+	color: #333333;
+}
+
+
+.checkout-account-container-bis {
+	display: flex;
+}
+
+.checkout-account {
+	width: 50%;
+	margin: 5px;
+	display: flex;
+	flex-direction: column;
+	min-height: 500px;
+}
+
+.header-checkout-account {
+	background-color: #F3F3F3;
+	text-align: center;
+	font-size: 18px;
+}
+
+.header-checkout-account, .content-checkout-account {
+	border: solid 1px lightgrey;
+	margin-bottom: 5px;
+}
+
+.content-checkout-account {
+	flex: 1;
+}
+
+.content-checkout-account-text {
+	padding: 10px;
+	text-align: justify;
+}
+
+.content-checkout-account h1 {
+	text-align: center;
+	font-weight: normal;
+	letter-spacing: 2px;
+}
+
+.buttons-content-checkout-account {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.checkout-account-standard {
+	width: 50%;
+	text-align: center;
+	margin: 15px;
+	border: solid grey 1px;
+}
+
+.checkout-account-standard > a {
+	display: block;
+	padding: 15px;
+	color: grey;
+	transition-duration: 0.5s;
+}
+
+.checkout-account-standard > a:hover {
+	background-color: #333333;
+	color: #FFFFFF;
+	transition-duration: 0.5s;
+}
+
+.buttons-content-checkout-account form {
+	width: 80%;
+}
+
+.buttons-content-checkout-account input {
+	display: block;
+	width: 100%;
+	height: 40px;
+	margin-top: 10px;
+	border: solid 1px lightgrey;
+}
+
+.buttons-content-checkout-account input:last-child {
+	margin-top: 50px;
+	height: 50px;
+	color: #CE3734;
+	font-weight: bold;
+	border: solid 2px #CE3734;
+	background-color: #FFFFFF;
+	transition-duration: 0.3s;
+	border-radius: 10px;
+}
+
+.buttons-content-checkout-account input:last-child:hover {
+	color: #E98D5E;
+	border-color: #E98D5E;
+    transition-duration: 0.5s;
+}
+
+/* Gestion des erreurs formulaire carte bancaire */
+
+/*Style pour les cartes stripe */
+.information-details-paiement-first-part #stripe-error-card {
+	text-align: center;
+	padding: 5px;
+	color: red;
+	border: solid 1px red;
+	display: none;
+}
+
+/* Style pour les erreurs relatives au formulaire django */
+.information-details-personnel-first-part ul {
+	margin: 0px 0px 5px 0px;
+	padding: 5px;
+	color: red;
+	border: solid 1px red;
+	list-style-type: none;
+	text-align: center;
+}
+
+/* orders-create (informations pour validation de la commande) */
+.sum-up-checkout-container, .order-confirmation {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.sum-up-checkout-container-bis {
+	border: solid 1px lightgrey;
+	box-shadow: 1px 1px 12px lightgrey;
+	border-radius: 10px;
+	display: flex;
+	flex-direction: column;
+	width: 80%;
+	max-width: 1500px;
+	background-color: #FFFFFF;
+}
+
+.sum-up-checkout-container-bis > p {
+	text-align: center;
+	padding: 25px;
+	margin: 0;
+}
+
+.sum-up-checkout-container > h1, .order-confirmation> h1 {
+	color: #CE3734;
+	font-weight: normal;
+	font-size: 45px;
+	margin: 50px 0px 25px 0px; 
+	border: solid 2px #CE3734;
+	padding: 20px;
+	border-radius: 10px;
+}
+
+.sum-up-checkout-container-bis > p > a {
+	color: grey;
+	padding: 0px 10px 0px 10px;
+	letter-spacing: 1px;
+	font-size: 12px;
+}
+
+.sum-up-checkout-container-bis > p > a:nth-child(4) {
+	font-weight: bold;
+}
+
+.sum-up-checkout-container-bis > p > a:hover {
+	color: #333333;
+}
+
+.sum-up-checkout {
+	display: flex;
+}
+
+.information-sum-up {
+	width: calc(50% - 60px);
+	margin: 0px 30px 30px 30px;
+}
+
+.cart-sum-up {
+	width: calc(50% - 60px);
+	margin: 0px 30px 30px 30px;
+}
+
+.cart-sum-up-details > p {
+	display: flex;
+	align-items: center;
+}
+
+.cart-sum-up-details a {
+	color: #CE3734;
+	font-size: 12px;
+	flex: 1;
+	text-align: right;
+}
+
+.cart-sum-up-details a:hover {
+	color: #E98D5E;
+}
+
+.information-details > p, .information-details-paiement > p, .cart-sum-up-details > p {
+	color: grey;
+	letter-spacing: 1px;
+	border-bottom: solid 1px lightgrey;
+	font-size: 20px;
+	padding: 0px 0px 5px 0px;
+}
+
+.information-details-personnel-subcontainer {
+	display: flex;
+	justify-content: space-between;
+}
+
+.information-details-personnel-first-part , .information-details-personnel-second-part {
+	width: calc(50% - 20px);
+}
+
+.information-details-personnel-subcontainer p {
+	margin : 5px 0px 5px 0px;
+}
+
+.information-details-personnel-subcontainer input {
+	width: 100%;
+	height: 40px;
+	border: 1px solid lightgrey;
+}
+
+.information-details-paiement-first-part p {
+	margin : 5px 0px 5px 0px;
+}
+
+.information-details-paiement-first-part input {
+	width: 100%;
+	height: 40px;
+	border: 1px solid lightgrey;
+}
+
+.information-details-paiement-second-part {
+	display: flex;
+	justify-content: space-between;
+} 
+
+.information-details-paiement-second-part-bis {
+	width: 45%;
+}
+
+.information-details-paiement-second-part-bis input {
+	width: 100%;
+	height: 40px;
+	border: 1px solid lightgrey;
+}
+
+.information-details-paiement input[type=submit] {
+	width: 100%;
+	height: 50px;
+	margin: 25px 0px 0px 0px;
+	background-color: #FFFFFF;
+	border: solid 2px #CE3734;
+	color: #CE3734;
+	font-size: 18px;
+	transition-duration: 0.5s;
+	white-space: normal; /* Wrap text inside the input button */
+}
+
+.information-details-paiement input[type=submit]:hover {
+	cursor: pointer;
+	color: #E98D5E;
+	border-color: #E98D5E;
+	transition-duration: 0.5s;
+}
+
+.validation-cart-payment {
+	margin: auto;
+}
+
+.total-cart-sum-up-details-price {
+	display: flex;
+}
+
+.total-cart-sum-up-details-price > p {
+	width: 50%;
+	margin: 10px 0px 0px 0px;
+}
+
+.total-cart-sum-up-details-price > p:nth-child(even) {
+	text-align: right;
+}
+
+.total-cart-sum-up-details-price:last-child {
+	font-weight: bold;
+}
+
+/* Confirmation de la commande order-created.html */
+.order-confirmation-image {
+	background-image: url('../img/order-validated.jpg');
+	background-size: cover;
+	min-height: 100vh;
+}
+
+.order-confirmation > p:nth-child(2) {
+	font-size: 35px;
+	letter-spacing: 0.5px;
+}
+
+.order-confirmation > p:last-child {
+	margin: 20px;
+}
+
+.order-confirmation > p:last-child a {
+	border: solid 2px #CE3734;
+	color: #CE3734;
+	margin: 20px;
+	padding: 15px;
+	font-size: 25px;
+	transition-duration: 0.5s;
+}
+
+.order-confirmation > p:last-child a:hover {
+	color: #E98D5E;
+	border-color: #E98D5E;
+	transition-duration: 0.5s;
+}
+
+.order-confirmation  > p > a:nth-child(4) {
+	font-weight: normal;
+}
+
+.order-confirmation  > p > a:nth-child(5) {
+	font-weight: bold;
+}
+
+.order-confirmation img {
+	width: 100%;
+	max-width: 256px;
+	height: auto;
+}
+
+
+@media only screen and (max-width: 1100px){
+
+/* Checkout-account css style */
+ {
+	flex-direction: column;
+}
+
+.checkout-account {
+	width: calc(100% - 10px);
+}
+
+/* orders-create (informations pour validation de la commande) */
+.sum-up-checkout, .sum-up-checkout-container-bis {
+	flex-direction: column-reverse;
+}
+
+.information-details-personnel-subcontainer, .order-confirmation {
+	flex-direction: column;
+}
+
+.information-sum-up , .cart-sum-up {
+	width: 80%;
+	margin: auto;
+}
+
+.information-details-personnel-first-part , .information-details-personnel-second-part {
+	width: 100%;
+}
+
+.order-confirmation > p:last-child a {
+	display: block;
+}
+
+
+}
