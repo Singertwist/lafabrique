@@ -3,6 +3,7 @@ from django.contrib import admin
 # Register your models here.
 from django.utils.text import Truncator
 from .models import Categories_Article, Sous_Categories_Article, Article, Allergie, Unite_Oeuvre, Type_Produit, Taux_TVA, Variations_Articles, Type_Variations_Articles
+from commandes.actions import export_to_csv
 
 class Categories_ArticleAdmin(admin.ModelAdmin):
   list_display   = ('nom', 'timestamp', 'updated', 'ordre', 'actif', 'rubrique_principale')
@@ -63,6 +64,8 @@ class ArticleAdmin(admin.ModelAdmin):
   inlines = [
         VariationsArticlesInline,
     ]
+
+  actions = [export_to_csv]
   #Défini une fonction afin d'afficher la catégorie de l'article dans la page Afmin, (list_display), car impossible de le faire sur une relation ManyToMany
   # def obtenir_categories(self, obj):
   #   return "<br/>".join([p.nom for p in obj.categories.all()])
