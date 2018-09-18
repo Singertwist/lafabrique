@@ -44,7 +44,7 @@
     <td>{{ order.get_total_cost|floatformat:2 }}€</td>
   </tr>
   <tr>
-    <th>Statut :</th>
+    <th>Statut paiement:</th>
     <td>{% if order.paid %}Payé{% else %}En attente de paiement{% endif %}</td>
   </tr>
   <tr>
@@ -52,7 +52,7 @@
     <td>{{ order.picking_date }}</td>
   </tr>
   <tr>
-    <th>Commande traitée :</th>
+    <th>Statut commande :</th>
     <td>{% if order.closed_order %}Commande traitée / cloturée {% else %}Commande en cours de traitement{% endif %}</td>
   </tr>
 </table>
