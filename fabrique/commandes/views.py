@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from panier.cart  import Cart, ComposedCart, FinalComposedCart, CartDataValidation
 from catalogue.models import Categories_Article, Sous_Categories_Article, Article, Type_Produit, Variations_Articles
 from .models import Order, OrderItem
@@ -9,6 +9,8 @@ from decimal import Decimal
 from django.contrib import messages
 import datetime
 from django.utils.crypto import get_random_string
+from django.contrib.admin.views.decorators import staff_member_required
+
 
 # Create your views here.
 
@@ -103,3 +105,8 @@ def order_create(request):
 def order_created(request):
 	return render(request, "commandes/orders-create.html", {})
 
+@staff_member_required
+
+def	admin_order_detail(request,	order_id):
+	order = get_object_or_404(Order, id=order_id)
+	return	render(request, 'admin/commandes/commande/detail.html', {'order':order})

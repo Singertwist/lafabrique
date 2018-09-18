@@ -22,6 +22,7 @@ from . import views
 urlpatterns = [
 	path('connexion/', views.checkout_account, name='checkout_account'),
 	path('resume/', views.order_create, name='order_create'),
+	path('admin/order/<int:order_id>/',	views.admin_order_detail, name='admin_order_detail'),
 ]
 
 # urlpatterns = [

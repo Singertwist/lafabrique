@@ -49,16 +49,17 @@ def export_to_csv(modeladmin, request, queryset):
 	for obj in queryset:
 		data_row = []
 		for field in fields:
+			# value = getattr(obj, field.name)
+			# if isinstance(value, datetime.datetime):
+			# 	value = value.strftime('%d/%m/%Y')
+			# data_row.append(value)
 			
-			if field.many_to_many == True:
-				values = obj.product.all().values_list('id', flat=True)
-				for value in values:
-					data_row.append(value)
-
-			if field.one_to_many == True:
-			 	value = "Test"
-			 	data_row.append(value)
-
+			if field.many_to_many == True or field.one_to_many == True :
+				value = field.name
+				data_row.append(value)
+				# values = obj.product.all().values_list('id', flat=True)
+				# for value in values:
+				# 	data_row.append(value)
 			else:
 				value = getattr(obj, field.name)
 				data_row.append(value)
