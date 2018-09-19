@@ -41,9 +41,9 @@
 								<div class="infos-producteurs-suite-image"><img src="{% static 'img/icones/vegetables.png' %}" alt="logo-adresse"/></div>
 								<div class="infos-producteurs-suite-texte">
 									<p>Produits:
-										{% for article in producteur.article_set.all %}
+										{% for article in producteur.variations_articles_set.all %}
 											{% if not forloop.first %},{% endif %}
-											{{ article.nom|title }}
+											{{ article.nom_article_variation|title }}
 										{% empty %}
 											Pas de produit associé à ce producteur.
 										{% endfor %}
