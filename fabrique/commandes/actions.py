@@ -55,8 +55,12 @@ def export_to_csv(modeladmin, request, queryset):
 			# data_row.append(value)
 			
 			if field.many_to_many == True or field.one_to_many == True :
-				value = field.name
-				data_row.append(value)
+				try:
+					value = list(getattr(obj, field.name).all().values_list('id', flat=True))
+					data_row.append(value)
+				except:
+					value = obj
+					data_row.append(value)
 				# values = obj.product.all().values_list('id', flat=True)
 				# for value in values:
 				# 	data_row.append(value)
