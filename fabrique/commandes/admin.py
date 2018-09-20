@@ -16,6 +16,7 @@ class OrderAdmin(admin.ModelAdmin):
 	list_filter = ['paid', 'created', 'updated']
 	inlines = [OrderItemInline]
 	actions = [export_as_csv_action("CSV Export"), export_to_csv]
+	search_fields = ['order_number', 'picking_date', 'prenom', 'nom', 'paid', 'created', 'updated', 'closed_order']
 
 	def order_detail(self, obj):
 		return mark_safe('<a href="{}">Voir le détail</a>'.format(reverse('admin_order_detail', args=[obj.id])))

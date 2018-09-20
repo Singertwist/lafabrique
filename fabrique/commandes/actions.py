@@ -35,7 +35,7 @@ def export_to_csv(modeladmin, request, queryset):
 	opts = modeladmin.model._meta
 	response = HttpResponse(content_type='text/csv')
 	response['Content-Disposition'] = 'attachment; filename=%s.csv' % str(opts).replace('.', '_')
-	writer = csv.writer(response)
+	writer = csv.writer(response, delimiter=";")
 	# fields = [field for field in opts.get_fields() if not field.many_to_many and not field.one_to_many]
 	fields = []
 	fields = [field for field in opts.get_fields()]
@@ -48,28 +48,17 @@ def export_to_csv(modeladmin, request, queryset):
 	# Write data rows
 	for obj in queryset:
 		data_row = []
-		for field in fields:
-			# value = getattr(obj, field.name)
-			# if isinstance(value, datetime.datetime):
-			# 	value = value.strftime('%d/%m/%Y')
-			# data_row.append(value)
-			
-			if field.many_to_many == True or field.one_to_many == True :
+		for field in fields:		
+			if field.many_to_many == True or field.one_to_many == True:
 				try:
 					value = list(getattr(obj, field.name).all().values_list('id', flat=True))
-					data_row.append(value)
 				except:
 					value = obj
-					data_row.append(value)
-				# values = obj.product.all().values_list('id', flat=True)
-				# for value in values:
-				# 	data_row.append(value)
 			else:
 				value = getattr(obj, field.name)
-				data_row.append(value)
 			if isinstance(value, datetime.datetime):
 				value = value.strftime('%d/%m/%Y')
-			
+			data_row.append(value)
 		writer.writerow(data_row)
 	return response
 export_to_csv.short_description = 'Export to CSV'
