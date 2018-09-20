@@ -51,11 +51,11 @@ def export_to_csv(modeladmin, request, queryset):
 		for field in fields:		
 			if field.many_to_many == True or field.one_to_many == True:
 				try:
-					value = list(getattr(obj, field.name).all().values_list('id', flat=True))
+					value = list(getattr(obj, field.name).all().values_list('id', flat=True)) # On récupérère sous forme de liste les id relatifs aux articles.
 				except:
-					value = obj
+					value = str(obj).replace(";", "") # Replace permet de supprimer les point virgule des chaines de caractères afin de ne pas interférer avec le séparateur du CSV.
 			else:
-				value = getattr(obj, field.name)
+				value = str(getattr(obj, field.name)).replace(";", "") # Replace permet de supprimer les point virgule des chaines de caractères afin de ne pas interférer avec le séparateur du CSV.
 			if isinstance(value, datetime.datetime):
 				value = value.strftime('%d/%m/%Y')
 			data_row.append(value)
