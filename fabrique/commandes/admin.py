@@ -26,7 +26,7 @@ class OrderAdmin(admin.ModelAdmin):
 class OrderItemAdmin(admin.ModelAdmin):
 	list_display = ['order', 'type_product', 'obtenir_articles', 'price', 'quantity']
 	actions = [export_as_csv_action("CSV Export"), export_to_csv]
-
+	search_fields = ['order__order_number', 'type_product__nom', 'price', 'quantity']
 
 	def obtenir_articles(self, obj):
 		return ",".join([p.nom_article_variation for p in obj.product.all()])
