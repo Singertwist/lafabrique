@@ -41,7 +41,7 @@ def export_to_csv_sales(modeladmin, request, queryset):
 		else:
 			writer.writerow(data_row) # S'il n'y a pas de composition on écrit la ligne normalement.
 	return response
-export_to_csv_sales.short_description = 'Export to CSV'
+export_to_csv_sales.short_description = 'Exporter au format CSV'
 
 
 # Il s'agit des exports normaux. On ne créé pas de ligne si présence d'une liste dans une cellule.
@@ -70,13 +70,15 @@ def export_to_csv(modeladmin, request, queryset):
 				except:
 					value = str(obj).replace(";", "") # Replace permet de supprimer les point virgule des chaines de caractères afin de ne pas interférer avec le séparateur du CSV.
 			else:
-				value = str(getattr(obj, field.name)).replace(";", "") # Replace permet de supprimer les point virgule des chaines de caractères afin de ne pas interférer avec le séparateur du CSV.
-			if isinstance(value, datetime.datetime):
-				value = value.strftime('%d/%m/%Y')
+				value = getattr(obj, field.name) # Replace permet de supprimer les point virgule des chaines de caractères afin de ne pas interférer avec le séparateur du CSV.
+				if isinstance(value, datetime.datetime):
+					value = value.strftime('%d/%m/%Y')
+				else:
+					value = str(value).replace(";", "")
 			data_row.append(value) # On aggrège toutes les données d'une ligne dans la liste data_row.
 		writer.writerow(data_row)
 	return response
-export_to_csv.short_description = 'Export to CSV'
+export_to_csv.short_description = 'Exporter au format CSV'
 
 
 		# if id_list != None:
