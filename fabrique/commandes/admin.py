@@ -1,7 +1,7 @@
 from django.contrib import admin
 from .models import Order, OrderItem
 from django.http import HttpResponse, HttpResponseForbidden
-from .actions import export_as_csv_action, export_to_csv
+from .actions import export_to_csv, export_to_csv_sales
 from django.urls import reverse
 from django.utils.safestring import mark_safe
 
@@ -15,7 +15,7 @@ class OrderAdmin(admin.ModelAdmin):
 	list_display = ['order_number', 'picking_date', 'prenom', 'nom', 'paid', 'created', 'updated', 'closed_order', 'order_detail']
 	list_filter = ['paid', 'created', 'updated']
 	inlines = [OrderItemInline]
-	actions = [export_as_csv_action("CSV Export"), export_to_csv]
+	actions = [export_to_csv]
 	search_fields = ['order_number', 'picking_date', 'prenom', 'nom', 'paid', 'created', 'updated', 'closed_order']
 
 	def order_detail(self, obj):
@@ -25,7 +25,7 @@ class OrderAdmin(admin.ModelAdmin):
 
 class OrderItemAdmin(admin.ModelAdmin):
 	list_display = ['order', 'type_product', 'obtenir_articles', 'price', 'quantity']
-	actions = [export_as_csv_action("CSV Export"), export_to_csv]
+	actions = [export_to_csv_sales]
 	search_fields = ['order__order_number', 'type_product__nom', 'price', 'quantity']
 
 	def obtenir_articles(self, obj):

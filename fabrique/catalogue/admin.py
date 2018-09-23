@@ -73,6 +73,10 @@ class ArticleAdmin(admin.ModelAdmin):
   # obtenir_categories.short_description = 'Catégories de l\'article' #Renommer l'entête de colonne
   # obtenir_categories.allow_tags = True #Autoriser les tags HTML et ainsi autoriser les retour à la ligne quand il y a plusieurs catégories (balise <br/>).
 
+class VariationsArticlesAdmin(admin.ModelAdmin):
+  list_display = ('article', 'nom_article_variation', 'categories', 'prix_vente_unitaire', 'prix_revient')
+  actions = [export_to_csv]
+
 class AllergieAdmin(admin.ModelAdmin):
   list_display   = ('nom', 'timestamp', 'updated', 'active')
   list_filter    = ('nom', )
@@ -117,3 +121,4 @@ admin.site.register(Unite_Oeuvre, Unite_OeuvreAdmin)
 admin.site.register(Type_Produit, Type_ProduitAdmin)
 admin.site.register(Taux_TVA, Taux_TVAAdmin)
 admin.site.register(Type_Variations_Articles, Type_Variations_ArticlesAdmin)
+admin.site.register(Variations_Articles, VariationsArticlesAdmin)
