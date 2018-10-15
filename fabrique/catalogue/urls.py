@@ -19,16 +19,18 @@ from django.contrib import admin
 from . import views
 
 urlpatterns = [
-    path('composer/<str:slug>-<int:id>', views.articles_plats_composer, name='articles_plats_composer'),
-    path('pret/<slug:slug>-<int:id>', views.articles_plats_pret, name='articles_plats_pret'),
-    path('<slug:slug>-<int:ordre>', views.articles_plats, name='articles_plats'),
-    #url(r'desserts/', views.articles_desserts, name='articles_desserts'),
+    path('composer/<str:slug>-<int:id>', views.Liste_Articles_Plats_Composes.as_view(), name='articles_plats_composer'),
+    path('pret/<slug:slug>-<int:id>', views.Liste_Articles_Plats_Prets.as_view(), name='articles_plats_pret'),
+    path('<slug:slug>-<int:ordre>', views.Liste_Articles_Plats.as_view(), name='articles_plats'),
 ]
 
 
 # urlpatterns = [
 #     path('composer/(?P<slug>.+)-(?P<id>\d+)$', views.articles_plats_composer, name='articles_plats_composer'),
+#     path('composer/<str:slug>-<int:id>', views.articles_plats_composer, name='articles_plats_composer'),
 #     url(r'pret/(?P<slug>.+)-(?P<id>\d+)$', views.articles_plats_pret, name='articles_plats_pret'),
 #     url(r'(?P<slug>.+)-(?P<ordre>\d+)$', views.articles_plats, name='articles_plats'),
-#     #url(r'desserts/', views.articles_desserts, name='articles_desserts'),
+#     url(r'desserts/', views.articles_desserts, name='articles_desserts'),
+#     url(r'desserts/', views.articles_desserts, name='articles_desserts'),
+#     path('pret/<slug:slug>-<int:id>', views.articles_plats_pret, name='articles_plats_pret'),
 # ]
