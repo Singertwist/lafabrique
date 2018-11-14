@@ -1,0 +1,10 @@
+/* Style du résumé de la commande */
+
+.tableau_recap_commandes {
+	margin: 15px;
+	width: calc(100% - 30px);
+}
+
+.tableau_recap_commandes, .tableau_recap_commandes th, .tableau_recap_commandes td {
+	border: 1px solid;
+}

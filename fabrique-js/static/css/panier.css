@@ -1,0 +1,347 @@
+.panier {
+	max-width: 1500px;
+	margin: auto;
+}
+
+.commander > h1 {
+	text-align: center;
+	width: 300px;
+	margin: auto;
+	padding: auto;
+	letter-spacing: 1px;
+	font-weight: normal;
+	border-bottom: solid 1px;
+}
+
+.composition-panier-final {
+	margin: auto;
+	padding: auto;
+	width: calc(100% - 50px);
+	background-color: #FFFFFF;
+	padding: 15px;
+	border: solid 1px lightgrey;
+	margin-top: 25px;
+	display: flex; /* Nécessaire pour corriger bug affichage IE panier --> Ne prend pas en compte la min-height */
+	flex-direction: column; /* Nécessaire pour corriger bug affichage IE panier --> Ne prend pas en compte la min-height */
+}
+
+.composition-panier-final-item {
+	display: flex;
+	min-height: 125px;
+	padding-bottom: 5px;
+	border-bottom: solid 1px lightgrey;
+	margin-top: 5px;
+	justify-content: space-around;
+}
+
+.composition-panier-final-item-image {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 125px;
+	background-size: cover;
+	border-radius: 5px;
+}
+
+.composition-panier-final-item-description {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	width: 35%;
+	padding: 5px;
+}
+
+.composition-panier-final-item-description > div:first-child {
+	font-size: 20px;
+}
+
+.composition-panier-final-item-description > div:nth-child(2) {
+	color: grey;
+	font-size: 14px;
+}
+
+.composition-panier-final-item-quantite {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 100px;
+}
+
+.composition-panier-final-item-quantite form, .composition-panier-final-item-quantite input {
+	height: 35px;
+	margin: 0;
+	padding: 0;
+	width: 40px;
+	text-align: center;
+}
+
+.composition-panier-final-item-quantite form:first-child input, .composition-panier-final-item-quantite form:last-child input {
+	background-color: #CE3734;
+	color: #FFFFFF;
+	border:none;
+    background-image:none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+
+.composition-panier-final-item-quantite form:first-child input {
+	border-radius: 10px 0px 0px 10px;
+	-moz-border-radius: 10px 0px 0px 10px;
+	-webkit-border-radius: 10px 0px 0px 10px;
+}
+
+.composition-panier-final-item-quantite form:last-child input {
+	border-radius: 0px 10px 10px 0px;
+	-moz-border-radius: 0px 10px 10px 0px;
+	-webkit-border-radius: 0px 10px 10px 0px;
+}
+
+.composition-panier-final-item-supprimer { 
+	display:  flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 100px;
+}
+
+.composition-panier-final-item-supprimer img {
+	width: 30px;
+	padding: 10px;
+}
+
+.composition-panier-final-item-prix {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding-left: 15px;
+	min-width: 70px; /*Nécessaire pour pas qu'il y un décalage lorsqu'il y a un prix avec en dizaine d'euros*/
+	justify-content: center;
+	border-left: solid 1px lightgrey;
+}
+
+.composition-panier-final-info {
+	display: flex;
+	padding-top: 15px;
+}
+
+.composition-panier-final-info-date {
+	border: solid 1px lightgrey;
+	margin-right: 5px;
+	width: calc(50% - 5px);
+}
+
+.composition-panier-final-info-total {
+	border: solid 1px lightgrey;
+	margin-left: 5px;
+	width: calc(50% - 5px);
+	display: flex;
+	flex-flow: wrap;
+	justify-content: center;
+}
+
+.composition-panier-final-info-total > div {
+	width: 40%;
+	min-width: 100px;
+	max-width: 200px;
+	height: 60px;
+	border: solid 1px lightgrey;
+	margin: 15px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-flow: wrap;
+}
+
+div .bold-total-panier {
+	font-weight: bold;
+	letter-spacing: 1px;
+	margin-left: 5px;
+}
+
+.composition-panier-final-info-total div:last-child {
+	border: #CE3734 solid 2px;
+	font-size: 20px;
+	color: #CE3734;
+	font-weight: bold;
+}
+
+.composition-panier-final-info-total div:last-child .bold-total-panier {
+	color: #CE3734;
+}
+
+.composition-panier-final-info-date {
+	display: flex;
+	flex-direction: column;
+}
+
+.composition-panier-final-info-date p {
+	font-size: 18px;
+	letter-spacing: 1px;
+	margin: 0;
+	padding: 0;
+}
+
+.composition-panier-final-info-date p:first-child {
+	padding-top: 10px;
+}
+
+.composition-panier-final-info-date div {
+	margin: 0px;
+	padding: 0px 0px 0px 5px;
+}
+
+#date-picking-submit-form {
+	display: none;
+}
+
+.composition-panier-final-info-date div form input[type=text] {
+	width: 50%;
+	height: 40px;
+	min-width: 180px;
+	box-sizing: border-box;
+  	padding: 0px 5px 2px 5px;
+  	border: 1px solid lightgrey;
+}
+
+.composition-panier-final-info-date div:first-child form input[type=text] {
+  background-image: url("../img/icones/clock.png");
+  background-size: 20px 20px;
+  background-repeat: no-repeat;
+  background-position: right;
+  margin-top: 10px;
+}
+
+input[type=text]:focus {
+  outline: none;
+}
+
+.composition-panier-final-info-date div:nth-child(2) input[type=submit] {
+	word-wrap: break-word;
+    word-break: break-all;
+    height: 40px;
+    background-color: #FFFFFF;
+    color: #CE3734;
+    border: solid 1px #CE3734;
+}
+
+.composition-panier-final-info-date div:nth-child(2) input[type=submit]:hover {
+	cursor: pointer;
+}
+
+.bouton-validation-panier {
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+	padding: 15px;
+}
+
+.bouton-validation-panier div {
+	margin: 10px 10px 10px 10px;
+	font-size: 16px;
+}
+
+.bouton-validation-panier a {
+	border: solid 1px grey;
+	width: 300px;
+	height: 60px;
+	border-radius: 15px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+}
+
+.bouton-validation-panier div:first-child a {
+	color: grey;
+}
+
+.bouton-validation-panier div:nth-child(2) a {
+	color: #CE3734;
+	border: solid 1px #CE3734;
+    transition-duration: 0.3s;
+}
+
+.bouton-validation-panier div:nth-child(2) a label {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100%;
+}
+
+.bouton-validation-panier div:nth-child(2) a label:hover {
+	cursor: pointer;
+}
+
+/* Gestion des erreurs du form - Panier */
+/* Style pour les erreurs relatives au formulaire django */
+.composition-panier-final-info-date div ul {
+	margin: 5px 5px 5px 0px;
+	padding: 5px;
+	color: red;
+	border: solid 1px red;
+	list-style-type: none;
+	text-align: center;
+}
+
+@media only screen and (max-width: 699px){ 
+
+
+.composition-panier-final-item {
+	flex-direction: column;
+	align-items: center;
+}
+
+.composition-panier-final-item-image {
+	height: 250px;
+	width: 80%;
+}
+
+.composition-panier-final-item-description {
+	width: 80%;
+	text-align: center;
+}
+
+.composition-panier-final-item-prix {
+	border-top: solid 1px lightgrey;
+	border-left: none;
+	width: 50%;
+	padding-top: 15px;
+	padding-left: 0px;
+	text-align: center;
+	font-size: 20px;
+}
+
+.composition-panier-final-info-total > div {
+	flex-direction: column;
+	text-align: center;
+}
+
+.composition-panier-final-info{
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+}
+
+.composition-panier-final-info-date {
+	width: 100%;
+	margin-bottom: 30px;
+	margin-right: 0px;
+	text-align: center;
+}
+
+.composition-panier-final-info-date div form input[type=text] {
+	width: 70%;
+	height: 40px;
+	min-width: 180px;
+	margin: auto;
+	padding: auto;
+}
+
+.composition-panier-final-info-total {
+	width: 100%;
+	margin-bottom: 30px;
+	margin-left: 0px;
+}
+
+}

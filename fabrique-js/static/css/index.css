@@ -1,0 +1,529 @@
+@import url(commander.css);
+@import url(panier.css);
+@import url(menu-top-commander.css);
+@import url(commander-suite-composer.css);
+@import url(connexion.css);
+@import url(producteurs.css);
+@import url(popup-messages.css);
+@import url(commandes.css);
+
+@font-face
+	{
+	    font-family: 'Lato';
+	    src: url('fonts/Lato/LatoLatin-Light.ttf');
+	}
+@font-face
+	{
+	    font-family: 'Lemon';
+	    src: url('fonts/Lemon/Lemon-Tuesday.otf');
+	}
+
+@font-face
+    {
+        font-family: 'Lora';
+        src: url('fonts/Lora/Lora-Regular.ttf');
+    }    	
+
+	body
+	{
+	    margin: 0;
+	    padding: 0;
+	    font-family: 'Lato';
+	    height: 100%;
+	}
+
+    .container { /* Nécessaire pour que le footer colle au bas de page */
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh; /* Nécessaire pour coller footer bas de page pour IE 10/11 */
+        flex: 1; /* Nécessaire pour coller footer bas de page pour IE 10/11 */
+    }
+
+	a {
+		text-decoration: none;
+	}
+
+/*Menu */
+
+	.header{
+		position: fixed;
+		left: 0;
+		right:0;
+        width: 110px;
+        height: 100%;
+        z-index: 2;
+	}
+
+	.menu {
+		float: left;
+        background-image: url("../img/Fond-tableau-PdB-responsive.jpg");
+        height: 100%;
+        text-align: center;
+	}
+
+
+    .menu .logo {
+        width: 90%;
+        height: auto;
+    }
+
+
+    .menu a {
+        display: block;
+        color: #FFFFFF;
+        padding-top: 15px;
+        transition-duration: 0.1s;
+        font-size: 16px;
+    }
+
+    .menu a:hover:nth-child(n+2) {
+        filter: brightness(50%);
+        -webkit-filter: brightness(50%);
+        transition-duration: 0.3s;
+    }
+
+    .menu a .icone-menu {
+        width: 35%;
+        height: auto;
+        display: block;
+        margin: auto;
+        margin-bottom: 5px;
+    }
+
+    /*Fin menu */
+
+    .site-content {
+        width:  calc(100% - 110px);
+        margin-left: 110px;
+        font-family: 'Lato';
+        background-image: url("../img/bg.png");
+        display: flex;
+        flex-direction: column;
+        flex: 1 0 auto; /*Nécessaire pour que le footer colle fond de page*/
+        min-height: 100vh; /*Nécessaire pour coller footer en bas de page */
+    }
+
+    .site-content > div{
+        width: 100%;
+    }
+    .connexion {
+        text-align: right;
+        margin: 10px 0px 40px 0px;      
+    }
+
+    .connexion a {
+        text-decoration: none;
+        border-style: solid;
+        border-width: 2px;
+        padding: 4px;
+        margin-left: 10px;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+        color: #CE3734;
+        transition-duration: 0.3s;
+    }
+
+    .connexion a:hover {
+        color: #E98D5E;
+        transition-duration: 0.5s;
+    }
+
+
+    .logo-front-page {
+        text-align: center;
+        min-height: 1px; /*Nécessaire pour corriger bug internet explorer 10/11 */
+    }
+
+    .logo-front-page img {
+        width: 15%;
+        height: auto;
+        min-height: 100px;
+        min-width: 100px;
+    }
+
+    .logo-front-page h1 {
+        font-weight: normal;
+        letter-spacing: 4px;
+        font-size: 350%;
+        margin: 0;
+        padding: 0;
+    }
+
+    .logo-front-page h2 {
+        font-weight: normal;
+        color: #CE3734;
+        letter-spacing: 3px;
+        margin: 0;
+        padding: 0px 0px 25px 0px;
+        font-style: italic;
+    }
+
+    .front-page-image {
+        background-image: url("../img/sandwiches3.jpg");
+        height: 500px;
+        background-attachment: fixed;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        justify-content: center;
+        align-items: center;
+        display: flex; 
+        flex-direction: column;
+    }
+
+    .front-page-image div{
+        text-align: center;
+    }
+
+    .front-page-image p {
+        background-color: #CE3734;
+        padding: 10px 30px 10px 30px;
+        color: #FFFFFF;
+        font-size: 300%;
+        letter-spacing: 5px;
+        background-color: rgba(206,55,52,0.50);
+        -webkit-border-radius: 15px;
+        -moz-border-radius: 15px;
+        border-radius: 15px;
+        margin: 40px;
+    }
+
+    .offre-front-page {
+        display: flex;
+        max-width: 1500px;
+        margin: auto;
+        margin-top: 30px;
+        margin-bottom: 40px;
+    }
+
+    .offre-front-page1:first-child {
+        font-size: 200%; 
+        letter-spacing: 2px;
+        width: 65%;
+        text-align: center;
+        border-right: solid;
+        border-width: 1px;
+    }
+
+    .offre-front-page1:nth-child(2) {
+        font-size: 120%; 
+        letter-spacing: 2px;
+        text-align: center;
+        width: 35%;
+        font-style: italic;
+    }
+
+    .offre-front-page-rouge {
+        font-size: 200%;
+        color: #CE3734;
+        font-style: normal;
+    }
+
+    .titre-concept h1 {
+        text-align: center;
+        margin: 0;
+        font-weight: normal;
+        width: 50%;
+        margin: auto;
+        border-bottom-style: solid;
+        border-top-style: solid;
+        border-width: 1px;
+    }
+    .concept {
+        display: flex;
+        align-items: stretch;
+        justify-content: space-between;
+        max-width: 1500px;
+        margin: auto;
+        margin-bottom: 40px;
+    }
+
+    .concept-suite {
+        width: 20%;
+    }
+
+    .concept-fleche {
+        width: 6.67%;
+    }
+
+    .concept-suite-image img {
+        width: 70%;
+        height: auto;
+        display: block;
+        margin: auto;
+    }
+
+    .concept-suite-texte p {
+        text-align: center;
+        margin: 0;
+        font-size: 110%;
+        letter-spacing: 3px;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+    }
+
+    .texte-enhancement {
+        color: #CE3734;
+    }
+
+    .concept-fleche img {
+        display: block;
+        margin: auto;
+        padding-top: 125%;
+    }
+
+    .sourcing {
+        margin-top: 20px;
+        background-image: url("../img/salade.jpg");
+        height: 500px;
+        background-attachment: fixed;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        justify-content: space-between;
+        align-items: center;
+        display: flex;
+        margin-bottom: 40px;
+    }
+
+    .sourcing1 {
+        width: 33.33%;
+    }
+
+    .sourcing1-image  img {
+        width: 50%;
+        height: auto;
+        display: block;
+        margin: auto;
+    }
+
+    .sourcing1-texte {
+        text-align: center;
+        color: #FFFFFF;
+        font-size: 150%;
+    }
+
+    .la-fabrique-et-vous {
+        display: flex;
+        width: 100%;
+        align-items: center;
+    }
+
+    .la-fabrique-et-vous-texte {
+        width: 60%;
+        padding-left: 5%;
+        padding-right: 2%;
+        font-size: 175%; 
+        letter-spacing: 2px;
+    }
+
+    .la-fabrique-et-vous-texte ul {
+       font-size: 75%;  
+    }
+
+    .la-fabrique-et-vous-image {
+        width: 40%;
+        height: 300px;
+        background-image: url("../img/salade1.jpg");
+        background-repeat: no-repeat;
+        background-size: cover;
+        filter: blur(2px);
+    }
+
+    .la-fabrique-et-vous-image img {
+        width: 100%;
+        height: auto;
+        filter: blur(2px);
+        border-radius: 5px 5px 5px 5px;
+    }
+
+    /*Début Footer */
+
+    footer {
+        width:  calc(100% - 110px);
+        margin-left: 110px;
+        min-height: 1px; /*Correction bug affichage internet explorer 10/11 */
+    }
+
+    .footer-trait
+    {
+        width: 98%;
+        margin-left: 1%;
+        border-top-style: solid;
+        border-width: 1px;
+        padding-bottom: 1%;
+        margin-top: 1.5%;
+    }
+
+    .top-footer
+    {
+        display: flex;
+        width: auto;
+    } 
+
+    .top-logo-footer
+    {
+        width: 6%;
+        height: auto;
+        padding-left: 1%;  
+    }
+
+    .top-logo-footer img
+    {
+        width: 100%;
+        height: auto;
+    }  
+
+    .nom-top-logo-footer
+    {
+        width: auto;
+        flex: 1;
+        margin: auto;
+        font-size: 150%;
+        padding-left: 1%;
+    }
+
+    .bottom-footer
+    {
+        display: flex;
+        padding-top: 0.5%;
+    }
+
+    .bottom-footer-categories
+    {
+        width: 80%;
+        margin: auto;
+    }
+
+    .bottom-footer-categories a
+    {
+        color: #424242;
+        text-decoration: none;
+        padding: 2%;
+    }
+
+    .bottom-footer-categories a:first-child
+    {
+        padding-left: 1%;
+    }
+
+    .bottom-footer-annee
+    {
+        padding-right: 1%;
+    }
+
+/*Fin menu */
+
+@media only screen and (max-width: 900px){
+
+    .site-pusher
+    {
+        transform: translateX(0px);
+        transition-duration: 0.3s;
+        
+    }
+
+    .header {
+        width: 0px; /*Nécessaire pour éviter que le header reste sur la page et bloque les autres menus*/
+    }
+
+    .header__icon{
+        display: block;
+        float: left;
+        width: 35px;
+        height: 50px;
+        cursor: pointer;
+    }
+    .header__icon:after {
+        content: '';
+        position: fixed; /*ancienne valeur: position: absolute */
+        display: block;
+        width: 16px;
+        height: 0;
+        top: 16px;
+        left: 15px;
+        box-shadow: 0 10px 0 1px black, 0 16px 0 1px black, 0 22px 0 1px black;
+    }
+    .menu{
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 110px;
+        transform: translateX(-110px);
+        transition-duration: 0.3s;
+        text-align: center;
+		min-height: 100%;
+    }
+
+    .with--sidebar .site-pusher
+    {
+        transform: translateX(100px);
+    }
+
+    .with--sidebar .site-pusher .site-cache
+    {
+        position: absolute;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        background-color: black;
+        opacity: 0.1;
+    }
+
+    .site-content {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .concept {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .concept-suite {
+        width: 70%;
+    }
+
+    .concept-fleche {
+        width: 6.67%;
+        -ms-transform: rotate(90deg); /* IE 9 */
+        -webkit-transform: rotate(90deg); /* Chrome, Safari, Opera */
+        transform: rotate(90deg);
+    }
+
+
+    .concept-fleche img {
+        margin: auto;
+        padding: 0;
+    }
+
+    .la-fabrique-et-vous {
+        display: flex;
+        flex-direction: column-reverse;
+    }
+
+    .la-fabrique-et-vous-texte {
+        width: 80%;
+    }
+
+    .la-fabrique-et-vous-image {
+        width: 80%;
+    }
+
+    footer {
+        width:  100%;
+        margin-left: 0px;
+    }
+
+
+}
+
+
+@media all and (min-width: 699px) {
+
+
+}

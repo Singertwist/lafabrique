@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static %}
+{% load thumbnail %}
+
+{% block orders-create %}
+<div class="order-confirmation-image">
+	<div class="order-confirmation">
+		<h1>Confirmation de votre Commande</h1>
+		<div class="sum-up-checkout-container-bis order-confirmation">
+			<p>
+				<a href="{% url 'articles_plats' menu_commander_categories.0.slug menu_commander_categories.0.ordre %}">Retour à la boutique</a> >
+				<a href="{% url 'cart_detail' %}">Votre panier</a> >
+				<a href="{% url 'checkout_account' %}">Identification</a> > 
+				<a href="{% url 'order_create' %}">Validation & Paiement</a> > 
+				<a href="#">Confirmation</a>
+			</p>
+			<p>Merci pour votre commande.</p>
+			<p><img src="{% static 'img/icones/smiley-order-confirmation.png' %}"></p>
+			<p>Cette dernière a été bien été enregistrée et est en cours de préparation sous le numéro de commande n°{{order.order_number}} </p>
+			<p><a href="{% url 'home' %}">Retourner à la page d'accueil</a><a href="">Consulter votre espace personnel</a></p>
+		</div>
+	</div>
+</div>
+
+{% endblock %}

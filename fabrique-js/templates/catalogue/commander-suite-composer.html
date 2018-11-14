@@ -1,0 +1,232 @@
+{% extends "base-commander.html" %}
+{% load static %}
+{% load thumbnail %}
+
+{% block titre_page %} Commander {{sous_categories_articles.nom}} {% endblock %}
+
+{% block commander_composer %}
+	{% if sous_categories_articles.composer == True %}
+		<div class="choix-composer-non-composer">
+			<div class="choix-composer-non-composer-choix">
+				<div class="choix-composer-non-composer-choix1"><a href="{% url 'articles_plats_pret' sous_categories_articles.slug sous_categories_articles.id %}">Plats déjà composés</a></div>
+				<div class="choix-composer-non-composer-choix2"><img src="{% static 'img/icones/stopwatch.png' %}" alt="cart"/></div>
+			</div>
+			<div class="choix-composer-non-composer-choix">
+				<div class="choix-composer-non-composer-choix1"><a href="{% url 'articles_plats_composer' sous_categories_articles.slug sous_categories_articles.id %}">Composer son plat</a></div>
+				<div class="choix-composer-non-composer-choix2"><img src="{% static 'img/icones/checked.png' %}" alt="cart"/></div>
+			</div>
+		</div>
+	{% endif %}
+
+	{% if messages %}
+		<div class="popup-messages-overlay">
+			<div class="popup-messages">
+				<a class="close-popup-message" href="#">&times;</a>
+				{% for message in messages %}
+					{% if message.tags == "success" %}
+						<div class="{{ message.tags }}">
+							<div class="image-popup-messages"></div>
+							<div>{{ message|safe }}</div>
+							<div class="links-popup-messages">
+								<a href="{% url 'articles_plats' menu_commander_categories.0.slug menu_commander_categories.0.ordre %}">Continuer mes Achats</a>
+							</div>
+							<div class="links-popup-messages">
+								<a href="{% url  'cart_detail'%}">Valider votre Panier</a>
+							</div>
+						</div>
+					{% else %}
+						<div class="{{ message.tags }}">
+							<div class="image-popup-messages"></div>
+							<div>{{ message|safe }}</div>
+							<div class="links-popup-messages">
+								<a href="#">Retourner à ma composition</a>
+							</div>
+						</div>	
+					{% endif %}		
+				{% endfor %}
+			</div>
+		</div>
+	{% endif %}
+
+<div class="plat-composer">
+	<div class="plat-composer-choix">
+		 <!-- 
+	Organisation de la vue:
+	- On regroupe les articles par base / ingrédients: info contenue dans la variation de l'article (model VariationArticle) -> Sélectionner une variation et accéder aux attributs, il faut utiliser {{item.attributarticle}}.
+	- Chaque article est aussi un type d'articles (légumes, charcuterie...). Cette information se trouve dans la fiche article général (model Article) -> Accéder aux infos de la fiche globale article, il faut utiliser {{item.article.attributdelafichegénérale}}.
+	Documentation: https://gist.github.com/ChrisLTD/957014
+  -->
+
+	    {% regroup articles by type_article as articles_list %}
+		{% for type_article in articles_list %}
+		<details open>
+			<summary>{{type_article.grouper}}</summary>
+			{% regroup type_article.list by article.sous_categories_articles as items_list %}
+				{% for items in items_list %}
+					<p class="types-variations-articles">{{items.grouper}} : </p>
+						<div class="selection-plat">
+							{% for item in items.list %}
+							<div class="article-selection-plat">
+								<!-- Début de la popup présentation produit -->
+									<div id="big-popup{{ item.id }}" class="image-article-selection-plat">
+										<a href="#popup{{ item.id }}">
+											{% thumbnail item.article.image "500x500" as im %}
+												<img src="{{ im.url }}" alt="{{ item.article.nom|title }}"/>
+											{% endthumbnail %} 
+										</a>
+									</div>
+
+									<div id="popup{{ item.id }}" class="overlay">
+										<div class="popup">
+											<a class="close" href="#big-popup{{ item.id }}">&times;</a>
+											{% thumbnail item.article.image "1000x1000" as im %}
+												<div class="image-popup" style="background-image:url({{ im.url }});"></div>
+											{% endthumbnail %} 
+											<div class="content-popup">
+												<div class="titre-plat-popup"><h1>{{ item.article.nom|title }}</h1></div>
+												<div class="image-info-rapide">
+													{% if item.article.gluten_info == 0 %}
+														<img src="{% static 'img/icones/gluten-free.png' %}" alt="gluten-free" title="Ne contient pas de Gluten"/>
+													{% else %}
+													{% endif %}	
+													{% if item.article.vegeterien_info == 1 %}
+														<img src="{% static 'img/icones/radish-outline.png' %}" alt="vegetarien-friendly" title="Convient aux végétariens"/>
+													{% else %}
+													{% endif %}
+													{% if item.article.type_plat_info == 1 %}
+														<img src="{% static 'img/icones/fire.png' %}" alt="hot-dish" title="Plat chaud"/>
+													{% else %}
+													{% endif %}
+													{% if item.article.type_plat_info == 0 %}
+														<img src="{% static 'img/icones/snowflake.png' %}" alt="cold-dish" title="Plat froid"/>
+													{% else %}
+													{% endif %}
+												</div>
+												<div class="texte-plat-popup"><p>{{ item.article.description }}</p></div>
+													
+														<div class="info-plat-popup">
+															<div class="infos-plat-popup">
+																<img src="{% static 'img/icones/farm-grey.png' %}" alt="logo-producteurs"/>
+																<h1>Les producteurs associés</h1>
+																<p>
+																	{% for producteurs in item.producteurs.all %}
+																		{{producteurs.nom|title }} {{producteurs.prenom|title }} <br/>
+																	{% empty%}
+																		Pas de producteurs associés
+																	{% endfor %}
+																	
+																</p>
+															</div>
+
+															<div class="infos-plat-popup">
+																<img src="{% static 'img/icones/ingredients.png' %}" alt="logo-producteurs"/> 
+																<h1>Ingrédients</h1>
+																<p>
+																	{{ item.article.ingredients|title }}
+																</p>
+															</div>
+
+															<div class="infos-plat-popup">
+																<img src="{% static 'img/icones/allergies.png' %}" alt="logo-producteurs"/>
+																<h1>Allergènes</h1>
+																<p>
+																	{% for allergenes in item.article.allergenes.all %}
+																		{{allergenes.nom|title }}<br/>
+																	{% empty%}
+																		Pas d'allergie associée
+																	{% endfor %}
+																</p>
+															</div>
+														</div>
+											</div>
+										</div>
+									</div>	
+											
+									<!-- Fin de la popup présentation produit -->			
+									<div class="texte-article-selection-plat">
+										<div class="titre-texte-article-selection-plat"><h1>{{ item.article.nom|title }}</h1></div>
+										<div class="texte-texte-article-selection-plat"><p>{{ item.article.description }}</p></div>
+									</div>
+										<div class="prix-texte-article-selection-plat">
+											<div class="sous-catprix-texte-article-selection-plat">{{ item.prix_vente_unitaire|floatformat:2 }} €</div>
+											<div class="sous-catprix-texte-article-selection-plat">
+												<form @click.prevent="addtoCart({{item.id}}, {{item.article.article_composer|lower}})" method="post">
+													{% csrf_token %}
+													{{ cart_product_form }}
+													<input type="image" src="{% static 'img/icones/shopping-cart.png' %}" alt="shopping-cart" />
+													<input type="hidden" name="next" value="{{ request.path }}">
+												</form>
+											</div>											
+										</div>	
+							</div>
+						{% empty %}
+							<p>Aucun produit</p>
+						{% endfor %}
+						</div>
+				{% empty %}
+
+				{% endfor %}
+		</details>
+		{% empty %}
+		<p>Aucun produit</p>
+		{% endfor %}
+
+	</div>
+	<div class="plat-composer-panier">
+		<div class="plat-composer-panier-entete">
+			<div class="plat-composer-panier-entete1">Votre Composition</div>
+			<div class="plat-composer-panier-entete2"><img src="{% static 'img/icones/shopping-cart-white.png' %}" alt="shopping-cart"/></div>
+		</div>
+		<div class="plat-composer-panier-container-item">
+
+		{% regroup composed_cart|dictsort:"base" by base as articles_list %}
+
+
+		{% for articles in articles_list %}
+		    <p class="article-grouper-nom">{{ articles.grouper }} :</p>
+		    
+		        {% for article in articles.list %}
+			        {% with product=article.product %}
+							<div class="plat-composer-panier-item">
+								{% thumbnail product.article.image "500x500" crop="center" as im %}
+								<div class="plat-composer-panier-item-image" style="background-image:url({{ im.url }});"></div>
+								{% endthumbnail %} 
+								<div class="plat-composer-panier-item-nom">
+									<div class="plat-composer-panier-item-nom1">{{ product.article.nom }}</div>
+									<div class="plat-composer-panier-item-nom2">x {{ article.quantity }} - {{ product.type_article }}</div>
+								</div>
+								<div class="plat-composer-panier-item-delete">
+									<form action="{% url "cart_remove_one" product.id %}" method="post">
+				                        {{ cart_product_form }}
+				                        {% csrf_token %}
+				                        <input type="image" src="{% static 'img/icones/cancel.png' %}" alt="Supprimer" title="Supprimer"/>
+				                        <input type="hidden" name="next" value="{{ request.path }}">
+			                      	</form>
+								</div>
+							</div>
+			        {% endwith %}
+			    {% empty %} 
+		        {% endfor %}
+		{% empty%}
+		<p>Votre panier est vide</p>
+		{% endfor %}
+	    </div>
+		<div class="plat-composer-panier-boutton">
+			<form action="{% url "remove_composed_cart" sous_categories_articles.id %}" method="post">
+	            {{ cart_product_form }}
+	            {% csrf_token %}
+	            <button type="submit" alt="Supprimer votre Composition" title="Supprimer votre Composition">Supprimer votre Composition</button>
+	            <input type="hidden" name="next" value="{{ request.path }}">
+	      	</form>
+			<form action="{% url "add_to_final_composed_cart" sous_categories_articles.id %}" method="post">
+	            {{ composed_cart_product_form }}
+	            {% csrf_token %}
+	            <button type="submit" alt="Ajouter au Panier" title="Ajouter au Panier">Valider Votre Composition</button>
+	            <input type="hidden" name="next" value="{{ request.path }}">
+	      	</form>
+		</div>
+	</div>
+
+</div>
+<!-- <script type="text/javascript" src="{% static 'js/remove-popup-message/remove-popup-messages.js' %}"></script> -->
+{% endblock %}

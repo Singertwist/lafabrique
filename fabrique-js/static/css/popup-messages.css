@@ -1,0 +1,118 @@
+.popup-messages-overlay {
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	transition: opacity 500ms;
+	z-index: 2;
+	overflow-y: scroll; /* Nécessaire pour pouvoir scroller dans la popup */
+	height: 100%; /* Nécessaire pour pouvoir scroller dans la popup */
+}
+
+.popup-messages {
+	display: flex;
+	width: 100%;
+	max-width: 320px;
+	min-height: 350px;
+	transition: all 0s ease-in-out;
+	position: absolute; /* permet le centrage de la popup*/
+	top: 50%; left: 50%; /* à 50%/50% du parent référent */
+	transform: translate(-50%, -50%); /* décalage de 50% de sa propre taille */
+	border-radius: 10px;
+	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.5);
+	text-align: center;
+	background-color: #FFFFFF;
+}
+
+.popup-messages .close-popup-message {
+	position: absolute;
+	top: 5px;
+	right: 10px;
+	transition: all 200ms;
+	font-size: 40px;
+	text-decoration: none;
+	color: #333;
+}
+
+.popup-messages p {
+	width: 320px; /* Nécessaire pour Internet Explorer */
+}
+
+.links-popup-messages {
+	border: solid 1px #CE3734;
+	border-radius: 5px;
+	font-weight: bold;
+	transition-duration: 0.3s;
+	width: 200px;
+	margin: 5px;
+}
+
+.links-popup-messages a {
+	color: #CE3734;
+	display: block; /* Nécessaire afin que lien occupe tout le bouton */
+	padding: 5px;
+}
+
+/* Paramétrage personnalisé de la popup warning */
+
+.popup-messages .warning {
+	border-radius: 10px;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	min-height: 350px; /*Nécessaire pour IE 11*/
+}
+
+.popup-messages .warning p:first-child {
+	font-size: 25px;
+}
+
+.popup-messages .warning p:nth-child(2) {
+	color: grey;
+}
+
+.popup-messages .warning .image-popup-messages {
+	background-image:url("../img/icones/sad.png");
+	background-size: cover;
+	width: 65px;
+	height: 65px;
+	min-height: 65px;
+}
+
+/* Fin paramétrage personnalisé de la popup warning */
+
+.popup-messages .success {
+	border-radius: 10px;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	min-height: 350px; /*Nécessaire pour IE 11*/
+}
+
+.popup-messages .success .image-popup-messages {
+	background-image:url("../img/icones/happy.png");
+	background-size: cover;
+	width: 65px;
+	height: 65px;
+}
+
+.popup-messages .success p:first-child {
+	font-size: 25px;
+}
+
+.popup-messages .success p:nth-child(2) {
+	color: grey;
+}
+
+@media only screen and (max-width: 900px){
+
+.popup-messages {
+	top: 25%;
+}
+
+}

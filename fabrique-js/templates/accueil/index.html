@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block accueil %}
+<div class="connexion">
+    <a href="">Connexion</a><a href="">Créer un compte</a>
+</div>
+
+<div class="logo-front-page">
+	<img src="{% static 'img/icones/logo-noir-clair.png' %}">
+    <h1> La Fabrique à Sandwiches </h1>
+    <h2>Repas sur le pouce, sains et sur mesure.</h2>
+</div>
+<div class="front-page-image">
+    <div><p>Votre Repas Sur Mesure</p></div>
+</div>
+
+<div class="offre-front-page">
+    <div class="offre-front-page1">
+        <p>Une nouvelle expérience gustative.</p>
+    </div>
+    <div class="offre-front-page1">
+        <p>A partir de <br/> <span class="offre-front-page-rouge">4.95€</span></p>
+    </div>
+</div>
+<div class="titre-concept"><h1>Un concept simple</h1></div>
+<div class="concept">
+    
+    <div class="concept-suite">
+        <div class="concept-suite-image"><img src="{% static 'img/ordinateur.png' %}" alt="etape1" data-aos="fade-up"></div>
+        <div class="concept-suite-texte" data-aos="fade-up"><p>Choisissez les ingrédients de votre sandwich ou salade et, <br/><span class="texte-enhancement">payez en ligne sur notre site 100% sécurisé.</span></p></div>
+    </div>
+    <div class="concept-fleche"><img src="{% static 'img/fleche.png' %}" alt="fleche"></div>
+    <div class="concept-suite">
+        <div class="concept-suite-image"><img src="{% static 'img/boucher.png' %}" alt="etape2" data-aos="fade-up"></div>
+        <div class="concept-suite-texte" data-aos="fade-up"><p>Votre commande, préparée par nos artisans, <br/><span class="texte-enhancement">est entre de bonnes mains.</span></p></div>
+    </div>
+    <div class="concept-fleche"><img src="{% static 'img/fleche.png' %}" alt="fleche"></div>
+    <div class="concept-suite">
+        <div class="concept-suite-image"><img src="{% static 'img/scooter.png' %}" alt="etape3" data-aos="fade-up"></div>
+        <div class="concept-suite-texte" data-aos="fade-up"><p>Votre commande est prête en temps et en heure, <br/><span class="texte-enhancement">il ne vous reste plus qu'à la récupérer ou à vous faire livrer.</span></p></div>
+    </div>
+    <div class="concept-fleche"><img src="{% static 'img/fleche.png' %}" alt="fleche"></div>
+    <div class="concept-suite">
+        <div class="concept-suite-image"><img src="{% static 'img/plate.png' %}" alt="etape4" data-aos="fade-up"></div>
+        <div class="concept-suite-texte" data-aos="fade-up"><p>Savourez votre commande personnalisée... <br/><span class="texte-enhancement">et revenez pour de nouvelles découvertes culinaires.</span></p></div>
+    </div>
+
+</div>
+
+<div class="titre-concept"><h1>Un savoir faire</h1></div>
+<div class="sourcing">
+
+    <div class="sourcing1">
+        <div class="sourcing1-image"><img src="{% static 'img/icones/home-location-marker.png' %}" alt="icone"/></div>
+        <div class="sourcing1-texte">Nous sélectionnons directement les produits de saison, en direct des producteurs, en circuit court.</div>
+    </div>
+    <div class="sourcing1">
+        <div class="sourcing1-image"><img src="{% static 'img/icones/icon.png' %}" alt="icone"/></div>
+        <div class="sourcing1-texte">Les produits sont suivis, contrôlés de manière régulière, afin de bénéficier d'ingrédients frais, sains et privilégiant une agriculture raisonnée.</div>       
+    </div>
+    <div class="sourcing1">
+        <div class="sourcing1-image"><img src="{% static 'img/icones/cooking-on-fire.png' %}" alt="icone"/></div>
+        <div class="sourcing1-texte">Nos artisans travaillent les produits au dernier moment pour plus de fraîcheur et saveur. </div>        
+    </div>
+
+</div>
+
+<div class="titre-concept"><h1>La Fabrique à Sandwiches et vous</h1></div>
+<div class="la-fabrique-et-vous">
+
+    <div class="la-fabrique-et-vous-texte"><p>Parce que la Fabrique à Sandwiches, ce sont avant tout des convictions et des valeurs, nous nous engageons pour nos clients.</p>
+    <p> 
+        <ul>
+          <li data-aos="fade-up">Une alimentation saine et équilibrée dans le respect de l'environnement.</li>
+          <li data-aos="fade-up">Un approvisionnement en circuit court pour favroiser les producteurs locaux.</li>
+          <li data-aos="fade-up">Une juste équilibre entre les producteurs, consommateurs et la Fabrique. </li>
+        </ul> 
+    </p>
+    </div>
+    <div class="la-fabrique-et-vous-image"></div>
+
+</div>
+
+{% endblock %}

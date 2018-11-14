@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% load static %}
+{% load thumbnail %}
+
+{% block producteurs %}
+	<div class="menu-top-commander">
+	    <div class="menu-top-commander-texte">DÉCOUVRIR</div>
+	    <div class="menu-top-commander-texte">
+	    	{% for nom_categorie in menu_producteurs_categories %}
+	        <div class="menu-top-commander-texte-lien"><p><a href="{% url 'producteurs' nom_categorie.slug nom_categorie.ordre %}">{{nom_categorie|title}}</a></p></div>
+	        {% endfor %}
+	        <div class="menu-top-commander-texte-lien"></div>
+	         <div class="menu-top-commander-texte-lien"></div>
+	    </div> 
+	</div>
+
+	<div class="commander">
+
+		<div class="titre-concept"><h1>{{categories_producteurs.description}}</h1></div>
+		{% for producteur in producteurs %}
+			<div class="container-producteur" data-aos="fade-up">
+				{% thumbnail producteur.photo "500x500" as im %}
+					<div class="image-producteur" style="background-image:url({{ im.url }});"></div>
+				{% endthumbnail %} 
+				<div class="presentation-producteur">
+					
+					<h1>{{producteur.nom|title}} {{producteur.prenom|title}}</h1>
+					<div class="trait-producteur"></div>
+					<p>{{producteur.description}}</p>
+
+					{% if producteur.afficher_donnees_privees == True %}
+						<div class="infos-producteur">
+							<div class="infos-producteurs-suite">
+								<div class="infos-producteurs-suite-image"><img src="{% static 'img/icones/you-are-here-black.png' %}" alt="logo-adresse"/></div>
+								<div class="infos-producteurs-suite-texte">
+									<p>Localisation: {{producteur.ville}} - {{producteur.code_postal}}
+									</p>	
+								</div>
+							</div>
+							<div class="infos-producteurs-suite">
+								<div class="infos-producteurs-suite-image"><img src="{% static 'img/icones/vegetables.png' %}" alt="logo-adresse"/></div>
+								<div class="infos-producteurs-suite-texte">
+									<p>Produits:
+										{% for article in producteur.variations_articles_set.all %}
+											{% if not forloop.first %},{% endif %}
+											{{ article.nom_article_variation|title }}
+										{% empty %}
+											Pas de produit associé à ce producteur.
+										{% endfor %}
+									</p>	
+								</div>
+							</div>
+
+						</div>
+					{% else %}
+
+					{% endif %}
+				</div>
+			</div>
+		{% empty %}
+			<p>Aucun producteur</p>
+		{% endfor %}
+	</div>
+{% endblock %}
