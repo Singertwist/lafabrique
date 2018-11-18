@@ -17,3 +17,4 @@ class VariationsArticlesSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Variations_Articles
 		fields = '__all__'
+		depth = 2

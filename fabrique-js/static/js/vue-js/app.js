@@ -13,7 +13,7 @@ var demo = new Vue({
 		items_composed_cart : [],
 	},
 
-	beforeMount() {
+	beforeMount: function() {
 		// var slug = document.getElementById('slug-id-page').getAttribute('data') || '';
 		// var csrf = document.querySelector('meta[name="csrf-token"]').getAttribute('content'
 	},
@@ -31,7 +31,7 @@ var demo = new Vue({
 			var id_article = Number(id_article); // Obligatoire de convertir en nombre l'id_article sinon créé un bug dans l'ajout au panier via [[cart]]
 			var item_type = String(composer);
 
-			if (item_type === "false") {
+			if (item_type === "false") { // Si s'agit d'un article prêt on exécute le code ci-dessous.
 				if (this.cart.findIndex(p => p.id_article === id_article) === -1) {		
 					this.$http.get('http://127.0.0.1:8000/commander/api/article/' + id_article ).then((response) => {
 						this.cart.push({ 'id_article': id_article, 'composer': response.data.article.article_composer, 'nom': response.data.article.nom, 'description': response.data.article.description, 'quantity': 1, 'price': Number(response.data.prix_vente_unitaire).toFixed(2), 'total_price': Number(response.data.prix_vente_unitaire).toFixed(2),  'image': response.data.article.image});
@@ -50,8 +50,46 @@ var demo = new Vue({
 				// this.$http.post('http://127.0.0.1:8000/commander/add/' + id_article +'/');
 			}
 
-			else {
-				console.log("Plat qui se compose");
+			else { //S'il s'agit d'un article servant à composer un plat.
+				// typologie_article = Bases, Ingrédients, Plats Prêts
+				this.$http.get('http://127.0.0.1:8000/commander/api/article/' + id_article ).then((response) => {
+					
+					// On contrôle si l'article est présent ou non dans la composition. Impossible d'ajouter le même article deux fois.
+					if (this.items_composed_cart.findIndex(p => p.id_article === id_article) === -1) {
+						// Si l'article n'est pas présent dans le panier, on vérfie que la personne n'ajoute pas deux bases. Il n'est possible d'ajouter qu'une seule base.
+						var numBases = this.items_composed_cart.reduce(function (n, base) {
+							return n + (base.typologie_article == 'Bases');
+						}, 0);
+						// S'il n'y a pas de base de présente dans le dictionnaire, on ajouter la base sélectionnée.
+						if (response.data.type_article.nom_type_variation_article !== "Bases") {
+							this.items_composed_cart.push({ 'id_article': id_article, 'typologie_article': response.data.type_article.nom_type_variation_article, 'composer': response.data.article.article_composer, 'nom': response.data.article.nom, 'description': response.data.article.description, 'quantity': 1, 'price': Number(response.data.prix_vente_unitaire).toFixed(2), 'total_price': Number(response.data.prix_vente_unitaire).toFixed(2),  'image': response.data.article.image});
+							console.log("L'ingrédient a bien été ajouté");
+						}
+
+						else if (response.data.type_article.nom_type_variation_article === "Bases" && numBases === 0 ) {
+							this.items_composed_cart.push({ 'id_article': id_article, 'typologie_article': response.data.type_article.nom_type_variation_article, 'composer': response.data.article.article_composer, 'nom': response.data.article.nom, 'description': response.data.article.description, 'quantity': 1, 'price': Number(response.data.prix_vente_unitaire).toFixed(2), 'total_price': Number(response.data.prix_vente_unitaire).toFixed(2),  'image': response.data.article.image});
+							console.log("La base a bien été ajoutée");
+						}
+						// Si déjà une base présente dans le dictionnaire alors un message d'erreur doit apparaître.
+						else {
+							console.log("Impossible d'ajouter 2 bases à votre composition");
+						}
+					}
+					
+					// Si l'article est déjà présent dans le panier, on n'ajoute pas l'article et on informe via une popup.
+					else {
+						console.log("Ce produit a déjà été ajouté");			
+					}
+
+					},
+
+				(response) => {
+					console.log("Erreur - Aucun article ne correspond à l'ID");
+				});			
+				
+				// if (this.items_composed_cart.findIndex(p => p.id_article === id_article) === -1) {
+				// }
+
 			}
 		},
 
