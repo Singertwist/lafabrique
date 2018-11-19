@@ -31,6 +31,15 @@ var demo = new Vue({
 			var id_article = Number(id_article); // Obligatoire de convertir en nombre l'id_article sinon créé un bug dans l'ajout au panier via [[cart]]
 			var item_type = String(composer);
 
+			Array.prototype.groupBy = function(prop) {
+					return this.reduce(function(groups, item) {
+						const val = item[prop]
+						groups[val] = groups[val] || []
+						groups[val].push(item)
+						return groups
+					}, {})
+				}
+
 			if (item_type === "false") { // Si s'agit d'un article prêt on exécute le code ci-dessous.
 				if (this.cart.findIndex(p => p.id_article === id_article) === -1) {		
 					this.$http.get('http://127.0.0.1:8000/commander/api/article/' + id_article ).then((response) => {
@@ -90,6 +99,9 @@ var demo = new Vue({
 				// if (this.items_composed_cart.findIndex(p => p.id_article === id_article) === -1) {
 				// }
 
+				groupedByTime = this.items_composed_cart.groupBy('typologie_article');
+				console.log(groupedByTime);
+
 			}
 		},
 
@@ -117,6 +129,11 @@ var demo = new Vue({
 
 					// this.$http.post('http://127.0.0.1:8000/commander/remove-one/' + id_article +'/')
 				}
+			}
+			// Si c'est un article en composition, on supprime directement l'ingrédient où la base car il n'y forcément qu'une quantité d'une.
+			else {
+				var index = this.items_composed_cart.findIndex(p => p.id_article === id_article);
+				this.items_composed_cart.splice(index, 1);
 			}
 		
 		},	

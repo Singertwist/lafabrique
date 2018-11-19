@@ -180,37 +180,26 @@
 		</div>
 		<div class="plat-composer-panier-container-item">
 
-		{% regroup composed_cart|dictsort:"base" by base as articles_list %}
+			<p v-if="items_composed_cart.length == 0">Votre panier est vide</p>
 
-
-		{% for articles in articles_list %}
-		    <p class="article-grouper-nom">{{ articles.grouper }} :</p>
-		    
-		        {% for article in articles.list %}
-			        {% with product=article.product %}
-							<div class="plat-composer-panier-item">
-								{% thumbnail product.article.image "500x500" crop="center" as im %}
-								<div class="plat-composer-panier-item-image" style="background-image:url({{ im.url }});"></div>
-								{% endthumbnail %} 
-								<div class="plat-composer-panier-item-nom">
-									<div class="plat-composer-panier-item-nom1">{{ product.article.nom }}</div>
-									<div class="plat-composer-panier-item-nom2">x {{ article.quantity }} - {{ product.type_article }}</div>
-								</div>
-								<div class="plat-composer-panier-item-delete">
-									<form action="{% url "cart_remove_one" product.id %}" method="post">
-				                        {{ cart_product_form }}
-				                        {% csrf_token %}
-				                        <input type="image" src="{% static 'img/icones/cancel.png' %}" alt="Supprimer" title="Supprimer"/>
-				                        <input type="hidden" name="next" value="{{ request.path }}">
-			                      	</form>
-								</div>
-							</div>
-			        {% endwith %}
-			    {% empty %} 
-		        {% endfor %}
-		{% empty%}
-		<p>Votre panier est vide</p>
-		{% endfor %}
+		    <p v-if="items_composed_cart.length > 0" class="article-grouper-nom">{{ articles.grouper }} :</p>	    
+				<div v-for="composed_item in items_composed_cart" v-if="items_composed_cart.length > 0" class="plat-composer-panier-item">
+					
+					<div class="plat-composer-panier-item-image" v-bind:style="{ 'background-image': 'url(' + composed_item.image + ')' }"></div>
+						<div class="plat-composer-panier-item-nom">
+							<div class="plat-composer-panier-item-nom1">[[composed_item.nom]]</div>
+							<div class="plat-composer-panier-item-nom2">x [[ composed_item.quantity ]] - [[composed_item.typologie_article]] </div>
+						</div>
+						<div class="plat-composer-panier-item-delete">
+							<form @click.prevent="addtoCart([[items_composed_cart.id_article]],[[items_composed_cart.composer]])" method="post">
+		                        {{ cart_product_form }}
+		                        {% csrf_token %}
+		                        <input type="image" src="{% static 'img/icones/cancel.png' %}" alt="Supprimer" title="Supprimer"/>
+		                        <input type="hidden" name="next" value="{{ request.path }}">
+	                      	</form>
+						</div>
+				</div>
+		
 	    </div>
 		<div class="plat-composer-panier-boutton">
 			<form action="{% url "remove_composed_cart" sous_categories_articles.id %}" method="post">
