@@ -31,6 +31,7 @@ var demo = new Vue({
 			var id_article = Number(id_article); // Obligatoire de convertir en nombre l'id_article sinon créé un bug dans l'ajout au panier via [[cart]]
 			var item_type = String(composer);
 
+			// Fonction permettant de grouper un dictionnaire en fonction des données d'une clé. Utilisé pour regrouper les articles de type base et les articles de type ingrédient. Doc --> https://www.consolelog.io/group-by-in-javascript/
 			Array.prototype.groupBy = function(prop) {
 					return this.reduce(function(groups, item) {
 						const val = item[prop]
@@ -73,11 +74,15 @@ var demo = new Vue({
 						if (response.data.type_article.nom_type_variation_article !== "Bases") {
 							this.items_composed_cart.push({ 'id_article': id_article, 'typologie_article': response.data.type_article.nom_type_variation_article, 'composer': response.data.article.article_composer, 'nom': response.data.article.nom, 'description': response.data.article.description, 'quantity': 1, 'price': Number(response.data.prix_vente_unitaire).toFixed(2), 'total_price': Number(response.data.prix_vente_unitaire).toFixed(2),  'image': response.data.article.image});
 							console.log("L'ingrédient a bien été ajouté");
+							groupedByTypologieItem = this.items_composed_cart.groupBy('typologie_article'); // Création d'un regroupement par type article (type article d'ingrédient)
+							console.log(groupedByTypologieItem); 
 						}
 
 						else if (response.data.type_article.nom_type_variation_article === "Bases" && numBases === 0 ) {
 							this.items_composed_cart.push({ 'id_article': id_article, 'typologie_article': response.data.type_article.nom_type_variation_article, 'composer': response.data.article.article_composer, 'nom': response.data.article.nom, 'description': response.data.article.description, 'quantity': 1, 'price': Number(response.data.prix_vente_unitaire).toFixed(2), 'total_price': Number(response.data.prix_vente_unitaire).toFixed(2),  'image': response.data.article.image});
 							console.log("La base a bien été ajoutée");
+							groupedByTypologieItem = this.items_composed_cart.groupBy('typologie_article'); // Création d'un regroupement par type article.
+							console.log(groupedByTypologieItem);
 						}
 						// Si déjà une base présente dans le dictionnaire alors un message d'erreur doit apparaître.
 						else {
@@ -99,8 +104,7 @@ var demo = new Vue({
 				// if (this.items_composed_cart.findIndex(p => p.id_article === id_article) === -1) {
 				// }
 
-				groupedByTime = this.items_composed_cart.groupBy('typologie_article');
-				console.log(groupedByTime);
+				
 
 			}
 		},
