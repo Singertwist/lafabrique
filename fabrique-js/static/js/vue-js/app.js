@@ -11,6 +11,7 @@ var demo = new Vue({
 		loading: false,
 		cart : [],
 		items_composed_cart : [],
+		groupedByTypologieItem : [],
 	},
 
 	beforeMount: function() {
@@ -74,15 +75,15 @@ var demo = new Vue({
 						if (response.data.type_article.nom_type_variation_article !== "Bases") {
 							this.items_composed_cart.push({ 'id_article': id_article, 'typologie_article': response.data.type_article.nom_type_variation_article, 'composer': response.data.article.article_composer, 'nom': response.data.article.nom, 'description': response.data.article.description, 'quantity': 1, 'price': Number(response.data.prix_vente_unitaire).toFixed(2), 'total_price': Number(response.data.prix_vente_unitaire).toFixed(2),  'image': response.data.article.image});
 							console.log("L'ingrédient a bien été ajouté");
-							groupedByTypologieItem = this.items_composed_cart.groupBy('typologie_article'); // Création d'un regroupement par type article (type article d'ingrédient)
-							console.log(groupedByTypologieItem); 
+							this.groupedByTypologieItem = this.items_composed_cart.groupBy('typologie_article'); // Création d'un regroupement par type article (type article d'ingrédient)
+							console.log(this.groupedByTypologieItem); 
 						}
 
 						else if (response.data.type_article.nom_type_variation_article === "Bases" && numBases === 0 ) {
 							this.items_composed_cart.push({ 'id_article': id_article, 'typologie_article': response.data.type_article.nom_type_variation_article, 'composer': response.data.article.article_composer, 'nom': response.data.article.nom, 'description': response.data.article.description, 'quantity': 1, 'price': Number(response.data.prix_vente_unitaire).toFixed(2), 'total_price': Number(response.data.prix_vente_unitaire).toFixed(2),  'image': response.data.article.image});
 							console.log("La base a bien été ajoutée");
-							groupedByTypologieItem = this.items_composed_cart.groupBy('typologie_article'); // Création d'un regroupement par type article.
-							console.log(groupedByTypologieItem);
+							this.groupedByTypologieItem = this.items_composed_cart.groupBy('typologie_article'); // Création d'un regroupement par type article.
+							console.log(this.groupedByTypologieItem);
 						}
 						// Si déjà une base présente dans le dictionnaire alors un message d'erreur doit apparaître.
 						else {
@@ -115,7 +116,7 @@ var demo = new Vue({
 			var id_article = Number(id_article); // Obligatoire de convertir en nombre l'id_article sinon créé un bug dans l'ajout au panier via [[cart]]
 			var item_type = String(composer);
 
-			if (item_type === "false") {
+			if (item_type === "false") { // Si s'agit d'un article prêt on exécute le code ci-dessous.
 				if (this.cart.findIndex(p => p.id_article === id_article) === -1) {		
 					console.log("L'article n'est pas présent dans le panier");
 				}
@@ -136,8 +137,15 @@ var demo = new Vue({
 			}
 			// Si c'est un article en composition, on supprime directement l'ingrédient où la base car il n'y forcément qu'une quantité d'une.
 			else {
-				var index = this.items_composed_cart.findIndex(p => p.id_article === id_article);
-				this.items_composed_cart.splice(index, 1);
+				if(this.items_composed_cart.findIndex(p => p.id_article === id_article) === -1) {
+					console.log("L'article n'est pas dans le panier");
+				}
+
+				else {
+					var index = this.items_composed_cart.findIndex(p => p.id_article === id_article);
+					this.items_composed_cart.splice(index, 1);
+					this.groupedByTypologieItem = this.items_composed_cart.groupBy('typologie_article');
+				}
 			}
 		
 		},	
