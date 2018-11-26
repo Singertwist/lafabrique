@@ -5,7 +5,8 @@
 {% block titre_page %} Commander {{sous_categories_articles.nom}} {% endblock %}
 
 {% block commander_composer %}
-[[groupedByTypologieItem]]
+
+
 	{% if sous_categories_articles.composer == True %}
 		<div class="choix-composer-non-composer">
 			<div class="choix-composer-non-composer-choix">
@@ -23,6 +24,9 @@
 	<p>[[cart_composition_error]]</p>
 </div>
 
+
+<!-- Début de la partie popup informative -->
+	<!-- Partie Django -->
 	{% if messages %}
 		<div class="popup-messages-overlay">
 			<div class="popup-messages">
@@ -52,6 +56,22 @@
 			</div>
 		</div>
 	{% endif %}
+
+	<!-- Partie vue.js -->
+	<div class="popup-messages-overlay" v-if="active === true">
+		<div class="popup-messages">
+			<a v-on:click.prevent="removeactive" class="close-popup-message" href="#">&times;</a>
+				<div class="warning">
+					<div class="image-popup-messages"></div>
+					<div v-html="cart_composition_error"></div>
+					<div class="links-popup-messages">
+						<a v-on:click.prevent="removeactive" href="#">Retourner à ma composition</a>
+					</div>
+				</div>	
+		</div>
+	</div>
+
+<!-- Fin de la partie popup informative -->
 
 <div class="plat-composer">
 	<div class="plat-composer-choix">

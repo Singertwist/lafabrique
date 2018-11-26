@@ -93,7 +93,7 @@ var demo = new Vue({
 						// Si déjà une base présente dans le dictionnaire alors un message d'erreur doit apparaître.
 						else {
 							console.log("Impossible d'ajouter 2 bases à votre composition");
-							this.cart_composition_error = 'Impossible d\'ajouter 2 bases à votre composition';
+							this.cart_composition_error = '<p>OUPS !</p><p> Veuillez n\'ajouter qu\'une seule base à votre composition! </p>';
 							this.active = true;
 						}
 					}
@@ -101,7 +101,7 @@ var demo = new Vue({
 					// Si l'article est déjà présent dans le panier, on n'ajoute pas l'article et on informe via une popup.
 					else {
 						console.log("Ce produit a déjà été ajouté");
-						this.cart_composition_error = 'Ce produit a déjà été ajouté';
+						this.cart_composition_error = '<p>Vous ne pouvez pas ajouter deux fois le même article !</p>';
 						this.active = true;		
 					}
 
@@ -109,6 +109,8 @@ var demo = new Vue({
 
 				(response) => {
 					console.log("Erreur - Aucun article ne correspond à l'ID");
+					this.cart_composition_error = '<p>Erreur - Aucun article ne correspond à l\'ID</p>';
+					this.active = true;
 				});			
 				
 				// if (this.items_composed_cart.findIndex(p => p.id_article === id_article) === -1) {
@@ -128,6 +130,8 @@ var demo = new Vue({
 			if (item_type === "false") { // Si s'agit d'un article prêt on exécute le code ci-dessous.
 				if (this.cart.findIndex(p => p.id_article === id_article) === -1) {		
 					console.log("L'article n'est pas présent dans le panier");
+					this.cart_composition_error = '<p>Erreur - L\'article n\'est pas présent dans le panier';
+					this.active = true;
 				}
 				// Si la fonction trouve l'article, on ne modifie alors que la quantité
 				else {
@@ -147,7 +151,9 @@ var demo = new Vue({
 			// Si c'est un article en composition, on supprime directement l'ingrédient où la base car il n'y forcément qu'une quantité d'une.
 			else {
 				if(this.items_composed_cart.findIndex(p => p.id_article === id_article) === -1) {
-					console.log("L'article n'est pas dans le panier");
+					console.log("L'article n'est pas présent dans le panier");
+					this.cart_composition_error = '<p>Erreur - L\'article n\'est pas présent dans le panier';
+					this.active = true;
 				}
 
 				else {
