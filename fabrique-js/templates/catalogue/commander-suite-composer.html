@@ -19,6 +19,10 @@
 		</div>
 	{% endif %}
 
+<div v-on:click	="removeactive" class="test" v-if="active === true">
+	<p>[[cart_composition_error]]</p>
+</div>
+
 	{% if messages %}
 		<div class="popup-messages-overlay">
 			<div class="popup-messages">

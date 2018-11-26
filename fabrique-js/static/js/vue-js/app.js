@@ -8,10 +8,11 @@ var demo = new Vue({
 	el: '.site-content',
 	delimiters: ["[[","]]"],
 	data: {
-		loading: false,
 		cart : [],
 		items_composed_cart : [],
 		groupedByTypologieItem : [],
+		active : false,
+		cart_composition_error : '',
 	},
 
 	beforeMount: function() {
@@ -26,6 +27,10 @@ var demo = new Vue({
 	methods: {
 
 	// Méthode pour ajouter / supprimer des articles non composés
+	removeactive : function(){
+		this.active = false;
+	},
+
 	addtoCart: function(id_article, composer) {
 			// On regarde si l'article est présent dans le dictionnaire this.cart. Si = -1 cela veut dire que l'article n'existe pas dans le dictionnaire
 			// On ajoute alors l'article au dictionnaire.
@@ -88,12 +93,16 @@ var demo = new Vue({
 						// Si déjà une base présente dans le dictionnaire alors un message d'erreur doit apparaître.
 						else {
 							console.log("Impossible d'ajouter 2 bases à votre composition");
+							this.cart_composition_error = 'Impossible d\'ajouter 2 bases à votre composition';
+							this.active = true;
 						}
 					}
 					
 					// Si l'article est déjà présent dans le panier, on n'ajoute pas l'article et on informe via une popup.
 					else {
-						console.log("Ce produit a déjà été ajouté");			
+						console.log("Ce produit a déjà été ajouté");
+						this.cart_composition_error = 'Ce produit a déjà été ajouté';
+						this.active = true;		
 					}
 
 					},
