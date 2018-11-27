@@ -43,6 +43,11 @@
 		text-decoration: none;
 	}
 
+/* Nécessaire pour masquer des éléments en cours de chargement vue js*/
+[v-cloak] {
+    display: none;
+  }
+
 /*Menu */
 
 	.header{

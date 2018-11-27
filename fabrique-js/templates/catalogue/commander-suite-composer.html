@@ -58,7 +58,7 @@
 	{% endif %}
 
 	<!-- Partie vue.js -->
-	<div class="popup-messages-overlay" v-if="active === true">
+	<div class="popup-messages-overlay" v-cloak v-if="active === true">
 		<div class="popup-messages">
 			<a v-on:click.prevent="removeactive" class="close-popup-message" href="#">&times;</a>
 				<div class="warning">

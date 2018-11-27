@@ -112,11 +112,7 @@ var demo = new Vue({
 					this.cart_composition_error = '<p>Erreur - Aucun article ne correspond à l\'ID</p>';
 					this.active = true;
 				});			
-				
-				// if (this.items_composed_cart.findIndex(p => p.id_article === id_article) === -1) {
-				// }
-
-				
+								
 
 			}
 		},
@@ -165,6 +161,15 @@ var demo = new Vue({
 		
 		},	
 		// Fin méthode pour ajouter / supprimer des articles non composés
+
+		// Début méthode validation du panier et envoi du panier dans FinalComposedCart
+		// Avant validation, il faut contrôler si :
+		// - La composition n'est pas vide,
+		// - Si la composition dispose bien d'au moins une base et un ingrédient.
+
+		add_to_final_composed_cart: function() {
+
+		},
 
 	},
 
