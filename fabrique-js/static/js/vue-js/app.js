@@ -126,7 +126,7 @@ var demo = new Vue({
 			if (item_type === "false") { // Si s'agit d'un article prêt on exécute le code ci-dessous.
 				if (this.cart.findIndex(p => p.id_article === id_article) === -1) {		
 					console.log("L'article n'est pas présent dans le panier");
-					this.cart_composition_error = '<p>Erreur - L\'article n\'est pas présent dans le panier';
+					this.cart_composition_error = '<p>Erreur - L\'article n\'est pas présent dans le panier</p>';
 					this.active = true;
 				}
 				// Si la fonction trouve l'article, on ne modifie alors que la quantité
@@ -148,7 +148,7 @@ var demo = new Vue({
 			else {
 				if(this.items_composed_cart.findIndex(p => p.id_article === id_article) === -1) {
 					console.log("L'article n'est pas présent dans le panier");
-					this.cart_composition_error = '<p>Erreur - L\'article n\'est pas présent dans le panier';
+					this.cart_composition_error = '<p>Erreur - L\'article n\'est pas présent dans le panier</p>';
 					this.active = true;
 				}
 
@@ -168,7 +168,28 @@ var demo = new Vue({
 		// - Si la composition dispose bien d'au moins une base et un ingrédient.
 
 		add_to_final_composed_cart: function() {
+			// On compte le nombre de bases présentes dans le panier
+			var numBases = this.items_composed_cart.reduce(function (n, base) {
+							return n + (base.typologie_article == 'Bases');
+						}, 0);
 
+			// On compte le nombre d'ingrédients présents dans le panier
+			var numIngrédients = this.items_composed_cart.reduce(function (n, ingredients) {
+							return n + (ingredients.typologie_article == 'Ingrédients');
+						}, 0);
+
+			// Condition qui permet d'éviter l'ajout d'une composition vide ou d'une composition qui ne contient pas au moins un ingrédient ou pas de base
+			if(numBases !== 1 || numIngrédients <= 0) {
+
+				this.cart_composition_error = '<p>AIE AIE AIE !</p><p> Veuillez au moins ajouter une base et un accompagnement à votre composition !</p>';
+				this.active = true;
+
+			}
+			
+			else {
+
+				
+			}
 		},
 
 	},
