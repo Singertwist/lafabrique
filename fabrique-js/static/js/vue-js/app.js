@@ -63,7 +63,7 @@ var demo = new Vue({
 					this.cart[index]['total_price'] = (this.cart[index]['quantity'] * this.cart[index]['price']).toFixed(2);
 				}
 				// Envoi de la requête POST au serveur pour ajouter une quantité.
-				// this.$http.post('http://127.0.0.1:8000/commander/add/' + id_article +'/');
+				this.$http.post('http://127.0.0.1:8000/commander/add/' + id_article +'/');
 			}
 
 			else { //S'il s'agit d'un article servant à composer un plat.
@@ -141,7 +141,7 @@ var demo = new Vue({
 						this.cart.splice(index, 1); // Si article est en quantité de 1, on le supprime du dictionnaire.
 					}
 
-					// this.$http.post('http://127.0.0.1:8000/commander/remove-one/' + id_article +'/')
+					this.$http.post('http://127.0.0.1:8000/commander/remove-one/' + id_article +'/')
 				}
 			}
 			// Si c'est un article en composition, on supprime directement l'ingrédient où la base car il n'y forcément qu'une quantité d'une.
@@ -167,7 +167,11 @@ var demo = new Vue({
 		// - La composition n'est pas vide,
 		// - Si la composition dispose bien d'au moins une base et un ingrédient.
 
-		add_to_final_composed_cart: function() {
+		add_to_final_composed_cart: function(id_categorie_composition) {
+
+			// On récupère la catégorie correspond à la composition (sandwiches, soupes, salades...). 
+			var id_categorie_composition = Number(id_categorie_composition);
+
 			// On compte le nombre de bases présentes dans le panier
 			var numBases = this.items_composed_cart.reduce(function (n, base) {
 							return n + (base.typologie_article == 'Bases');
@@ -185,10 +189,17 @@ var demo = new Vue({
 				this.active = true;
 
 			}
-			
+			// Si la composition est ok, alors on peut poster tous les éléments de la compositions vers composed_cart. Et ensuite réaliser le post vers final_composed_cart
 			else {
-
 				
+				// On récupére tous les id des articles présents dans le dicionnaire et on les réalise la requete POST
+				this.items_composed_cart.forEach((d) => {
+					console.log(d.id_article);
+					// this.$http.post('http://127.0.0.1:8000/commander/add/' + d.id_article +'/');
+				});
+
+				// this.$http.post('http://127.0.0.1:8000/commander/add-composed-cart/' + id_categorie_composition +'/');			
+				// console.log(id_categorie_composition);
 			}
 		},
 
