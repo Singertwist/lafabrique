@@ -6,10 +6,11 @@ from catalogue.models import Categories_Article, Sous_Categories_Article, Articl
 from panier.cart  import Cart, ComposedCart, FinalComposedCart, CartDataValidation
 from panier.forms import CartAddProductForm, ComposedCartAddProductForm, DatePickerForm
 from django.contrib import messages
-
+import json
 
 # Create your views here.
-from django.http import JsonResponse
+
+
 @require_POST
 
 def cart_add(request, product_id):
@@ -32,29 +33,6 @@ def cart_add(request, product_id):
 				messages.warning(request, '<p>OUPS !</p><p> Veuillez n\'ajouter qu\'une seule base à votre composition! </p>')
 			
 			return HttpResponseRedirect(next)
-
-
-	# product = get_object_or_404(Variations_Articles, id=product_id)
-	# cart = Cart(request)
-	# cart.add(product=product, quantity=1)
-	# data = {}
-	# return JsonResponse(data)
-
-# def cart_add(request, product_id):
-# 	product = get_object_or_404(Variations_Articles, id=product_id)
-# 	cart = Cart(request)
-# 	form = CartAddProductForm(request.POST)
-# 	if form.is_valid():
-# 		cd = form.cleaned_data
-# 		next = cd['next'] # Permet d'enregistrer la page précédente et d'y retourner une fois la quantité ajoutée dans le panier.
-# 		var = cart.add(product=product, quantity=cd['quantity']) # Ajout de la variable var, cette variable permet de récupérer le message de validation afin d'afficher un message.
-
-# 		if var=="Same_articles":
-# 			messages.warning(request, '<p>Vous ne pouvez pas ajouter deux fois le même article !</p>')
-# 		if var =="Only_one_base":
-# 			messages.warning(request, '<p>OUPS !</p><p> Veuillez n\'ajouter qu\'une seule base à votre composition! </p>')
-			
-# 	return HttpResponseRedirect(next) # Redirection vers la page d'où le produit a été ajouté.
 
 def cart_remove(request, product_id):
 	cart = Cart(request)
@@ -105,19 +83,28 @@ def add_to_final_composed_cart(request, categorie_composed_cart):
 	categorie_composed_cart = get_object_or_404(Sous_Categories_Article, id=categorie_composed_cart)
 	final_composed_cart = FinalComposedCart(request)
 	form = ComposedCartAddProductForm(request.POST)
-	if form.is_valid():
-		cd = form.cleaned_data
-		next = cd['next']
-		if request.session.get('final_composed_cart') != None: # Condition nécessaire lorsque le panier composé n'est pas encore initialié (aucun article ajouté) et que l'on essaye d'ajouter un panier composé vide au panier final. Retour None et une erreur. Pour éviter cela, on vérifie si le panier est retourne une valeur None.
-			var = final_composed_cart.add_to_final_composed_cart(categorie_composed_cart=categorie_composed_cart, quantity=cd['quantity'], comment=cd['comment']) # Ajout de la variable var, cette variable permet de récupérer le message de validation afin d'afficher un message.
-			if var == "Sucess":
-				messages.success(request, '<p>YAHOU !</p><p>Votre composition a bien été ajoutée à votre panier !</p>')
-			if var =="Zero_quantity":
-				messages.warning(request, '<p>OUPS !</p><p> Veuillez au moins ajouter une base et un accompagnement à votre composition !</p>')
-		else:
-			messages.warning(request, '<p>OUPS !</p><p> Veuillez au moins ajouter une base et un accompagnement à votre composition !</p>')
+	
+	if request.method == 'POST':
+		if request.is_ajax():
+			data = json.loads(request.body)
+			next = data['next']
+			comment = data['comment']
+			final_composed_cart.add_to_final_composed_cart(categorie_composed_cart=categorie_composed_cart, quantity=1, comment=comment)
 			return HttpResponseRedirect(next)
-	return HttpResponseRedirect(next)
+		else:
+			if form.is_valid():
+				cd = form.cleaned_data
+				next = cd['next']
+				if request.session.get('final_composed_cart') != None: # Condition nécessaire lorsque le panier composé n'est pas encore initialié (aucun article ajouté) et que l'on essaye d'ajouter un panier composé vide au panier final. Retour None et une erreur. Pour éviter cela, on vérifie si le panier est retourne une valeur None.
+					var = final_composed_cart.add_to_final_composed_cart(categorie_composed_cart=categorie_composed_cart, quantity=cd['quantity'], comment=cd['comment']) # Ajout de la variable var, cette variable permet de récupérer le message de validation afin d'afficher un message.
+					if var == "Sucess":
+						messages.success(request, '<p>YAHOU !</p><p>Votre composition a bien été ajoutée à votre panier !</p>')
+					if var =="Zero_quantity":
+						messages.warning(request, '<p>OUPS !</p><p> Veuillez au moins ajouter une base et un accompagnement à votre composition !</p>')
+				else:
+					messages.warning(request, '<p>OUPS !</p><p> Veuillez au moins ajouter une base et un accompagnement à votre composition !</p>')
+					return HttpResponseRedirect(next)
+			return HttpResponseRedirect(next)
 
 def remove_composed_cart(request, categorie_composed_cart):
 	categorie_composed_cart = get_object_or_404(Sous_Categories_Article, id=categorie_composed_cart)
@@ -160,3 +147,24 @@ def cart_modify_final_composed_cart(request, categorie_composed_cart, dict_key):
 
 
 
+	# product = get_object_or_404(Variations_Articles, id=product_id)
+	# cart = Cart(request)
+	# cart.add(product=product, quantity=1)
+	# data = {}
+	# return JsonResponse(data)
+
+# def cart_add(request, product_id):
+# 	product = get_object_or_404(Variations_Articles, id=product_id)
+# 	cart = Cart(request)
+# 	form = CartAddProductForm(request.POST)
+# 	if form.is_valid():
+# 		cd = form.cleaned_data
+# 		next = cd['next'] # Permet d'enregistrer la page précédente et d'y retourner une fois la quantité ajoutée dans le panier.
+# 		var = cart.add(product=product, quantity=cd['quantity']) # Ajout de la variable var, cette variable permet de récupérer le message de validation afin d'afficher un message.
+
+# 		if var=="Same_articles":
+# 			messages.warning(request, '<p>Vous ne pouvez pas ajouter deux fois le même article !</p>')
+# 		if var =="Only_one_base":
+# 			messages.warning(request, '<p>OUPS !</p><p> Veuillez n\'ajouter qu\'une seule base à votre composition! </p>')
+			
+# 	return HttpResponseRedirect(next) # Redirection vers la page d'où le produit a été ajouté.

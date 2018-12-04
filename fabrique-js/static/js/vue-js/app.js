@@ -10,6 +10,7 @@ var demo = new Vue({
 	data: {
 		cart : [],
 		items_composed_cart : [],
+		final_composed_cart : [],
 		groupedByTypologieItem : [],
 		active : false,
 		cart_composition_error : '',
@@ -27,8 +28,12 @@ var demo = new Vue({
 	methods: {
 
 	// Méthode pour ajouter / supprimer des articles non composés
-	removeactive : function(){
+	removeactive: function(){
 		this.active = false;
+	},
+
+	removedjangopopup: function(event) {
+		event.target.closest('.popup-messages-overlay').remove();
 	},
 
 	addtoCart: function(id_article, composer) {
@@ -81,7 +86,8 @@ var demo = new Vue({
 							this.items_composed_cart.push({ 'id_article': id_article, 'typologie_article': response.data.type_article.nom_type_variation_article, 'composer': response.data.article.article_composer, 'nom': response.data.article.nom, 'description': response.data.article.description, 'quantity': 1, 'price': Number(response.data.prix_vente_unitaire).toFixed(2), 'total_price': Number(response.data.prix_vente_unitaire).toFixed(2),  'image': response.data.article.image});
 							console.log("L'ingrédient a bien été ajouté");
 							this.groupedByTypologieItem = this.items_composed_cart.groupBy('typologie_article'); // Création d'un regroupement par type article (type article d'ingrédient)
-							console.log(this.groupedByTypologieItem); 
+							console.log(this.groupedByTypologieItem);
+							this.$http.post('http://127.0.0.1:8000/commander/add/' + id_article +'/');
 						}
 
 						else if (response.data.type_article.nom_type_variation_article === "Bases" && numBases === 0 ) {
@@ -89,6 +95,7 @@ var demo = new Vue({
 							console.log("La base a bien été ajoutée");
 							this.groupedByTypologieItem = this.items_composed_cart.groupBy('typologie_article'); // Création d'un regroupement par type article.
 							console.log(this.groupedByTypologieItem);
+							this.$http.post('http://127.0.0.1:8000/commander/add/' + id_article +'/');
 						}
 						// Si déjà une base présente dans le dictionnaire alors un message d'erreur doit apparaître.
 						else {
@@ -167,7 +174,13 @@ var demo = new Vue({
 		// - La composition n'est pas vide,
 		// - Si la composition dispose bien d'au moins une base et un ingrédient.
 
-		add_to_final_composed_cart: function(id_categorie_composition) {
+		add_to_final_composed_cart: function(event) {
+
+			// On récupère l'URL d'où a été posté le formulaire et l'intègre à la variable next
+			var next = window.location.href;		
+
+			// On extrait les éléments relatifs à un possible commentaires, que l'on conertit en string et que l'on intègre à une variable.
+			var comment = String(document.querySelector('textarea[name="comment"]').value)
 
 			// On récupère la catégorie correspond à la composition (sandwiches, soupes, salades...). 
 			var id_categorie_composition = Number(id_categorie_composition);
@@ -183,23 +196,26 @@ var demo = new Vue({
 						}, 0);
 
 			// Condition qui permet d'éviter l'ajout d'une composition vide ou d'une composition qui ne contient pas au moins un ingrédient ou pas de base
+			// On ne soumet pas le formulaire d'ajout au panier final.
 			if(numBases !== 1 || numIngrédients <= 0) {
 
 				this.cart_composition_error = '<p>AIE AIE AIE !</p><p> Veuillez au moins ajouter une base et un accompagnement à votre composition !</p>';
 				this.active = true;
-
 			}
+
+			// On s'assure que la zone commentaire ne contient pas plus de 150 caractères. Si supérieur ou égal à 150 caractères on montre un message d'erreur
+			else if(comment.length >= 150 ) {
+				this.cart_composition_error = '<p>Vous êtes trop bavard !</p><p> Le commentaire ne doit pas dépasser 150 caractères.</p>';
+				this.active = true;
+			}
+
 			// Si la composition est ok, alors on peut poster tous les éléments de la compositions vers composed_cart. Et ensuite réaliser le post vers final_composed_cart
 			else {
-				
-				// On récupére tous les id des articles présents dans le dicionnaire et on les réalise la requete POST
-				this.items_composed_cart.forEach((d) => {
-					console.log(d.id_article);
-					// this.$http.post('http://127.0.0.1:8000/commander/add/' + d.id_article +'/');
-				});
+				this.$http.post('http://127.0.0.1:8000/commander/add-composed-cart/2/',{next: next, comment: comment})
+				this.final_composed_cart.push(this.items_composed_cart); // On intègre la composition dans le panier final_composed_cart
+				this.items_composed_cart = []; // On vide le panier composition après la validation de la compositon.
+				document.querySelector('textarea[name="comment"]').value = ''; //On vide le champ commenaire après la validation du formulaire.
 
-				// this.$http.post('http://127.0.0.1:8000/commander/add-composed-cart/' + id_categorie_composition +'/');			
-				// console.log(id_categorie_composition);
 			}
 		},
 
