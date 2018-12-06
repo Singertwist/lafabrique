@@ -13,7 +13,8 @@ var demo = new Vue({
 		final_composed_cart : [],
 		groupedByTypologieItem : [],
 		active : false,
-		cart_composition_error : '',
+		cart_composition_alert : '',
+		cart_composition_alert_type : '',
 	},
 
 	beforeMount: function() {
@@ -100,7 +101,8 @@ var demo = new Vue({
 						// Si déjà une base présente dans le dictionnaire alors un message d'erreur doit apparaître.
 						else {
 							console.log("Impossible d'ajouter 2 bases à votre composition");
-							this.cart_composition_error = '<p>OUPS !</p><p> Veuillez n\'ajouter qu\'une seule base à votre composition! </p>';
+							this.cart_composition_alert = '<p>OUPS !</p><p> Veuillez n\'ajouter qu\'une seule base à votre composition! </p>';
+							this.cart_composition_alert_type = 'Error';
 							this.active = true;
 						}
 					}
@@ -108,7 +110,8 @@ var demo = new Vue({
 					// Si l'article est déjà présent dans le panier, on n'ajoute pas l'article et on informe via une popup.
 					else {
 						console.log("Ce produit a déjà été ajouté");
-						this.cart_composition_error = '<p>Vous ne pouvez pas ajouter deux fois le même article !</p>';
+						this.cart_composition_alert = '<p>Vous ne pouvez pas ajouter deux fois le même article !</p>';
+						this.cart_composition_alert_type = 'Error';
 						this.active = true;		
 					}
 
@@ -116,7 +119,8 @@ var demo = new Vue({
 
 				(response) => {
 					console.log("Erreur - Aucun article ne correspond à l'ID");
-					this.cart_composition_error = '<p>Erreur - Aucun article ne correspond à l\'ID</p>';
+					this.cart_composition_alert = '<p>Erreur - Aucun article ne correspond à l\'ID</p>';
+					this.cart_composition_alert_type = 'Error';
 					this.active = true;
 				});			
 								
@@ -133,7 +137,8 @@ var demo = new Vue({
 			if (item_type === "false") { // Si s'agit d'un article prêt on exécute le code ci-dessous.
 				if (this.cart.findIndex(p => p.id_article === id_article) === -1) {		
 					console.log("L'article n'est pas présent dans le panier");
-					this.cart_composition_error = '<p>Erreur - L\'article n\'est pas présent dans le panier</p>';
+					this.cart_composition_alert = '<p>Erreur - L\'article n\'est pas présent dans le panier</p>';
+					this.cart_composition_alert_type = 'Error';
 					this.active = true;
 				}
 				// Si la fonction trouve l'article, on ne modifie alors que la quantité
@@ -155,7 +160,8 @@ var demo = new Vue({
 			else {
 				if(this.items_composed_cart.findIndex(p => p.id_article === id_article) === -1) {
 					console.log("L'article n'est pas présent dans le panier");
-					this.cart_composition_error = '<p>Erreur - L\'article n\'est pas présent dans le panier</p>';
+					this.cart_composition_alert = '<p>Erreur - L\'article n\'est pas présent dans le panier</p>';
+					this.cart_composition_alert_type = 'Error';
 					this.active = true;
 				}
 
@@ -174,7 +180,10 @@ var demo = new Vue({
 		// - La composition n'est pas vide,
 		// - Si la composition dispose bien d'au moins une base et un ingrédient.
 
-		add_to_final_composed_cart: function(event) {
+		add_to_final_composed_cart: function(sous_categories_articles, event) {
+
+
+			var sous_categories_articles = Number(sous_categories_articles);
 
 			// On récupère l'URL d'où a été posté le formulaire et l'intègre à la variable next
 			var next = window.location.href;		
@@ -199,23 +208,29 @@ var demo = new Vue({
 			// On ne soumet pas le formulaire d'ajout au panier final.
 			if(numBases !== 1 || numIngrédients <= 0) {
 
-				this.cart_composition_error = '<p>AIE AIE AIE !</p><p> Veuillez au moins ajouter une base et un accompagnement à votre composition !</p>';
+				this.cart_composition_alert = '<p>AIE AIE AIE !</p><p> Veuillez au moins ajouter une base et un accompagnement à votre composition !</p>';
+				this.cart_composition_alert_type = 'Error';
 				this.active = true;
 			}
 
 			// On s'assure que la zone commentaire ne contient pas plus de 150 caractères. Si supérieur ou égal à 150 caractères on montre un message d'erreur
 			else if(comment.length >= 150 ) {
-				this.cart_composition_error = '<p>Vous êtes trop bavard !</p><p> Le commentaire ne doit pas dépasser 150 caractères.</p>';
+				this.cart_composition_alert = '<p>Vous êtes trop bavard !</p><p> Le commentaire ne doit pas dépasser 150 caractères.</p>';
+				this.cart_composition_alert_type = 'Error';
 				this.active = true;
 			}
 
 			// Si la composition est ok, alors on peut poster tous les éléments de la compositions vers composed_cart. Et ensuite réaliser le post vers final_composed_cart
 			else {
-				this.$http.post('http://127.0.0.1:8000/commander/add-composed-cart/2/',{next: next, comment: comment})
+				this.$http.post('http://127.0.0.1:8000/commander/add-composed-cart/' + sous_categories_articles + '/',{next: next, comment: comment})
 				this.final_composed_cart.push(this.items_composed_cart); // On intègre la composition dans le panier final_composed_cart
 				this.items_composed_cart = []; // On vide le panier composition après la validation de la compositon.
 				document.querySelector('textarea[name="comment"]').value = ''; //On vide le champ commenaire après la validation du formulaire.
-
+				
+				// Popup de l'ajout avec succès.
+				this.cart_composition_alert_type = 'Sucess';
+				this.cart_composition_alert = '<p>YAHOU !</p><p>Votre composition a bien été ajoutée à votre panier !</p>'
+				this.active = true;
 			}
 		},
 

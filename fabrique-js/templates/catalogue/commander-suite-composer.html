@@ -6,11 +6,6 @@
 
 {% block commander_composer %}
 
-[[items_composed_cart]]
-
-<p>Panier final </p>
-[[final_composed_cart]]
-
 	{% if sous_categories_articles.composer == True %}
 		<div class="choix-composer-non-composer">
 			<div class="choix-composer-non-composer-choix">
@@ -60,13 +55,23 @@
 	<div class="popup-messages-overlay" v-cloak v-if="active === true">
 		<div class="popup-messages">
 			<a v-on:click.prevent="removeactive" class="close-popup-message" href="#">&times;</a>
-				<div class="warning">
+				<div class="warning" v-cloak v-if="cart_composition_alert_type === 'Error'">
 					<div class="image-popup-messages"></div>
-					<div v-html="cart_composition_error"></div>
+					<div v-html="cart_composition_alert"></div>
 					<div class="links-popup-messages">
 						<a v-on:click.prevent="removeactive" href="#">Retourner à ma composition</a>
 					</div>
-				</div>	
+				</div>
+				<div class="success" v-cloak v-if="cart_composition_alert_type === 'Sucess'">
+					<div class="image-popup-messages"></div>
+					<div v-html="cart_composition_alert"></div>
+						<div class="links-popup-messages">
+							<a href="{% url 'articles_plats' menu_commander_categories.0.slug menu_commander_categories.0.ordre %}">Continuer mes Achats</a>
+						</div>
+						<div class="links-popup-messages">
+							<a href="{% url  'cart_detail'%}">Valider votre Panier</a>
+						</div>
+				</div>		
 		</div>
 	</div>
 
@@ -235,12 +240,20 @@
 	            <button type="submit" alt="Supprimer votre Composition" title="Supprimer votre Composition">Supprimer votre Composition</button>
 	            <input type="hidden" name="next" value="{{ request.path }}">
 	      	</form>
-			<form  action="{% url "add_to_final_composed_cart" sous_categories_articles.id %}" method="post">
+<!-- 			<form  method="post">
 	            {{ composed_cart_product_form }}
 	            {% csrf_token %}
-	            <button @click.prevent="add_to_final_composed_cart()" type="submit" alt="Ajouter au Panier" title="Ajouter au Panier">Valider Votre Composition</button>
+	            <button @click.prevent="add_to_final_composed_cart({{sous_categories_articles.id}})" type="submit" alt="Ajouter au Panier" title="Ajouter au Panier">Valider Votre Composition</button>
+	            <input type="hidden" name="next" value="{{ request.path }}">
+	      	</form> -->
+
+	      	<form action="{% url "add_to_final_composed_cart" sous_categories_articles.id %}" method="post">
+	            {{ composed_cart_product_form }}
+	            {% csrf_token %}
+	            <button type="submit" alt="Ajouter au Panier" title="Ajouter au Panier">Valider Votre Composition</button>
 	            <input type="hidden" name="next" value="{{ request.path }}">
 	      	</form>
+
 		</div>
 	</div>
 
