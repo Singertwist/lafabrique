@@ -252,7 +252,7 @@ class FinalComposedCart(object):
 		for i in self.final_composed_cart: # Pour toutes les compositions créées.
 			for final_composed_products_dict_ids in self.final_composed_cart[i]['items'].keys(): #On sélectionne dans un dictionnaire les IDs des différents articles ajoutés.
 				for final_composed_product in final_composed_products: # Pour chaque article présent dans la Queryset des différents articles
-					if str(final_composed_product.id) in final_composed_products_dict_ids: # Si l'ID de mon article est présent dans le dictionnaire d'ID
+					if str(final_composed_product.id) == final_composed_products_dict_ids: # Si l'ID de mon article est présent dans le dictionnaire d'ID
 						self.final_composed_cart[i]['items'][str(final_composed_products_dict_ids)]['product'] = model_to_dict(final_composed_product, fields=['id', 'nom_article_variation']) #Alors je peux ajouter le nom de l'article dans un clé "produit". Information concernant la sérialisation d'objet (Queryset) https://stackoverflow.com/questions/21925671/convert-django-model-object-to-dict-with-all-of-the-fields-intact
 
 		# Extraction des catégories de chaque composition #
@@ -266,7 +266,7 @@ class FinalComposedCart(object):
 		for k in self.final_composed_cart.keys():
 			for final_composed_cart_cats_id in self.final_composed_cart[k]['cat_composed_cart']:
 				for final_composed_cat in final_composed_cats:
-					if str(final_composed_cat.id) in final_composed_cart_cats_id:
+					if str(final_composed_cat.id) == final_composed_cart_cats_id:
 						self.final_composed_cart[k]['cat_name'] = model_to_dict(final_composed_cat, fields=['id', 'nom', str('image')]) #Information concernant la sérialisation d'objet (Queryset) https://stackoverflow.com/questions/21925671/convert-django-model-object-to-dict-with-all-of-the-fields-intact
 
 		# Mise en forme du dictionnaires Items
