@@ -6,6 +6,12 @@
 
 {% block commander_composer %}
 
+
+{% for item in composed_cart %}
+	{{item}}
+{% endfor%}
+
+
 	{% if sous_categories_articles.composer == True %}
 		<div class="choix-composer-non-composer">
 			<div class="choix-composer-non-composer-choix">
@@ -234,26 +240,18 @@
 	    </div>
 
 		<div class="plat-composer-panier-boutton">
-			<form action="{% url "remove_composed_cart" sous_categories_articles.id %}" method="post">
+			<form method="post">
 	            {{ cart_product_form }}
 	            {% csrf_token %}
-	            <button type="submit" alt="Supprimer votre Composition" title="Supprimer votre Composition">Supprimer votre Composition</button>
+	            <button @click.prevent="remove_composed_cart({{sous_categories_articles.id}})" type="submit" alt="Supprimer votre Composition" title="Supprimer votre Composition">Supprimer votre Composition</button>
 	            <input type="hidden" name="next" value="{{ request.path }}">
 	      	</form>
-<!-- 			<form  method="post">
+			<form  method="post">
 	            {{ composed_cart_product_form }}
 	            {% csrf_token %}
 	            <button @click.prevent="add_to_final_composed_cart({{sous_categories_articles.id}})" type="submit" alt="Ajouter au Panier" title="Ajouter au Panier">Valider Votre Composition</button>
 	            <input type="hidden" name="next" value="{{ request.path }}">
-	      	</form> -->
-
-	      	<form action="{% url "add_to_final_composed_cart" sous_categories_articles.id %}" method="post">
-	            {{ composed_cart_product_form }}
-	            {% csrf_token %}
-	            <button type="submit" alt="Ajouter au Panier" title="Ajouter au Panier">Valider Votre Composition</button>
-	            <input type="hidden" name="next" value="{{ request.path }}">
 	      	</form>
-
 		</div>
 	</div>
 

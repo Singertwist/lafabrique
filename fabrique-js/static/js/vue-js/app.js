@@ -182,7 +182,7 @@ var demo = new Vue({
 
 		add_to_final_composed_cart: function(sous_categories_articles, event) {
 
-
+			// ID de la sous catégorie associé à l'ajout du panier (par exemple, sandwiches, salades...)
 			var sous_categories_articles = Number(sous_categories_articles);
 
 			// On récupère l'URL d'où a été posté le formulaire et l'intègre à la variable next
@@ -231,6 +231,19 @@ var demo = new Vue({
 				this.cart_composition_alert_type = 'Sucess';
 				this.cart_composition_alert = '<p>YAHOU !</p><p>Votre composition a bien été ajoutée à votre panier !</p>'
 				this.active = true;
+			}
+		},
+
+		remove_composed_cart : function(sous_categories_articles) {
+
+			// ID de la sous catégorie associé à la suppression du panier (par exemple, sandwiches, salades...)
+			var sous_categories_articles = Number(sous_categories_articles);
+
+			// On récupère l'URL d'où a été posté le formulaire et l'intègre à la variable next
+			var next = window.location.href;
+
+			if(this.items_composed_cart.length > 0) {
+				this.$http.post('http://127.0.0.1:8000/commander/remove-composed-cart/' + sous_categories_articles + '/',{next: next})
 			}
 		},
 

@@ -110,6 +110,14 @@ def remove_composed_cart(request, categorie_composed_cart):
 	categorie_composed_cart = get_object_or_404(Sous_Categories_Article, id=categorie_composed_cart)
 	composed_cart = ComposedCart(request)
 	form = ComposedCartAddProductForm(request.POST)
+
+	if request.method == 'POST':
+		if request.is_ajax():
+			data = json.loads(request.body)
+			next = data['next']
+			composed_cart.remove_composed_cart(categorie_composed_cart=categorie_composed_cart)
+			return HttpResponseRedirect(next)
+			
 	if form.is_valid():
 			cd = form.cleaned_data
 			next = cd['next']
