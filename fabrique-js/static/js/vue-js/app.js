@@ -23,7 +23,23 @@ var demo = new Vue({
 	},
 
 	mounted: function() {
+		// var items_composed_cart_length = 0;
+		// items_composed_cart_length = this.items_composed_cart.length
+		// window.onbeforeunload = function (e) {
+		// 	if(items_composed_cart_length !== 0)
+		// 		return "Are you sure to exit?";
+		// }
+		
+		// Méthode de stockage des cookies de Vue.js
+		var data_items_composed_cart = localStorage.getItem("items_composed_cart");
+			if (data_items_composed_cart != null) {
+				this.items_composed_cart = JSON.parse(data_items_composed_cart);
+			};
 
+		var data_cart = localStorage.getItem("cart");
+			if (data_cart != null) {
+				this.cart = JSON.parse(data_cart);
+			};
 	},
 
 	methods: {
@@ -57,6 +73,10 @@ var demo = new Vue({
 				if (this.cart.findIndex(p => p.id_article === id_article) === -1) {		
 					this.$http.get('http://127.0.0.1:8000/commander/api/article/' + id_article ).then((response) => {
 						this.cart.push({ 'id_article': id_article, 'composer': response.data.article.article_composer, 'nom': response.data.article.nom, 'description': response.data.article.description, 'quantity': 1, 'price': Number(response.data.prix_vente_unitaire).toFixed(2), 'total_price': Number(response.data.prix_vente_unitaire).toFixed(2),  'image': response.data.article.image});
+						
+						// On créé le cookie pour stocker les données du panier.
+						localStorage.setItem("cart", JSON.stringify(this.cart));
+
 						},
 					(response) => {
 						console.log("Erreur - Aucun article ne correspond à l'ID")
@@ -70,6 +90,10 @@ var demo = new Vue({
 				}
 				// Envoi de la requête POST au serveur pour ajouter une quantité.
 				this.$http.post('http://127.0.0.1:8000/commander/add/' + id_article +'/');
+
+				// On créé le cookie pour stocker les données du panier.
+				localStorage.setItem("cart", JSON.stringify(this.cart));
+
 			}
 
 			else { //S'il s'agit d'un article servant à composer un plat.
@@ -89,6 +113,9 @@ var demo = new Vue({
 							this.groupedByTypologieItem = this.items_composed_cart.groupBy('typologie_article'); // Création d'un regroupement par type article (type article d'ingrédient)
 							console.log(this.groupedByTypologieItem);
 							this.$http.post('http://127.0.0.1:8000/commander/add/' + id_article +'/');
+
+							// On créé le cookie pour stocker les données du panier.
+							localStorage.setItem("items_composed_cart", JSON.stringify(this.items_composed_cart));
 						}
 
 						else if (response.data.type_article.nom_type_variation_article === "Bases" && numBases === 0 ) {
@@ -97,6 +124,9 @@ var demo = new Vue({
 							this.groupedByTypologieItem = this.items_composed_cart.groupBy('typologie_article'); // Création d'un regroupement par type article.
 							console.log(this.groupedByTypologieItem);
 							this.$http.post('http://127.0.0.1:8000/commander/add/' + id_article +'/');
+							
+							// On créé le cookie pour stocker les données du panier.
+							localStorage.setItem("items_composed_cart", JSON.stringify(this.items_composed_cart));
 						}
 						// Si déjà une base présente dans le dictionnaire alors un message d'erreur doit apparaître.
 						else {
@@ -148,9 +178,15 @@ var demo = new Vue({
 					if (this.cart[index]['quantity'] > 1) {
 						this.cart[index]['quantity'] -= 1;
 						this.cart[index]['total_price'] = (this.cart[index]['quantity'] * this.cart[index]['price']).toFixed(2);
+						
+						// On créé le cookie pour stocker les données du panier.
+						localStorage.setItem("cart", JSON.stringify(this.cart));
 					}
 					else {
 						this.cart.splice(index, 1); // Si article est en quantité de 1, on le supprime du dictionnaire.
+						
+						// On créé le cookie pour stocker les données du panier.
+						localStorage.setItem("cart", JSON.stringify(this.cart));
 					}
 
 					this.$http.post('http://127.0.0.1:8000/commander/remove-one/' + id_article +'/')
@@ -169,6 +205,9 @@ var demo = new Vue({
 					var index = this.items_composed_cart.findIndex(p => p.id_article === id_article);
 					this.items_composed_cart.splice(index, 1);
 					this.groupedByTypologieItem = this.items_composed_cart.groupBy('typologie_article');
+					
+					// On créé le cookie pour stocker les données du panier
+					localStorage.setItem("items_composed_cart", JSON.stringify(this.items_composed_cart));
 				}
 			}
 		
@@ -243,7 +282,11 @@ var demo = new Vue({
 			var next = window.location.href;
 
 			if(this.items_composed_cart.length > 0) {
-				this.$http.post('http://127.0.0.1:8000/commander/remove-composed-cart/' + sous_categories_articles + '/',{next: next})
+				this.$http.post('http://127.0.0.1:8000/commander/remove-composed-cart/' + sous_categories_articles + '/',{next: next});
+				this.items_composed_cart = [];
+				
+				// On créé le cookie pour stocker les données du panier
+				localStorage.setItem("items_composed_cart", JSON.stringify(this.items_composed_cart));
 			}
 		},
 
