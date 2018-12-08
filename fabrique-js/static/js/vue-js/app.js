@@ -23,23 +23,37 @@ var demo = new Vue({
 	},
 
 	mounted: function() {
-		// var items_composed_cart_length = 0;
-		// items_composed_cart_length = this.items_composed_cart.length
-		// window.onbeforeunload = function (e) {
-		// 	if(items_composed_cart_length !== 0)
-		// 		return "Are you sure to exit?";
-		// }
 		
 		// Méthode de stockage des cookies de Vue.js
+		// Stockage de la composition en cours
 		var data_items_composed_cart = localStorage.getItem("items_composed_cart");
 			if (data_items_composed_cart != null) {
 				this.items_composed_cart = JSON.parse(data_items_composed_cart);
 			};
 
+		// Stockage des données du groupbytypologieitem (base / ingrédient)
+		var data_groupedByTypologieItem = localStorage.getItem("groupedByTypologieItem");
+			if (data_groupedByTypologieItem != null) {
+				this.groupedByTypologieItem = JSON.parse(data_groupedByTypologieItem);
+			};		
+
+		// Stockage du panier de produits déjà prêts (autre que composition)
 		var data_cart = localStorage.getItem("cart");
 			if (data_cart != null) {
 				this.cart = JSON.parse(data_cart);
 			};
+
+		// Stockage de final_composed_cart (stock toutes les compositions terminées)
+		var data_final_composed_cart = localStorage.getItem("final_composed_cart");
+			if (data_final_composed_cart != null) {
+				this.cart = JSON.parse(data_final_composed_cart);
+			};
+
+		// items_composed_cart_length = this.items_composed_cart.length;
+		// window.onbeforeunload = function (e) {
+		// 	if(items_composed_cart_length !== 0)
+		// 		return "Si vous quittez cette page, votre composition ne sera pas sauvegardée. Êtes-vous sûr de vouloir quitter?";
+		// }
 	},
 
 	methods: {
@@ -106,7 +120,7 @@ var demo = new Vue({
 						var numBases = this.items_composed_cart.reduce(function (n, base) {
 							return n + (base.typologie_article == 'Bases');
 						}, 0);
-						// S'il n'y a pas de base de présente dans le dictionnaire, on ajouter la base sélectionnée.
+						// S'il s'agit d'un ingrédient (différent d'une base)
 						if (response.data.type_article.nom_type_variation_article !== "Bases") {
 							this.items_composed_cart.push({ 'id_article': id_article, 'typologie_article': response.data.type_article.nom_type_variation_article, 'composer': response.data.article.article_composer, 'nom': response.data.article.nom, 'description': response.data.article.description, 'quantity': 1, 'price': Number(response.data.prix_vente_unitaire).toFixed(2), 'total_price': Number(response.data.prix_vente_unitaire).toFixed(2),  'image': response.data.article.image});
 							console.log("L'ingrédient a bien été ajouté");
@@ -116,8 +130,11 @@ var demo = new Vue({
 
 							// On créé le cookie pour stocker les données du panier.
 							localStorage.setItem("items_composed_cart", JSON.stringify(this.items_composed_cart));
-						}
 
+							// On créé le cookie pour stocker les données du panier regroupé par typologie (Base, Ingrédients)
+							localStorage.setItem("groupedByTypologieItem", JSON.stringify(this.groupedByTypologieItem));
+						}
+						// S'il n'y a pas de base de présente dans le dictionnaire, on ajoute la base sélectionnée.
 						else if (response.data.type_article.nom_type_variation_article === "Bases" && numBases === 0 ) {
 							this.items_composed_cart.push({ 'id_article': id_article, 'typologie_article': response.data.type_article.nom_type_variation_article, 'composer': response.data.article.article_composer, 'nom': response.data.article.nom, 'description': response.data.article.description, 'quantity': 1, 'price': Number(response.data.prix_vente_unitaire).toFixed(2), 'total_price': Number(response.data.prix_vente_unitaire).toFixed(2),  'image': response.data.article.image});
 							console.log("La base a bien été ajoutée");
@@ -127,6 +144,9 @@ var demo = new Vue({
 							
 							// On créé le cookie pour stocker les données du panier.
 							localStorage.setItem("items_composed_cart", JSON.stringify(this.items_composed_cart));
+
+							// On créé le cookie pour stocker les données du panier regroupé par typologie (Base, Ingrédients)
+							localStorage.setItem("groupedByTypologieItem", JSON.stringify(this.groupedByTypologieItem));
 						}
 						// Si déjà une base présente dans le dictionnaire alors un message d'erreur doit apparaître.
 						else {
@@ -204,10 +224,13 @@ var demo = new Vue({
 				else {
 					var index = this.items_composed_cart.findIndex(p => p.id_article === id_article);
 					this.items_composed_cart.splice(index, 1);
-					this.groupedByTypologieItem = this.items_composed_cart.groupBy('typologie_article');
-					
+					this.groupedByTypologieItem = []; // Nécessaire pour le groupby fonctionne correctemment.						
 					// On créé le cookie pour stocker les données du panier
 					localStorage.setItem("items_composed_cart", JSON.stringify(this.items_composed_cart));
+
+					this.groupedByTypologieItem = this.items_composed_cart.groupBy('typologie_article');
+					// On créé le cookie pour stocker les données du panier regroupé par typologie (Base, Ingrédients)
+					localStorage.setItem("groupedByTypologieItem", JSON.stringify(this.groupedByTypologieItem));
 				}
 			}
 		
@@ -264,12 +287,18 @@ var demo = new Vue({
 				this.$http.post('http://127.0.0.1:8000/commander/add-composed-cart/' + sous_categories_articles + '/',{next: next, comment: comment})
 				this.final_composed_cart.push(this.items_composed_cart); // On intègre la composition dans le panier final_composed_cart
 				this.items_composed_cart = []; // On vide le panier composition après la validation de la compositon.
+				this.groupedByTypologieItem = [];// On vide le groupby également une fois le panier validé.
 				document.querySelector('textarea[name="comment"]').value = ''; //On vide le champ commenaire après la validation du formulaire.
 				
 				// Popup de l'ajout avec succès.
 				this.cart_composition_alert_type = 'Sucess';
 				this.cart_composition_alert = '<p>YAHOU !</p><p>Votre composition a bien été ajoutée à votre panier !</p>'
 				this.active = true;
+
+				// On met à jour les cookies de composition.
+				// On créé le cookie pour stocker les données du panier composition et du groupby typologie article.
+				localStorage.setItem("items_composed_cart", JSON.stringify(this.items_composed_cart));
+				localStorage.setItem("groupedByTypologieItem", JSON.stringify(this.groupedByTypologieItem));
 			}
 		},
 
@@ -287,6 +316,10 @@ var demo = new Vue({
 				
 				// On créé le cookie pour stocker les données du panier
 				localStorage.setItem("items_composed_cart", JSON.stringify(this.items_composed_cart));
+
+				this.groupedByTypologieItem = [];
+				// On créé le cookie pour stocker les données du panier regroupé par typologie (Base, Ingrédients)
+				localStorage.setItem("groupedByTypologieItem", JSON.stringify(this.groupedByTypologieItem));
 			}
 		},
 
