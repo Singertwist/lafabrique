@@ -23,6 +23,12 @@ var demo = new Vue({
 	},
 
 	mounted: function() {
+		// var items_composed_cart_length = 0;
+		// items_composed_cart_length = this.items_composed_cart.length
+		// window.onbeforeunload = function (e) {
+		// 	if(items_composed_cart_length !== 0)
+		// 		return "Are you sure to exit?";
+		// }
 		
 		// Méthode de stockage des cookies de Vue.js
 		// Stockage de la composition en cours
@@ -47,13 +53,7 @@ var demo = new Vue({
 		var data_final_composed_cart = localStorage.getItem("final_composed_cart");
 			if (data_final_composed_cart != null) {
 				this.cart = JSON.parse(data_final_composed_cart);
-			};
-
-		// items_composed_cart_length = this.items_composed_cart.length;
-		// window.onbeforeunload = function (e) {
-		// 	if(items_composed_cart_length !== 0)
-		// 		return "Si vous quittez cette page, votre composition ne sera pas sauvegardée. Êtes-vous sûr de vouloir quitter?";
-		// }
+			};		
 	},
 
 	methods: {
@@ -184,6 +184,17 @@ var demo = new Vue({
 			var id_article = Number(id_article); // Obligatoire de convertir en nombre l'id_article sinon créé un bug dans l'ajout au panier via [[cart]]
 			var item_type = String(composer);
 
+			// Fonction permettant de grouper un dictionnaire en fonction des données d'une clé. Utilisé pour regrouper les articles de type base et les articles de type ingrédient. Doc --> https://www.consolelog.io/group-by-in-javascript/
+			Array.prototype.groupBy = function(prop) {
+					return this.reduce(function(groups, item) {
+						const val = item[prop]
+						groups[val] = groups[val] || []
+						groups[val].push(item)
+						return groups
+					}, {})
+				}
+
+
 			if (item_type === "false") { // Si s'agit d'un article prêt on exécute le code ci-dessous.
 				if (this.cart.findIndex(p => p.id_article === id_article) === -1) {		
 					console.log("L'article n'est pas présent dans le panier");
@@ -223,8 +234,7 @@ var demo = new Vue({
 
 				else {
 					var index = this.items_composed_cart.findIndex(p => p.id_article === id_article);
-					this.items_composed_cart.splice(index, 1);
-					this.groupedByTypologieItem = []; // Nécessaire pour le groupby fonctionne correctemment.						
+					this.items_composed_cart.splice(index, 1);					
 					// On créé le cookie pour stocker les données du panier
 					localStorage.setItem("items_composed_cart", JSON.stringify(this.items_composed_cart));
 
@@ -286,8 +296,6 @@ var demo = new Vue({
 			else {
 				this.$http.post('http://127.0.0.1:8000/commander/add-composed-cart/' + sous_categories_articles + '/',{next: next, comment: comment})
 				this.final_composed_cart.push(this.items_composed_cart); // On intègre la composition dans le panier final_composed_cart
-				this.items_composed_cart = []; // On vide le panier composition après la validation de la compositon.
-				this.groupedByTypologieItem = [];// On vide le groupby également une fois le panier validé.
 				document.querySelector('textarea[name="comment"]').value = ''; //On vide le champ commenaire après la validation du formulaire.
 				
 				// Popup de l'ajout avec succès.
@@ -297,7 +305,9 @@ var demo = new Vue({
 
 				// On met à jour les cookies de composition.
 				// On créé le cookie pour stocker les données du panier composition et du groupby typologie article.
+				this.items_composed_cart = []; // On vide le panier composition après la validation de la compositon.
 				localStorage.setItem("items_composed_cart", JSON.stringify(this.items_composed_cart));
+				this.groupedByTypologieItem = [];// On vide le groupby également une fois le panier validé.
 				localStorage.setItem("groupedByTypologieItem", JSON.stringify(this.groupedByTypologieItem));
 			}
 		},
