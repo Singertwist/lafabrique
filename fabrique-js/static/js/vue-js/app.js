@@ -22,14 +22,7 @@ var demo = new Vue({
 		// var csrf = document.querySelector('meta[name="csrf-token"]').getAttribute('content'
 	},
 
-	mounted: function() {
-		// var items_composed_cart_length = 0;
-		// items_composed_cart_length = this.items_composed_cart.length
-		// window.onbeforeunload = function (e) {
-		// 	if(items_composed_cart_length !== 0)
-		// 		return "Are you sure to exit?";
-		// }
-		
+	mounted: function() {		
 		// Méthode de stockage des cookies de Vue.js
 		// Stockage de la composition en cours
 		var data_items_composed_cart = localStorage.getItem("items_composed_cart");
@@ -53,7 +46,7 @@ var demo = new Vue({
 		var data_final_composed_cart = localStorage.getItem("final_composed_cart");
 			if (data_final_composed_cart != null) {
 				this.cart = JSON.parse(data_final_composed_cart);
-			};		
+			};
 	},
 
 	methods: {
@@ -334,6 +327,23 @@ var demo = new Vue({
 		},
 
 	},
+
+	// Permet de surveiller l'ajout d'élément à la composition en cours. Si composition en cours, on demande si la personne veut réellement quitter la page.
+	// Si la personne quitte la page alors, on supprime la composition en cours.
+	updated: function () {
+		var items_composed_cart_length = this.items_composed_cart.length;
+
+		window.onbeforeunload = function (e) {
+			if(items_composed_cart_length !== 0)
+				return "Si vous quittez ou rechargez la page, votre composition ne sera pas sauvegardée.";
+		};
+
+		window.onunload = function (e) {
+			localStorage.removeItem('items_composed_cart');
+			localStorage.removeItem('groupedByTypologieItem');
+		};	
+	  },
+
 
 	computed: {
 		total_cart: function() {
