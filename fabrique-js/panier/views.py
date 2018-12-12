@@ -113,8 +113,12 @@ def remove_composed_cart(request, categorie_composed_cart):
 
 	if request.method == 'POST':
 		if request.is_ajax():
-			data = json.loads(request.body)
-			next = data['next']
+			try:
+				data = json.loads(request.body)
+				next = data['next']
+			except:
+				next = request.POST.get('next')
+				
 			composed_cart.remove_composed_cart(categorie_composed_cart=categorie_composed_cart)
 			return HttpResponseRedirect(next)
 			

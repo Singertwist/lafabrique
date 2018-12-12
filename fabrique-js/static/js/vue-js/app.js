@@ -331,17 +331,37 @@ var demo = new Vue({
 	// Permet de surveiller l'ajout d'élément à la composition en cours. Si composition en cours, on demande si la personne veut réellement quitter la page.
 	// Si la personne quitte la page alors, on supprime la composition en cours.
 	updated: function () {
+
+		// On récupère le CSRF Token
+		var csrftoken = document.querySelector('input[name="csrfmiddlewaretoken"]').getAttribute("value");
+
+		// S'il y a une composition en cours, on affiche un mssage d'erreur.
 		var items_composed_cart_length = this.items_composed_cart.length;
+
+		// On récupère les variables nécessaires à la requête POST
+		var next = window.location.href; // On récupère l'URL de la page de soumission du formulaire.
+		var sous_categories_articles = Number(next.slice(-1)); // On récupère dans l'URL le numéro de la catégorie (dernier digit de l'URL).
 
 		window.onbeforeunload = function (e) {
 			if(items_composed_cart_length !== 0)
 				return "Si vous quittez ou rechargez la page, votre composition ne sera pas sauvegardée.";
 		};
 
-		window.onunload = function (e) {
+		// On vide les cookies créés et on réalise une requête POST pour vider côté serveur.
+		window.onunload = e => {
+			console.log(csrftoken);
+			console.log(sous_categories_articles);
+			this.$http.post('http://127.0.0.1:8000/commander/remove-composed-cart/' + sous_categories_articles + '/',{next: next});
+			$.ajax({
+				type: 'POST',
+				async: false,
+				url: 'http://127.0.0.1:8000/commander/remove-composed-cart/' + sous_categories_articles + '/',
+				data : { 'csrfmiddlewaretoken' : csrftoken, 'next': next },
+
+			});
 			localStorage.removeItem('items_composed_cart');
 			localStorage.removeItem('groupedByTypologieItem');
-		};	
+		};
 	  },
 
 
