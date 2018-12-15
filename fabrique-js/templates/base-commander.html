@@ -65,7 +65,7 @@
 <!--                                                                 {% thumbnail product.article.image "200x200" crop="center" as im %}
                                                                 <div class="fixed-cart-item-image" style="background-image:url({{ im.url }});"></div>
                                                                 {% endthumbnail %}  -->
-                                                                <div class="fixed-cart-item-image" v-bind:style="{ 'background-image': 'url(' + item.thumbnail + ')' }"></div>
+                                                                <div class="fixed-cart-item-image" v-bind:style="{ 'background-image': 'url(' + item.small_size_thumbnail + ')' }"></div>
                                                                 <div class="fixed-cart-item-texte">
                                                                     <div>[[item.nom]]</div>
                                                                     <div>

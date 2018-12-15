@@ -214,7 +214,7 @@
 			    <p v-if="items_composed_cart.length > 0" class="article-grouper-nom">[[key]] :</p>	    
 					<div v-for="composed_item in value" v-if="items_composed_cart.length > 0" class="plat-composer-panier-item">
 						
-						<div class="plat-composer-panier-item-image" v-bind:style="{ 'background-image': 'url(' + composed_item.thumbnail + ')' }"></div>
+						<div class="plat-composer-panier-item-image" v-bind:style="{ 'background-image': 'url(' + composed_item.small_size_thumbnail + ')' }"></div>
 							<div class="plat-composer-panier-item-nom">
 								<div class="plat-composer-panier-item-nom1">[[composed_item.nom]]</div>
 								<div class="plat-composer-panier-item-nom2">x [[ composed_item.quantity ]] - [[composed_item.typologie_article]] </div>

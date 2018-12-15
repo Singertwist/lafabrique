@@ -163,7 +163,8 @@ class Article(models.Model):
 	nom = models.CharField(max_length=160, verbose_name='Nom de l\'article')
 	slug = models.CharField(max_length=160)
 	image = models.ImageField(upload_to=upload_location_articles)
-	thumbnail = models.ImageField(upload_to=upload_location_articles, editable=False)
+	thumbnail_small_size = models.ImageField(upload_to=upload_location_articles, editable=False)
+	thumbnail_middle_size = models.ImageField(upload_to=upload_location_articles, editable=False)
 	disponible = models.BooleanField(verbose_name='Disponible / Non disponible')
 	article_composer = models.BooleanField(verbose_name='Article servant à composer un plat (cocher si oui)')
 	sous_categories_articles = models.ForeignKey(Type_Produit, verbose_name='Type d\'article', on_delete=models.PROTECT)
@@ -179,8 +180,9 @@ class Article(models.Model):
 	updated = models.DateTimeField(auto_now=True, auto_now_add=False, verbose_name='Date de mise à jour')
 
 	def save(self, *args, **kwargs):
-		self.thumbnail = get_thumbnail(self.image, '50x50', crop='center', quality=99).name
-		instance = super(Article, self).save(*args, **kwargs)
+		self.thumbnail_small_size = get_thumbnail(self.image, '64x64', crop='center', quality=99).name
+		self.thumbnail_middle_size = get_thumbnail(self.image, '256x256', crop='center', quality=99).name
+		super(Article, self).save(*args, **kwargs)
 	# prix_unitaire = models.DecimalField(max_digits=19, decimal_places=2, validators=[MinValueValidator(Decimal('0.01'))])
 	# type_article = models.BooleanField(verbose_name='Si article entrant dans composition plat : Article servant de base (cocher si oui) / Article servant d\'ingrédients (laisser vide)')
 	# unite_produit = models.ForeignKey(Unite_Produit)
