@@ -7,7 +7,7 @@ from panier.cart  import Cart, ComposedCart, FinalComposedCart, CartDataValidati
 from panier.forms import CartAddProductForm, ComposedCartAddProductForm, DatePickerForm
 from django.contrib import messages
 import json
-
+from django.http import JsonResponse
 # Create your views here.
 
 
@@ -90,6 +90,7 @@ def add_to_final_composed_cart(request, categorie_composed_cart):
 			next = data['next']
 			comment = data['comment']
 			final_composed_cart.add_to_final_composed_cart(categorie_composed_cart=categorie_composed_cart, quantity=1, comment=comment)
+			# return JsonResponse({'foo':'bar'})
 			return HttpResponseRedirect(next)
 		else:
 			if form.is_valid():

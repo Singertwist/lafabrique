@@ -5,6 +5,14 @@
 {% block titre_page %} Commander {{sous_categories_articles.nom}} {% endblock %}
 
 {% block commander_composer %}
+
+<p> Vue Js</p>
+[[final_composed_cart]]
+
+<p>Python</p>
+{% for item in final_composed_cart %}
+	{{item}}
+{% endfor %}
 	{% if sous_categories_articles.composer == True %}
 		<div class="choix-composer-non-composer">
 			<div class="choix-composer-non-composer-choix">

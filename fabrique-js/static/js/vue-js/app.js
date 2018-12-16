@@ -45,7 +45,7 @@ var demo = new Vue({
 		// Stockage de final_composed_cart (stock toutes les compositions terminées)
 		var data_final_composed_cart = localStorage.getItem("final_composed_cart");
 			if (data_final_composed_cart != null) {
-				this.cart = JSON.parse(data_final_composed_cart);
+				this.final_composed_cart = JSON.parse(data_final_composed_cart);
 			};
 	},
 
@@ -198,22 +198,28 @@ var demo = new Vue({
 				// Si la fonction trouve l'article, on ne modifie alors que la quantité
 				else {
 					var index = this.cart.findIndex(p => p.id_article === id_article);
-					// Si la quantité de l'article est supérieure à 1, on diminue la quantité d'un
-					if (this.cart[index]['quantity'] > 1) {
-						this.cart[index]['quantity'] -= 1;
-						this.cart[index]['total_price'] = (this.cart[index]['quantity'] * this.cart[index]['price']).toFixed(2);
-						
-						// On créé le cookie pour stocker les données du panier.
-						localStorage.setItem("cart", JSON.stringify(this.cart));
-					}
-					else {
-						this.cart.splice(index, 1); // Si article est en quantité de 1, on le supprime du dictionnaire.
-						
-						// On créé le cookie pour stocker les données du panier.
-						localStorage.setItem("cart", JSON.stringify(this.cart));
-					}
 
-					this.$http.post('http://127.0.0.1:8000/commander/remove-one/' + id_article +'/')
+					this.$http.post('http://127.0.0.1:8000/commander/remove-one/' + id_article +'/').then(response => {
+						// Si la quantité de l'article est supérieure à 1, on diminue la quantité d'un
+						if (this.cart[index]['quantity'] > 1) {
+							this.cart[index]['quantity'] -= 1;
+							this.cart[index]['total_price'] = (this.cart[index]['quantity'] * this.cart[index]['price']).toFixed(2);
+							
+							// On créé le cookie pour stocker les données du panier.
+							localStorage.setItem("cart", JSON.stringify(this.cart));
+						}
+						else {
+							this.cart.splice(index, 1); // Si article est en quantité de 1, on le supprime du dictionnaire.
+							
+							// On créé le cookie pour stocker les données du panier.
+							localStorage.setItem("cart", JSON.stringify(this.cart));
+						}
+					}, response => {
+						this.cart_composition_alert = '<p>Une erreur interne s\'est produite !</p><p> Mais rassurez-vous, vous n\y êtes pour rien.</p>';
+						this.cart_composition_alert_type = 'Error';
+						this.active = true;
+
+					});		
 				}
 			}
 			// Si c'est un article en composition, on supprime directement l'ingrédient où la base car il n'y forcément qu'une quantité d'une.
@@ -227,13 +233,24 @@ var demo = new Vue({
 
 				else {
 					var index = this.items_composed_cart.findIndex(p => p.id_article === id_article);
-					this.items_composed_cart.splice(index, 1);					
-					// On créé le cookie pour stocker les données du panier
-					localStorage.setItem("items_composed_cart", JSON.stringify(this.items_composed_cart));
+					
 
-					this.groupedByTypologieItem = this.items_composed_cart.groupBy('typologie_article');
-					// On créé le cookie pour stocker les données du panier regroupé par typologie (Base, Ingrédients)
-					localStorage.setItem("groupedByTypologieItem", JSON.stringify(this.groupedByTypologieItem));
+					this.$http.post('http://127.0.0.1:8000/commander/remove-one/' + id_article +'/').then(response => {
+						this.items_composed_cart.splice(index, 1);	
+						// On créé le cookie pour stocker les données du panier
+						localStorage.setItem("items_composed_cart", JSON.stringify(this.items_composed_cart));
+
+						this.groupedByTypologieItem = this.items_composed_cart.groupBy('typologie_article');
+						// On créé le cookie pour stocker les données du panier regroupé par typologie (Base, Ingrédients)
+						localStorage.setItem("groupedByTypologieItem", JSON.stringify(this.groupedByTypologieItem));
+
+					}, response => {
+
+						this.cart_composition_alert = '<p>Une erreur interne s\'est produite !</p><p> Mais rassurez-vous, vous n\y êtes pour rien.</p>';
+						this.cart_composition_alert_type = 'Error';
+						this.active = true;
+
+					});	
 				}
 			}
 		
@@ -287,21 +304,33 @@ var demo = new Vue({
 
 			// Si la composition est ok, alors on peut poster tous les éléments de la compositions vers composed_cart. Et ensuite réaliser le post vers final_composed_cart
 			else {
-				this.$http.post('http://127.0.0.1:8000/commander/add-composed-cart/' + sous_categories_articles + '/',{next: next, comment: comment})
-				this.final_composed_cart.push(this.items_composed_cart); // On intègre la composition dans le panier final_composed_cart
-				document.querySelector('textarea[name="comment"]').value = ''; //On vide le champ commenaire après la validation du formulaire.
-				
-				// Popup de l'ajout avec succès.
-				this.cart_composition_alert_type = 'Sucess';
-				this.cart_composition_alert = '<p>YAHOU !</p><p>Votre composition a bien été ajoutée à votre panier !</p>'
-				this.active = true;
+				this.$http.post('http://127.0.0.1:8000/commander/add-composed-cart/' + sous_categories_articles + '/',{next: next, comment: comment}).then(response => {
 
-				// On met à jour les cookies de composition.
-				// On créé le cookie pour stocker les données du panier composition et du groupby typologie article.
-				this.items_composed_cart = []; // On vide le panier composition après la validation de la compositon.
-				localStorage.setItem("items_composed_cart", JSON.stringify(this.items_composed_cart));
-				this.groupedByTypologieItem = [];// On vide le groupby également une fois le panier validé.
-				localStorage.setItem("groupedByTypologieItem", JSON.stringify(this.groupedByTypologieItem));
+					this.final_composed_cart.push(this.items_composed_cart); // On intègre la composition dans le panier final_composed_cart
+					document.querySelector('textarea[name="comment"]').value = ''; //On vide le champ commenaire après la validation du formulaire.
+					
+					// Popup de l'ajout avec succès.
+					this.cart_composition_alert_type = 'Sucess';
+					this.cart_composition_alert = '<p>YAHOU !</p><p>Votre composition a bien été ajoutée à votre panier !</p>'
+					this.active = true;
+
+					// On met à jour les cookies de composition.
+					// On créé le cookie pour stocker les données du panier composition et du groupby typologie article.
+					this.items_composed_cart = []; // On vide le panier composition après la validation de la compositon.
+					localStorage.setItem("items_composed_cart", JSON.stringify(this.items_composed_cart));
+					this.groupedByTypologieItem = [];// On vide le groupby également une fois le panier validé.
+					localStorage.setItem("groupedByTypologieItem", JSON.stringify(this.groupedByTypologieItem));
+
+					// On sauvegarde le panier final_composition dans les cookies.
+					localStorage.setItem("final_composed_cart", JSON.stringify(this.final_composed_cart));
+
+					console.log(response.data)
+
+				}, response => {
+					this.cart_composition_alert = '<p>Une erreur interne s\'est produite !</p><p> Mais rassurez-vous, vous n\y êtes pour rien.</p>';
+					this.cart_composition_alert_type = 'Error';
+					this.active = true;
+				});
 			}
 		},
 
