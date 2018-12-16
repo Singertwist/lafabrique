@@ -306,7 +306,7 @@ var demo = new Vue({
 			else {
 				this.$http.post('http://127.0.0.1:8000/commander/add-composed-cart/' + sous_categories_articles + '/',{next: next, comment: comment}).then(response => {
 
-					this.final_composed_cart.push(this.items_composed_cart); // On intègre la composition dans le panier final_composed_cart
+					this.final_composed_cart.push([Object.keys(response.data.data).slice(-1)[0], this.items_composed_cart]); // On intègre la composition dans le panier final_composed_cart en récupérant l'ID unique du panier généré par le backend et retourné dans la requête AJAX.
 					document.querySelector('textarea[name="comment"]').value = ''; //On vide le champ commenaire après la validation du formulaire.
 					
 					// Popup de l'ajout avec succès.
@@ -323,8 +323,6 @@ var demo = new Vue({
 
 					// On sauvegarde le panier final_composition dans les cookies.
 					localStorage.setItem("final_composed_cart", JSON.stringify(this.final_composed_cart));
-
-					console.log(response.data)
 
 				}, response => {
 					this.cart_composition_alert = '<p>Une erreur interne s\'est produite !</p><p> Mais rassurez-vous, vous n\y êtes pour rien.</p>';

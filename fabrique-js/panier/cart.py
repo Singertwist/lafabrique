@@ -191,7 +191,7 @@ class FinalComposedCart(object):
 				self.save_final_composed()
 				self.composed_cart = {}
 				self.save_composed()
-				return "Sucess"
+				return ['Sucess', self.final_composed_cart]
 			else:
 				return "Zero_quantity"
 		else:
