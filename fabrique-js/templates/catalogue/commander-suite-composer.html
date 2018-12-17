@@ -7,7 +7,17 @@
 {% block commander_composer %}
 
 <p> Vue Js</p>
-[[final_composed_cart]]
+<div class="final-composed-cart">
+		
+	<div class="compositions-final-composed-cart" v-for="compositions in final_composed_cart">
+		[[compositions.key]]
+		<div class="item-final-composed-cart" v-for="item in compositions.value">
+			[[item.nom]]
+		</div>
+	</div>
+
+</div>
+<!-- [[final_composed_cart]] -->
 
 <p>Python</p>
 {% for item in final_composed_cart %}

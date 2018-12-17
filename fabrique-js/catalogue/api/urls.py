@@ -16,14 +16,16 @@ Including another URLconf
 from django.urls import path, include, re_path
 #from django.conf.urls import url Ancienne méthode de codification des URL.
 from django.contrib import admin
-from .views import VariationsArticlesAllList, VariationsArticlesList, SousCategoriesArticlesList, ArticlesUneList, ArticleDetail
+from .views import VariationsArticlesAllList, VariationsArticlesList, SousCategoriesArticlesList, ArticlesUneList, ArticleDetail, SousCategoriesArticlesDetail
 
 urlpatterns = [
     path('articles/', VariationsArticlesAllList.as_view(), name='articles'), # http://127.0.0.1:8000/commander/api/articles/
     path('articles-une/', ArticlesUneList.as_view(), name='articles-une'), # http://127.0.0.1:8000/commander/api/articles-une/
     path('sous-categories-articles/', SousCategoriesArticlesList.as_view(), name='sous-categories-articles'),
+    path('sous-categories-article/<int:pk>', SousCategoriesArticlesDetail.as_view(), name='article'), # http://127.0.0.1:8000/commander/api/sous-categories-articles/1
     path('articles/<slug:slug>-<int:ordre>', VariationsArticlesList.as_view(), name='articles_plats_api'),
-    path('article/<int:pk>', ArticleDetail.as_view(), name='article') # http://127.0.0.1:8000/commander/api/article/1
+    path('article/<int:pk>', ArticleDetail.as_view(), name='article'), # http://127.0.0.1:8000/commander/api/article/1
+
 ]
 
 

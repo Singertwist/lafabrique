@@ -13,6 +13,10 @@ class SousCategoriesArticlesList(ListAPIView):
 	serializer_class = SousCategoriesArticlesSerializer
 	queryset =  Sous_Categories_Article.objects.all()
 
+class SousCategoriesArticlesDetail(RetrieveAPIView):
+	serializer_class = SousCategoriesArticlesSerializer
+	queryset =  Sous_Categories_Article.objects.all()
+
 class ArticlesUneList(ListAPIView):
 	serializer_class = VariationsArticlesSerializer
 
