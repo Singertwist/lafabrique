@@ -11,7 +11,7 @@
 		
 	<div class="compositions-final-composed-cart" v-for="compositions in final_composed_cart">
 		[[compositions.key]]
-		<div class="item-final-composed-cart" v-for="item in compositions.value">
+		<div class="item-final-composed-cart" v-for="item in compositions.cart_value">
 			[[item.nom]]
 		</div>
 	</div>

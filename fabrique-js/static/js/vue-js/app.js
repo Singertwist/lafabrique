@@ -304,24 +304,30 @@ var demo = new Vue({
 
 			// Si la composition est ok, alors on peut poster tous les éléments de la compositions vers composed_cart. Et ensuite réaliser le post vers final_composed_cart
 			else {
-				this.$http.post('http://127.0.0.1:8000/commander/add-composed-cart/' + sous_categories_articles + '/',{next: next, comment: comment}).then(response => {
-					this.final_composed_cart.push({key:Object.keys(response.data.data).slice(-1)[0], value: this.items_composed_cart}); // On intègre la composition dans le panier final_composed_cart en récupérant l'ID unique du panier généré par le backend et retourné dans la requête AJAX.
-					document.querySelector('textarea[name="comment"]').value = ''; //On vide le champ commenaire après la validation du formulaire.
-					
-					// Popup de l'ajout avec succès.
-					this.cart_composition_alert_type = 'Sucess';
-					this.cart_composition_alert = '<p>YAHOU !</p><p>Votre composition a bien été ajoutée à votre panier !</p>'
-					this.active = true;
+				this.$http.get('http://127.0.0.1:8000/commander/api/sous-categories-article/' + sous_categories_articles ).then((response) => {
+					var sous_categories_articles_data = response.data;
+					this.$http.post('http://127.0.0.1:8000/commander/add-composed-cart/' + sous_categories_articles + '/',{next: next, comment: comment}).then(response => {
+						this.final_composed_cart.push({key:Object.keys(response.data.data).slice(-1)[0], value: this.items_composed_cart}); // On intègre la composition dans le panier final_composed_cart en récupérant l'ID unique du panier généré par le backend et retourné dans la requête AJAX.
+						document.querySelector('textarea[name="comment"]').value = ''; //On vide le champ commenaire après la validation du formulaire.
+						
+						// Popup de l'ajout avec succès.
+						this.cart_composition_alert_type = 'Sucess';
+						this.cart_composition_alert = '<p>YAHOU !</p><p>Votre composition a bien été ajoutée à votre panier !</p>'
+						this.active = true;
 
-					// On met à jour les cookies de composition.
-					// On créé le cookie pour stocker les données du panier composition et du groupby typologie article.
-					this.items_composed_cart = []; // On vide le panier composition après la validation de la compositon.
-					localStorage.setItem("items_composed_cart", JSON.stringify(this.items_composed_cart));
-					this.groupedByTypologieItem = [];// On vide le groupby également une fois le panier validé.
-					localStorage.setItem("groupedByTypologieItem", JSON.stringify(this.groupedByTypologieItem));
+						// On met à jour les cookies de composition.
+						// On créé le cookie pour stocker les données du panier composition et du groupby typologie article.
+						this.items_composed_cart = []; // On vide le panier composition après la validation de la compositon.
+						localStorage.setItem("items_composed_cart", JSON.stringify(this.items_composed_cart));
+						this.groupedByTypologieItem = [];// On vide le groupby également une fois le panier validé.
+						localStorage.setItem("groupedByTypologieItem", JSON.stringify(this.groupedByTypologieItem));
 
-					// On sauvegarde le panier final_composition dans les cookies.
-					localStorage.setItem("final_composed_cart", JSON.stringify(this.final_composed_cart));
+						// On sauvegarde le panier final_composition dans les cookies.
+						localStorage.setItem("final_composed_cart", JSON.stringify(this.final_composed_cart));
+					},
+					(response) => {
+						console.log("Erreur - Aucun article ne correspond à l'ID")
+					});
 
 				}, response => {
 					this.cart_composition_alert = '<p>Une erreur interne s\'est produite !</p><p> Mais rassurez-vous, vous n\y êtes pour rien.</p>';
