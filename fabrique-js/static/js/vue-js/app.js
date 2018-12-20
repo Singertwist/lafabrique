@@ -307,7 +307,7 @@ var demo = new Vue({
 				this.$http.get('http://127.0.0.1:8000/commander/api/sous-categories-article/' + sous_categories_articles ).then((response) => {
 					var sous_categories_articles_data = response.data;
 					this.$http.post('http://127.0.0.1:8000/commander/add-composed-cart/' + sous_categories_articles + '/',{next: next, comment: comment}).then(response => {
-						this.final_composed_cart.push({key:Object.keys(response.data.data).slice(-1)[0], value: this.items_composed_cart}); // On intègre la composition dans le panier final_composed_cart en récupérant l'ID unique du panier généré par le backend et retourné dans la requête AJAX.
+						this.final_composed_cart.push({key:Object.keys(response.data.data).slice(-1)[0], comment: comment, categorie_composition: sous_categories_articles_data, items: this.items_composed_cart}); // On intègre la composition dans le panier final_composed_cart en récupérant l'ID unique du panier généré par le backend et retourné dans la requête AJAX.
 						document.querySelector('textarea[name="comment"]').value = ''; //On vide le champ commenaire après la validation du formulaire.
 						
 						// Popup de l'ajout avec succès.
