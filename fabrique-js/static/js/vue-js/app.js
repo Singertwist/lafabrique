@@ -47,6 +47,19 @@ var demo = new Vue({
 			if (data_final_composed_cart != null) {
 				this.final_composed_cart = JSON.parse(data_final_composed_cart);
 			};
+
+
+		// Fonction qui permet de rectracter le menu des différentes catégories de commandes quand on scrolle vers le bas.
+		window.document.body.onscroll = function() {
+			if (document.body.scrollTop > 300) {
+				document.getElementById("menu-top-commander-id").setAttribute('class' , 'menu-top-commander menu-top-commander-smaller');
+				document.getElementById("fixed-cart-id").setAttribute('class' , 'fixed-cart fixed-cart-smaller');
+			}
+			else {
+				document.getElementById("menu-top-commander-id").setAttribute('class' , 'menu-top-commander');
+				document.getElementById("fixed-cart-id").setAttribute('class' , 'fixed-cart');
+			}
+		}
 	},
 
 	methods: {

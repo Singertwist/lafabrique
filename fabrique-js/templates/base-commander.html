@@ -14,8 +14,6 @@
       <!-- Début chargement javascript -->
 <!-- Script pour le menu responsive -->
 <script type="text/javascript" src="{% static 'js/jquery/jquery-1.11.1.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/menu-commander/menu-produits.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/menu-commander/classie.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/fix-ie-image/fix-ie-image.js' %}"></script>
 <!-- Fin script menu responsive -->
 <!-- Fin chargement javascript-->
@@ -44,7 +42,7 @@
         </header>
 
         <div class="site-content">
-                        <div class="menu-top-commander">
+                        <div id="menu-top-commander-id" class="menu-top-commander">
                             <div class="menu-top-commander-texte">Menu</div>
                             <div class="menu-top-commander-texte">
                                 {% for nom_categorie in menu_commander_categories %}
@@ -56,7 +54,7 @@
                                     {% if request.get_full_path == url_cart %}
                                     <!-- Si navigateur se trouve sur la page du panier, alors, ne rien afficher. -->
                                     {% else %}
-                                        <div class="fixed-cart">
+                                        <div id="fixed-cart-id" class="fixed-cart">
                                             <div class="fixed-cart-suite">
                                                 <div class="fixed-cart-items">
                                                         <p v-if="cart.length == 0">Votre Panier est actuellement vide.</p>
