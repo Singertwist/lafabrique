@@ -25,7 +25,11 @@ SECRET_KEY = '1j@s0e2mg#50!d#1e-*rp#z$!i^s98++q(ugu7o!6w#s=q%t7!'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+'83b4584c.ngrok.io', # Nécessaire pour tst ngrock le site. A supprimer en prod.
+'127.0.0.1', # Nécessaire pour tst ngrock le site. A supprimer en prod.
+'127.0.0.1:8000', # Nécessaire pour tst ngrock le site. A supprimer en prod.
+]
 
 
 # Application definition

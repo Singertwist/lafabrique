@@ -27,17 +27,17 @@
             <a href="" class="header__icon"></a>
             <a href="" class="header__logo"></a>
             <nav class="menu">
-                    <a href="{% url 'home' %}"><img class="logo" src="{% static 'img/icones/logo-white.png' %}"></a>
-                    <a href="{% url 'home' %}"><img class="icone-menu" src="{% static 'img/icones/home-white.png' %}">Accueil</a>
+                    <a href="{% url 'home' %}"><img class="logo" src="{% static 'img/icones/logo-white.png' %}" alt="logo-menu-lafabrique"></a>
+                    <a href="{% url 'home' %}"><img class="icone-menu" src="{% static 'img/icones/home-white.png' %}" alt="logo-menu-accueil">Accueil</a>
                     {% if menu_commander_categories.0.slug == None %}
                     {% else %}
-                    <a href="{% url 'articles_plats' menu_commander_categories.0.slug menu_commander_categories.0.ordre %}"><img class="icone-menu" src="{% static 'img/icones/online-shopping-cart-white.png' %}">Commander</a>
+                    <a href="{% url 'articles_plats' menu_commander_categories.0.slug menu_commander_categories.0.ordre %}"><img class="icone-menu" src="{% static 'img/icones/online-shopping-cart-white.png' %}" alt="logo-menu-plats">Commander</a>
                     {% endif %}
                     {% if menu_producteurs_categories.0.slug == None %}
                     {% else %}
-                    <a href="{% url 'producteurs' menu_producteurs_categories.0.slug menu_producteurs_categories.0.ordre %}"><img class="icone-menu" src="{% static 'img/icones/farm-white.png' %}">Producteurs</a>
+                    <a href="{% url 'producteurs' menu_producteurs_categories.0.slug menu_producteurs_categories.0.ordre %}"><img class="icone-menu" src="{% static 'img/icones/farm-white.png' %}" alt="logo-menu-producteurs">Producteurs</a>
                     {% endif %}
-                    <a href=""><img class="icone-menu" src="{% static 'img/icones/you-are-here.png' %}">Nous Situer</a>
+                    <a href=""><img class="icone-menu" src="{% static 'img/icones/you-are-here.png' %}" alt="logo-menu-nous-situer">Nous Situer</a>
             </nav>
         </header>
 
