@@ -1,8 +1,10 @@
-Vue.http.interceptors.push((request, next) => {
-  var csrftoken = document.querySelector('input[name="csrfmiddlewaretoken"]').getAttribute("value");
-  request.headers.set('X-CSRFTOKEN', csrftoken)
-  next()
-})
+if (document.querySelector('input[name="csrfmiddlewaretoken"]') != null) {
+	Vue.http.interceptors.push((request, next) => {
+	  var csrftoken = document.querySelector('input[name="csrfmiddlewaretoken"]').getAttribute("value");
+	  request.headers.set('X-CSRFTOKEN', csrftoken)
+	  next()
+	})
+}
 
 var demo = new Vue({
 	el: '.site-content',
@@ -392,7 +394,9 @@ var demo = new Vue({
 	updated: function () {
 
 		// On récupère le CSRF Token
-		var csrftoken = document.querySelector('input[name="csrfmiddlewaretoken"]').getAttribute("value");
+		if (document.querySelector('input[name="csrfmiddlewaretoken"]') != null) {
+			var csrftoken = document.querySelector('input[name="csrfmiddlewaretoken"]').getAttribute("value");
+		}
 
 		// S'il y a une composition en cours, on affiche un mssage d'erreur.
 		var items_composed_cart_length = this.items_composed_cart.length;
