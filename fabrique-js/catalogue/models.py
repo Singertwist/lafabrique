@@ -44,12 +44,19 @@ class Sous_Categories_Article(models.Model):
 	categorie = models.ForeignKey(Categories_Article, on_delete=models.PROTECT)
 	description = models.TextField()
 	image = models.ImageField(upload_to=upload_location_sous_categorie)
+	thumbnail_small_size = models.ImageField(upload_to=upload_location_sous_categorie, editable=False)
+	thumbnail_middle_size = models.ImageField(upload_to=upload_location_sous_categorie, editable=False)
 	prix_min = models.DecimalField(max_digits=19, decimal_places=2, verbose_name='Prix de l\'article le plus bas de la catégorie', validators=[MinValueValidator(Decimal('0.01'))]) #Prix d'appel. on doit définir le nombre de digit du champ et après la virgule ==> ici jusqu'à 1 milliard, avec 2 chiffres après la virgule.
 	publier = models.BooleanField(verbose_name='Activer / Désactiver la catégorie')
 	plats = models.BooleanField(verbose_name='Est une sous-catégorie (type sandwiches dans la catégorie plat)')
 	composer = models.BooleanField(verbose_name='Possibilité de composer (cocher) / impossible de composer (vide)')
 	timestamp = models.DateTimeField(auto_now=False, auto_now_add=True, verbose_name='Date de création')
 	updated = models.DateTimeField(auto_now=True, auto_now_add=False, verbose_name='Date de mise à jour')
+
+	def save(self, *args, **kwargs):
+		self.thumbnail_small_size = get_thumbnail(self.image, '64x64', crop='center', quality=99).name
+		self.thumbnail_middle_size = get_thumbnail(self.image, '256x256', crop='center', quality=99).name
+		super(Sous_Categories_Article, self).save(*args, **kwargs)
 
 	class Meta:
 		verbose_name = 'Sous-Catégorie des articles'

@@ -57,7 +57,7 @@
                                         <div id="fixed-cart-id" class="fixed-cart">
                                             <div class="fixed-cart-suite">
                                                 <div class="fixed-cart-items">
-                                                        <p v-if="cart.length == 0">Votre Panier est actuellement vide.</p>
+                                                        <p v-if="cart.length == 0 && final_composed_cart.length == 0">Votre Panier est actuellement vide.</p>
                                                         <!-- Début du panier plat prêt -->
                                                             <div class="fixed-cart-item" v-for="item in cart" v-if="cart.length > 0">
 <!--                                                                 {% thumbnail product.article.image "200x200" crop="center" as im %}
