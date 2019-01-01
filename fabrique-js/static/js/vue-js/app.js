@@ -50,16 +50,30 @@ var demo = new Vue({
 
 
 		// Fonction qui permet de rectracter le menu des différentes catégories de commandes quand on scrolle vers le bas.
+		// Permet d'ajouter ou d'enlever une class à la DIV existante.
+
+		// if (document.getElementById("fixed-cart-id") == null) {
+		// 	console.log("Pas de div")
+		// }
+		// else {
+		// 	console.log("Une DIV est présente")
+		// }
+
 		window.document.body.onscroll = function() {
-			if (document.body.scrollTop > 300) {
+			if (document.body.scrollTop > 300) {				
 				document.getElementById("menu-top-commander-id").setAttribute('class' , 'menu-top-commander menu-top-commander-smaller');
-				document.getElementById("fixed-cart-id").setAttribute('class' , 'fixed-cart fixed-cart-smaller');
+				if (document.getElementById("fixed-cart-id") != null) {
+					document.getElementById("fixed-cart-id").setAttribute('class' , 'fixed-cart fixed-cart-smaller');
+				}
 			}
 			else {
 				document.getElementById("menu-top-commander-id").setAttribute('class' , 'menu-top-commander');
-				document.getElementById("fixed-cart-id").setAttribute('class' , 'fixed-cart');
+				if (document.getElementById("fixed-cart-id") != null) {
+					document.getElementById("fixed-cart-id").setAttribute('class' , 'fixed-cart');
+				}
 			}
 		}
+		
 	},
 
 	methods: {

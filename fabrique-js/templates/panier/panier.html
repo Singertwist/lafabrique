@@ -164,39 +164,10 @@
         </div>     
     </div> 
 
-<!-- Javascript date picker  -->
-    <script type="text/javascript" src="{% static 'js/date-picker/jquery-ui.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/date-picker/jquery-ui-timepicker-addon.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/date-picker/i18n/jquery-ui-timepicker-addon-i18n.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/date-picker/jquery-ui-sliderAccess.js' %}"></script>
-        <script type="text/javascript">
-            
-            $(function(){
-        
-                $('.composition-panier-final-info-date').each(function(i){
-                    $('#id_picking_date').datetimepicker({
-                        timeFormat: 'HH:mm',
-                        dateFormat: 'dd.mm.yy',
-                        firstDay: 1,
-                        stepHour: 1,
-                        stepMinute: 10,
-                        hourMin: 8,
-                        hourMax: 16,
-                        monthNames: ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
-                        monthNamesShort: ['Jan','Fév','Mar','Avr','Mai','Jui','Jui','Aoû','Sep','Oct','Nov','Déc'],
-                        dayNames: ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'],
-                        dayNamesShort: ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'],
-                        dayNamesMin: ['Di','Lu','Ma','Me','Je','Ve','Sa'],
-                        prevText: 'Précédent',
-                        nextText: 'Suivant',
-                    });
-                });
-            });
-            
-        </script>
-      <link rel="stylesheet" property="stylesheet" media="all" type="text/css" href="{% static 'css/date-picker/jquery-ui.css' %}" />
-      <link rel="stylesheet" property="stylesheet" media="all" type="text/css" href="{% static 'js/date-picker/css/jquery-ui-timepicker-addon.css' %}" />
-<!-- Fin Javascript date picker  -->
+<!-- CSS date picker -->
+    <link rel="stylesheet" property="stylesheet" media="all" type="text/css" href="{% static 'css/date-picker/jquery-ui.css' %}" />
+    <link rel="stylesheet" property="stylesheet" media="all" type="text/css" href="{% static 'js/date-picker/css/jquery-ui-timepicker-addon.css' %}" />
+<!-- Fin CSS date picker  -->
 
 {% endblock %}
 
