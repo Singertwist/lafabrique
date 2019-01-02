@@ -121,12 +121,12 @@ def remove_composed_cart(request, categorie_composed_cart):
 				
 			composed_cart.remove_composed_cart(categorie_composed_cart=categorie_composed_cart)
 			return HttpResponseRedirect(next)
-			
-	if form.is_valid():
-			cd = form.cleaned_data
-			next = cd['next']
-			composed_cart.remove_composed_cart(categorie_composed_cart=categorie_composed_cart)
-	return HttpResponseRedirect(next)
+		else:
+			if form.is_valid():
+				cd = form.cleaned_data
+				next = cd['next']
+				composed_cart.remove_composed_cart(categorie_composed_cart=categorie_composed_cart)
+			return HttpResponseRedirect(next)
 
 def cart_remove_final_composed_cart(request, dict_key):
 	final_composed_cart = FinalComposedCart(request)
