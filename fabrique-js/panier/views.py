@@ -14,25 +14,31 @@ from django.http import JsonResponse
 @require_POST
 
 def cart_add(request, product_id):
-	product = get_object_or_404(Variations_Articles, id=product_id)
 	cart = Cart(request)
 	form = CartAddProductForm(request.POST)
 
-	if request.is_ajax():
-		cart.add(product=product, quantity=1)
-		return HttpResponse('OK')
-	else:		
-		if form.is_valid():
-			cd = form.cleaned_data
-			next = cd['next'] # Permet d'enregistrer la page précédente et d'y retourner une fois la quantité ajoutée dans le panier.
-			var = cart.add(product=product, quantity=cd['quantity']) # Ajout de la variable var, cette variable permet de récupérer le message de validation afin d'afficher un message.
-
-			if var=="Same_articles":
-				messages.warning(request, '<p>Vous ne pouvez pas ajouter deux fois le même article !</p>')
-			if var =="Only_one_base":
-				messages.warning(request, '<p>OUPS !</p><p> Veuillez n\'ajouter qu\'une seule base à votre composition! </p>')
+	if request.method == 'POST':
+		if request.is_ajax():
+			data = json.loads(request.body)
+			items = data['items']
+			for item in items:
+				product = get_object_or_404(Variations_Articles, id=item)
+				cart_data = cart.add(product=product, quantity=1)
 			
-			return HttpResponseRedirect(next)
+			return JsonResponse({'data':items})
+		else:
+			product = get_object_or_404(Variations_Articles, id=product_id)		
+			if form.is_valid():
+				cd = form.cleaned_data
+				next = cd['next'] # Permet d'enregistrer la page précédente et d'y retourner une fois la quantité ajoutée dans le panier.
+				var = cart.add(product=product, quantity=cd['quantity']) # Ajout de la variable var, cette variable permet de récupérer le message de validation afin d'afficher un message.
+
+				if var=="Same_articles":
+					messages.warning(request, '<p>Vous ne pouvez pas ajouter deux fois le même article !</p>')
+				if var =="Only_one_base":
+					messages.warning(request, '<p>OUPS !</p><p> Veuillez n\'ajouter qu\'une seule base à votre composition! </p>')
+				
+				return HttpResponseRedirect(next)
 
 def cart_remove(request, product_id):
 	cart = Cart(request)
