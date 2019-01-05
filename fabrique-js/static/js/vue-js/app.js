@@ -54,13 +54,6 @@ var demo = new Vue({
 		// Fonction qui permet de rectracter le menu des différentes catégories de commandes quand on scrolle vers le bas.
 		// Permet d'ajouter ou d'enlever une class à la DIV existante.
 
-		// if (document.getElementById("fixed-cart-id") == null) {
-		// 	console.log("Pas de div")
-		// }
-		// else {
-		// 	console.log("Une DIV est présente")
-		// }
-
 		window.document.body.onscroll = function() {
 			if (document.body.scrollTop > 300) {				
 				document.getElementById("menu-top-commander-id").setAttribute('class' , 'menu-top-commander menu-top-commander-smaller');
@@ -107,7 +100,7 @@ var demo = new Vue({
 
 			if (item_type === "false") { // Si s'agit d'un article prêt on exécute le code ci-dessous.
 				if (this.cart.findIndex(p => p.id_article === id_article) === -1) {		
-					this.$http.get('http://127.0.0.1:8000/commander/api/article/' + id_article, {items: [Number(id_article)]} ).then((response) => {
+					this.$http.get('http://127.0.0.1:8000/commander/api/article/' + id_article, {items: [id_article]} ).then((response) => {
 						this.cart.push({ 'id_article': id_article, 'composer': response.data.article.article_composer, 'nom': response.data.article.nom, 'description': response.data.article.description, 'quantity': 1, 'price': Number(response.data.prix_vente_unitaire).toFixed(2), 'total_price': Number(response.data.prix_vente_unitaire).toFixed(2),  'image': response.data.article.image, 'small_size_thumbnail': response.data.article.thumbnail_small_size, 'middle_size_thumbnail': response.data.article.thumbnail_middle_size});
 						console.log(response.data);
 						// On créé le cookie pour stocker les données du panier.
@@ -125,7 +118,7 @@ var demo = new Vue({
 					this.cart[index]['total_price'] = (this.cart[index]['quantity'] * this.cart[index]['price']).toFixed(2);
 				}
 				// Envoi de la requête POST au serveur pour ajouter une quantité.
-				this.$http.post('http://127.0.0.1:8000/commander/add/' + id_article +'/', {items: [Number(id_article)]} );
+				this.$http.post('http://127.0.0.1:8000/commander/add/' + id_article +'/', {items: [id_article]} );
 
 				// On créé le cookie pour stocker les données du panier.
 				localStorage.setItem("cart", JSON.stringify(this.cart));
