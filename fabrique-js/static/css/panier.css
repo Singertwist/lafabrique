@@ -60,6 +60,14 @@
 	font-size: 14px;
 }
 
+.composition-panier-final-item-description > div:nth-child(2) > p {
+	display: inline;
+}
+
+.composition-panier-final-item-description > div:nth-child(2) > p + p:before {
+	content: ", ";
+}
+
 .composition-panier-final-item-quantite {
 	display: flex;
 	align-items: center;

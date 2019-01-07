@@ -21,7 +21,7 @@ from . import views
 
 urlpatterns = [
 	path('panier/', views.cart_detail, name='cart_detail'),
-    path('cart-add-quantity-final-composed-cart/<str:dict_key>', views.cart_add_quantity_final_composed_cart, name='cart_add_quantity_final_composed_cart'),
+    path('cart-add-quantity-final-composed-cart/<str:dict_key>/', views.cart_add_quantity_final_composed_cart, name='cart_add_quantity_final_composed_cart'),
 	path('add/<int:product_id>/', views.cart_add, name='cart_add'),
     path('remove-final-composed-cart/<str:dict_key>/', views.cart_remove_final_composed_cart, name='cart_remove_final_composed_cart'),
 	path('remove/<int:product_id>/', views.cart_remove, name='cart_remove'),

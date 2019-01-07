@@ -1,15 +1,22 @@
 from rest_framework import serializers
-from catalogue.models import Variations_Articles, Article, Sous_Categories_Article, Categories_Article
+from catalogue.models import Variations_Articles, Article, Sous_Categories_Article, Categories_Article, Taux_TVA
 
 class SousCategoriesArticlesSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Sous_Categories_Article
 		fields = '__all__'
 
+class TauxTVASerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Taux_TVA
+		fields = '__all__'
+
 class ArticlesSerializer(serializers.ModelSerializer):
+	taux_TVA = TauxTVASerializer()
 	class Meta:
 		model = Article
 		fields = '__all__'
+
 
 class VariationsArticlesSerializer(serializers.ModelSerializer):
 	article = ArticlesSerializer()

@@ -3,6 +3,74 @@
 {% load thumbnail %}
 
 {% block panier %}
+<div class="composition-panier-final">
+    <p v-if="cart.length == 0 && final_composed_cart.length == 0">Votre panier est vide.</p>
+
+            <div class="composition-panier-final-item" v-for="compositions in final_composed_cart" v-if="final_composed_cart.length > 0">
+                <div class="composition-panier-final-item-image" v-bind:style="{ 'background-image': 'url(' + compositions.categorie_composition.thumbnail_middle_size + ')' }"></div>         
+                <div class="composition-panier-final-item-description">
+                    <div>[[compositions.categorie_composition.nom]] à Composer</div>
+                    <div>
+                      Ingrédients choisis :
+                      <p v-for="item in compositions.items" >[[item.nom]]</p><br/>
+                      <p v-if="compositions.comment !== '' ">Commentaire ajouté : [[compositions.comment]]</p>
+                    </div>
+                </div>
+                <div class="composition-panier-final-item-quantite">
+                        <form @click.prevent="removeFromFinalComposedCart([[compositions.key]])" method="post">
+                          {{ cart_product_form }}
+                          {% csrf_token %}
+                          <input type="submit" value="&minus;">
+                          <input type="hidden" name="next" value="{{ request.path }}">
+                        </form>
+                        <form><input type="text" v-bind:value="[[compositions.quantity]]" name="quantity-final-cart"></form>
+                        <form @click.prevent="addToFinalComposedCart([[compositions.key]])" method="post">
+                          {{ cart_product_form }}
+                          {% csrf_token %}
+                          <input type="submit" value="&plus;">
+                          <input type="hidden" name="next" value="{{ request.path }}">
+                        </form>
+                </div>
+                <div class="composition-panier-final-item-supprimer">
+                    <a @click.prevent="removeAllfromFinalComposedCart([[compositions.key]])">
+                      <img src="{% static 'img/icones/cancel.png' %}" alt="Supprimer" title="Supprimer"/>
+                    </a> <!-- Lien de suppression de la composition -->
+                    <a href="">
+                      <img src="{% static 'img/icones/edit.png' %}" alt="Modifier" title="Modifier"/>
+                    </a> <!-- Lien de modification de la composition -->
+                </div>
+                <div class="composition-panier-final-item-prix">[[compositions.total_price]] €</div>
+            </div>
+
+            <div class="composition-panier-final-item" v-for="item in cart" v-if="cart.length > 0">
+                <div class="composition-panier-final-item-image" v-bind:style="{ 'background-image': 'url(' + item.middle_size_thumbnail + ')' }"></div>
+                <div class="composition-panier-final-item-description">
+                    <div>[[item.nom]]</div>
+                    <div>[[item.description]]</div>
+                </div>
+                <div class="composition-panier-final-item-quantite">
+                        <form @click.prevent="removefromCart([[item.id_article]],[[item.composer]])" method="post">
+                          {{ cart_product_form }}
+                          {% csrf_token %}
+                          <input type="submit" value="&minus;">
+                          <input type="hidden" name="next" value="{{ request.path }}">
+                        </form>
+                        <form><input type="text" v-bind:value="[[item.quantity]]" name="quantity-final-cart"></form>
+                        <form @click.prevent="addtoCart([[item.id_article]],[[item.composer]])" method="post">
+                          {{ cart_product_form }}
+                          {% csrf_token %}
+                          <input type="submit" value="&plus;">
+                          <input type="hidden" name="next" value="{{ request.path }}">
+                        </form>
+                </div>
+                <div class="composition-panier-final-item-supprimer">
+                    <a @click.prevent="removeAllfromCart([[item.id_article]],[[item.composer]])"><img src="{% static 'img/icones/cancel.png' %}" alt="Supprimer" title="Supprimer"/></a>
+                </div>
+                <div class="composition-panier-final-item-prix">[[item.total_price]] €</div>
+            </div>
+
+
+
     <h1>Mon Panier</h1>
     <div class="composition-panier-final">
     {% if final_composed_cart == None or cart == None %} <!-- Condition nécessaire pour afficher un panier vide ou non lors que les deux paniers, cart et final_composed_cart sont vides -->
@@ -158,7 +226,7 @@
                 <a href="{% url 'articles_plats' menu_commander_categories.0.slug menu_commander_categories.0.ordre %}">Continuer vos Achats</a>
             </div>
             <div>
-                <a href=""><label for="date-picking-submit-form" tabindex="0">Valider le Panier</label></a> <!-- Nécessaire pour valider unformulaire avec boutton en dehors du formulaire -->
+                <a href=""><label for="date-picking-submit-form" tabindex="0">Valider le Panier</label></a> <!-- Nécessaire pour valider un formulaire avec boutton en dehors du formulaire -->
                 <!-- Info ici: https://stackoverflow.com/questions/7020659/submit-form-using-a-button-outside-the-form-tag -->
             </div>
         </div>     
