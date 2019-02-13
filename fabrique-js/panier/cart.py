@@ -226,7 +226,6 @@ class FinalComposedCart(object):
    			del self.final_composed_cart[dict_key] # Je supprime la composition du panier final car je vais la modifier. Cette composition sera de nouveau validée et donc présente dans le panier final.
    		self.save_composed()
    		self.save_final_composed()
-   		return self.composed_cart
 
 	def save_final_composed(self):
 		self.session['final_composed_cart'] = self.final_composed_cart
