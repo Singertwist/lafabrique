@@ -35,7 +35,7 @@
                     <a @click.prevent="removeAllfromFinalComposedCart([[compositions.key]])">
                       <img src="{% static 'img/icones/cancel.png' %}" alt="Supprimer" title="Supprimer"/>
                     </a> <!-- Lien de suppression de la composition -->
-                    <a href="">
+                    <a @click.prevent="modifyCompositionFinalComposedCart([[compositions.key]], [[compositions.categorie_composition.slug]], [[compositions.categorie_composition.id]])">
                       <img src="{% static 'img/icones/edit.png' %}" alt="Modifier" title="Modifier"/>
                     </a> <!-- Lien de modification de la composition -->
                 </div>

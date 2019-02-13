@@ -266,9 +266,66 @@ var demo = new Vue({
 					this.cart_composition_alert_type = 'Error';
 					this.active = true;
 
-				});		
+				});
 			}
 		},
+
+	modifyCompositionFinalComposedCart: function(key, slug, id) {
+			
+			// Fonction GroupBy
+			Array.prototype.groupBy = function(prop) {
+				return this.reduce(function(groups, item) {
+					const val = item[prop]
+					groups[val] = groups[val] || []
+					groups[val].push(item)
+					return groups
+				}, {})
+			}
+
+			// Définition des variables
+			var composition_key = String(key);
+			var slug = String(slug);
+			var id = String(id);
+
+			if (this.final_composed_cart.findIndex(p => p.key === composition_key) === -1) {		
+				console.log("L'article n'est pas présent dans le panier");
+				this.cart_composition_alert = '<p>Erreur - L\'article n\'est pas présent dans le panier</p>';
+				this.cart_composition_alert_type = 'Error';
+				this.active = true;
+			}
+			// Si la fonction trouve l'article, on ne modifie alors que la composition et on réoriente vers la page souhaitée.
+			else {
+				var index = this.final_composed_cart.findIndex(p => p.key === composition_key);
+				console.log("Vous allez modifier votre panier");
+
+				// On envoie une requête GET au serveur avec le numéro de l'item à modifier.
+				this.$http.get('http://127.0.0.1:8000/commander/cart-modify-final-composed-cart/'+ id + '-' + composition_key +'/').then(response => {
+					
+					// On créé un boucle et on réinjecte la création dans l'objet contenant la création.
+					for (var item of this.final_composed_cart[index].items) {
+					this.items_composed_cart.push(item)
+					}
+
+					// On créé le cookie pour stocker les données du panier.
+					localStorage.setItem("items_composed_cart", JSON.stringify(this.items_composed_cart));
+					// On créé le cookie pour stocker les données du panier regroupé par typologie (Base, Ingrédients)
+					this.groupedByTypologieItem = this.items_composed_cart.groupBy('typologie_article');
+					localStorage.setItem("groupedByTypologieItem", JSON.stringify(this.groupedByTypologieItem));
+
+					// On supprime la composition du panier final
+					this.final_composed_cart.splice(index, 1); // Si article est en quantité de 1, on le supprime du dictionnaire.			
+					// On créé le cookie pour stocker les données du panier.
+					localStorage.setItem("final_composed_cart", JSON.stringify(this.final_composed_cart));
+					window.location.replace('http://127.0.0.1:8000/commander/composer/' + slug + '-' + id);
+
+				}, response => {
+					this.cart_composition_alert = '<p>Une erreur interne s\'est produite !</p><p> Mais rassurez-vous, vous n\y êtes pour rien.</p>';
+					this.cart_composition_alert_type = 'Error';
+					this.active = true;
+
+				});				
+			}
+	},
 
 	removefromCart: function(id_article, composer) {
 			// On regarde si l'article est présent dans le dictionnaire this.cart. Si = -1 cela veut dire que l'article n'existe pas dans le dictionnaire
@@ -332,24 +389,15 @@ var demo = new Vue({
 
 				else {
 					var index = this.items_composed_cart.findIndex(p => p.id_article === id_article);
-					
 
-					this.$http.post('http://127.0.0.1:8000/commander/remove-one/' + id_article +'/').then(response => {
-						this.items_composed_cart.splice(index, 1);	
-						// On créé le cookie pour stocker les données du panier
-						localStorage.setItem("items_composed_cart", JSON.stringify(this.items_composed_cart));
+					this.items_composed_cart.splice(index, 1);	
+					// On créé le cookie pour stocker les données du panier
+					localStorage.setItem("items_composed_cart", JSON.stringify(this.items_composed_cart));
 
-						this.groupedByTypologieItem = this.items_composed_cart.groupBy('typologie_article');
-						// On créé le cookie pour stocker les données du panier regroupé par typologie (Base, Ingrédients)
-						localStorage.setItem("groupedByTypologieItem", JSON.stringify(this.groupedByTypologieItem));
+					this.groupedByTypologieItem = this.items_composed_cart.groupBy('typologie_article');
+					// On créé le cookie pour stocker les données du panier regroupé par typologie (Base, Ingrédients)
+					localStorage.setItem("groupedByTypologieItem", JSON.stringify(this.groupedByTypologieItem));
 
-					}, response => {
-
-						this.cart_composition_alert = '<p>Une erreur interne s\'est produite !</p><p> Mais rassurez-vous, vous n\y êtes pour rien.</p>';
-						this.cart_composition_alert_type = 'Error';
-						this.active = true;
-
-					});	
 				}
 			}
 		
@@ -527,22 +575,25 @@ var demo = new Vue({
 		var items_composed_cart_length = this.items_composed_cart.length;
 
 		window.onbeforeunload = function (e) {
-			if(items_composed_cart_length !== 0)
+			if(items_composed_cart_length !== 0 && location.href !== 'http://127.0.0.1:8000/commander/panier/')
 				return "Si vous quittez ou rechargez la page, votre composition ne sera pas sauvegardée.";
 		};
 
 		// On vide les cookies créés.
-		window.onunload = e => {
-			this.items_composed_cart = [];
-				
-			// On créé le cookie pour stocker les données du panier
-			localStorage.setItem("items_composed_cart", JSON.stringify(this.items_composed_cart));
+		if(items_composed_cart_length !== 0 && location.href !== 'http://127.0.0.1:8000/commander/panier/') 
+		{
+			window.onunload = e => {
+				this.items_composed_cart = [];
+					
+				// On créé le cookie pour stocker les données du panier
+				localStorage.setItem("items_composed_cart", JSON.stringify(this.items_composed_cart));
 
-			this.groupedByTypologieItem = [];
-			
-			// On créé le cookie pour stocker les données du panier regroupé par typologie (Base, Ingrédients)
-			localStorage.setItem("groupedByTypologieItem", JSON.stringify(this.groupedByTypologieItem));
-		};
+				this.groupedByTypologieItem = [];
+				
+				// On créé le cookie pour stocker les données du panier regroupé par typologie (Base, Ingrédients)
+				localStorage.setItem("groupedByTypologieItem", JSON.stringify(this.groupedByTypologieItem));
+			};
+		}
 	},
 
 
