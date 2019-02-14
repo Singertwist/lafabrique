@@ -64,6 +64,8 @@
 	display: inline;
 }
 
+/* Insertion d'un point virgule entre les items de la composition */
+
 .composition-panier-final-item-description > div:nth-child(2) > p + p:before {
 	content: ", ";
 }

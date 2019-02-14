@@ -146,6 +146,14 @@
 	padding: 0;
 }
 
+.fixed-cart-item-texte .texte-composition p {
+	display: inline;
+}
+
+.fixed-cart-item-texte .texte-composition p + p:before {
+	content: ", ";
+}
+
 .fixed-cart-item-prix {
 	width: 70px; 
 	padding: 5px;
