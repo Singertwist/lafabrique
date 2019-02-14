@@ -119,6 +119,10 @@
 	padding: 10px;
 }
 
+.composition-panier-final-item-supprimer img:hover {
+	cursor: pointer;
+}
+
 .composition-panier-final-item-prix {
 	display: flex;
 	flex-direction: column;
