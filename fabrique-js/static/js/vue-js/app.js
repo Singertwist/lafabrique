@@ -101,7 +101,21 @@ var demo = new Vue({
 			if (item_type === "false") { // Si s'agit d'un article prêt on exécute le code ci-dessous.
 				if (this.cart.findIndex(p => p.id_article === id_article) === -1) {		
 					this.$http.get('http://127.0.0.1:8000/commander/api/article/' + id_article, {items: [id_article]} ).then((response) => {
-						this.cart.push({ 'id_article': id_article, 'composer': response.data.article.article_composer, 'nom': response.data.article.nom, 'description': response.data.article.description, 'quantity': 1, 'price': Number(response.data.prix_vente_unitaire).toFixed(2), 'total_price': Number(response.data.prix_vente_unitaire).toFixed(2), 'taux_tva': Number(response.data.article.taux_TVA.taux_applicable).toFixed(2), 'image': response.data.article.image, 'small_size_thumbnail': response.data.article.thumbnail_small_size, 'middle_size_thumbnail': response.data.article.thumbnail_middle_size});
+						this.cart.push({ 
+							'id_article': id_article, 
+							'composer': response.data.article.article_composer, 
+							'nom': response.data.article.nom, 
+							'description': response.data.article.description, 
+							'quantity': 1, 
+							'price': Number(response.data.prix_vente_unitaire).toFixed(2),
+							'ht_price': Number(Number(response.data.prix_vente_unitaire) / Number(response.data.article.taux_TVA.taux_applicable)).toFixed(2),
+							'total_price': Number(response.data.prix_vente_unitaire).toFixed(2),
+							'ht_total_price': Number(Number(response.data.prix_vente_unitaire) / Number(response.data.article.taux_TVA.taux_applicable)).toFixed(2),
+							'total_tva': Number(Number(response.data.prix_vente_unitaire) - Number(response.data.prix_vente_unitaire) / Number(response.data.article.taux_TVA.taux_applicable)).toFixed(2),
+							'taux_tva': Number(response.data.article.taux_TVA.taux_applicable).toFixed(2), 
+							'image': response.data.article.image, 'small_size_thumbnail': response.data.article.thumbnail_small_size, 
+							'middle_size_thumbnail': response.data.article.thumbnail_middle_size
+						});
 						console.log(response.data);
 						// On créé le cookie pour stocker les données du panier.
 						localStorage.setItem("cart", JSON.stringify(this.cart));
@@ -116,6 +130,8 @@ var demo = new Vue({
 					var index = this.cart.findIndex(p => p.id_article === id_article);
 					this.cart[index]['quantity'] += 1;
 					this.cart[index]['total_price'] = (this.cart[index]['quantity'] * this.cart[index]['price']).toFixed(2);
+					this.cart[index]['ht_total_price'] = (this.cart[index]['quantity'] * this.cart[index]['price'] / this.cart[index]['taux_tva']).toFixed(2);
+					this.cart[index]['total_tva'] = (this.cart[index]['total_price'] - this.cart[index]['ht_total_price']).toFixed(2);
 				}
 				// Envoi de la requête POST au serveur pour ajouter une quantité.
 				this.$http.post('http://127.0.0.1:8000/commander/add/' + id_article +'/', {items: [id_article]} );
@@ -360,7 +376,8 @@ var demo = new Vue({
 						if (this.cart[index]['quantity'] > 1) {
 							this.cart[index]['quantity'] -= 1;
 							this.cart[index]['total_price'] = (this.cart[index]['quantity'] * this.cart[index]['price']).toFixed(2);
-							
+							this.cart[index]['ht_total_price'] = (this.cart[index]['quantity'] * this.cart[index]['price'] / this.cart[index]['taux_tva']).toFixed(2);
+							this.cart[index]['total_tva'] = (this.cart[index]['total_price'] - this.cart[index]['ht_total_price']).toFixed(2);
 							// On créé le cookie pour stocker les données du panier.
 							localStorage.setItem("cart", JSON.stringify(this.cart));
 						}
