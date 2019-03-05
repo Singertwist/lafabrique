@@ -82,6 +82,8 @@ var demo = new Vue({
 		event.target.closest('.popup-messages-overlay').remove();
 	},
 
+	// Méthode pour ajouter au panier un article prêt ou un article servant à composer un plat.
+
 	addtoCart: function(id_article, composer) {
 			// On regarde si l'article est présent dans le dictionnaire this.cart. Si = -1 cela veut dire que l'article n'existe pas dans le dictionnaire
 			// On ajoute alors l'article au dictionnaire.
@@ -110,10 +112,11 @@ var demo = new Vue({
 							'price': Number(response.data.prix_vente_unitaire).toFixed(2),
 							'ht_price': Number(Number(response.data.prix_vente_unitaire) / Number(response.data.article.taux_TVA.taux_applicable)).toFixed(2),
 							'total_price': Number(response.data.prix_vente_unitaire).toFixed(2),
-							'ht_total_price': Number(Number(response.data.prix_vente_unitaire) / Number(response.data.article.taux_TVA.taux_applicable)).toFixed(2),
+							'total_ht': Number(Number(response.data.prix_vente_unitaire) / Number(response.data.article.taux_TVA.taux_applicable)).toFixed(2),
 							'total_tva': Number(Number(response.data.prix_vente_unitaire) - Number(response.data.prix_vente_unitaire) / Number(response.data.article.taux_TVA.taux_applicable)).toFixed(2),
 							'taux_tva': Number(response.data.article.taux_TVA.taux_applicable).toFixed(2), 
-							'image': response.data.article.image, 'small_size_thumbnail': response.data.article.thumbnail_small_size, 
+							'image': response.data.article.image, 
+							'small_size_thumbnail': response.data.article.thumbnail_small_size, 
 							'middle_size_thumbnail': response.data.article.thumbnail_middle_size
 						});
 						console.log(response.data);
@@ -130,8 +133,8 @@ var demo = new Vue({
 					var index = this.cart.findIndex(p => p.id_article === id_article);
 					this.cart[index]['quantity'] += 1;
 					this.cart[index]['total_price'] = (this.cart[index]['quantity'] * this.cart[index]['price']).toFixed(2);
-					this.cart[index]['ht_total_price'] = (this.cart[index]['quantity'] * this.cart[index]['price'] / this.cart[index]['taux_tva']).toFixed(2);
-					this.cart[index]['total_tva'] = (this.cart[index]['total_price'] - this.cart[index]['ht_total_price']).toFixed(2);
+					this.cart[index]['total_ht'] = (this.cart[index]['quantity'] * this.cart[index]['price'] / this.cart[index]['taux_tva']).toFixed(2);
+					this.cart[index]['total_tva'] = (this.cart[index]['total_price'] - this.cart[index]['total_ht']).toFixed(2);
 				}
 				// Envoi de la requête POST au serveur pour ajouter une quantité.
 				this.$http.post('http://127.0.0.1:8000/commander/add/' + id_article +'/', {items: [id_article]} );
@@ -153,7 +156,22 @@ var demo = new Vue({
 						}, 0);
 						// S'il s'agit d'un ingrédient (différent d'une base)
 						if (response.data.type_article.nom_type_variation_article !== "Bases") {
-							this.items_composed_cart.push({ 'id_article': id_article, 'typologie_article': response.data.type_article.nom_type_variation_article, 'composer': response.data.article.article_composer, 'nom': response.data.article.nom, 'description': response.data.article.description, 'quantity': 1, 'price': Number(response.data.prix_vente_unitaire).toFixed(2), 'total_price': Number(response.data.prix_vente_unitaire).toFixed(2), 'taux_tva': Number(response.data.article.taux_TVA.taux_applicable).toFixed(2),  'image': response.data.article.image, 'small_size_thumbnail': response.data.article.thumbnail_small_size, 'middle_size_thumbnail': response.data.article.thumbnail_middle_size});
+							this.items_composed_cart.push({ 
+								'id_article': id_article, 
+								'typologie_article': response.data.type_article.nom_type_variation_article, 
+								'composer': response.data.article.article_composer, 
+								'nom': response.data.article.nom, 
+								'description': response.data.article.description, 
+								'quantity': 1, 
+								'price': Number(response.data.prix_vente_unitaire), 
+								'total_price': Number(response.data.prix_vente_unitaire), 
+								'taux_tva': Number(response.data.article.taux_TVA.taux_applicable),  
+								'image': response.data.article.image, 
+								'small_size_thumbnail': response.data.article.thumbnail_small_size, 
+								'middle_size_thumbnail': response.data.article.thumbnail_middle_size,
+								'ht_price': Number(Number(response.data.prix_vente_unitaire) / Number(response.data.article.taux_TVA.taux_applicable)),
+								'total_tva': Number(Number(response.data.prix_vente_unitaire) - Number(response.data.prix_vente_unitaire) / Number(response.data.article.taux_TVA.taux_applicable)),
+							});
 							console.log("L'ingrédient a bien été ajouté");
 							this.groupedByTypologieItem = this.items_composed_cart.groupBy('typologie_article'); // Création d'un regroupement par type article (type article d'ingrédient)
 							console.log(this.groupedByTypologieItem);
@@ -166,7 +184,22 @@ var demo = new Vue({
 						}
 						// S'il n'y a pas de base de présente dans le dictionnaire, on ajoute la base sélectionnée.
 						else if (response.data.type_article.nom_type_variation_article === "Bases" && numBases === 0 ) {
-							this.items_composed_cart.push({ 'id_article': id_article, 'typologie_article': response.data.type_article.nom_type_variation_article, 'composer': response.data.article.article_composer, 'nom': response.data.article.nom, 'description': response.data.article.description, 'quantity': 1, 'price': Number(response.data.prix_vente_unitaire).toFixed(2), 'total_price': Number(response.data.prix_vente_unitaire).toFixed(2), 'taux_tva': Number(response.data.article.taux_TVA.taux_applicable).toFixed(2), 'image': response.data.article.image, 'small_size_thumbnail': response.data.article.thumbnail_small_size, 'middle_size_thumbnail': response.data.article.thumbnail_middle_size});
+							this.items_composed_cart.push({ 
+								'id_article': id_article, 
+								'typologie_article': response.data.type_article.nom_type_variation_article, 
+								'composer': response.data.article.article_composer, 
+								'nom': response.data.article.nom, 
+								'description': response.data.article.description, 
+								'quantity': 1, 
+								'price': Number(response.data.prix_vente_unitaire), 
+								'total_price': Number(response.data.prix_vente_unitaire), 
+								'taux_tva': Number(response.data.article.taux_TVA.taux_applicable), 
+								'image': response.data.article.image, 
+								'small_size_thumbnail': response.data.article.thumbnail_small_size, 
+								'middle_size_thumbnail': response.data.article.thumbnail_middle_size,
+								'ht_price': Number(Number(response.data.prix_vente_unitaire) / Number(response.data.article.taux_TVA.taux_applicable)),
+								'total_tva': Number(Number(response.data.prix_vente_unitaire) - Number(response.data.prix_vente_unitaire) / Number(response.data.article.taux_TVA.taux_applicable)),
+							});
 							console.log("La base a bien été ajoutée");
 							this.groupedByTypologieItem = this.items_composed_cart.groupBy('typologie_article'); // Création d'un regroupement par type article.
 							console.log(this.groupedByTypologieItem);
@@ -207,6 +240,9 @@ var demo = new Vue({
 			}
 		},
 
+
+	// Fonction qui permet d'augmenter la quantité d'une compostion dans le panier finale.
+
 	addToFinalComposedCart: function(key) {
 
 		var next = window.location.href;
@@ -217,6 +253,8 @@ var demo = new Vue({
 		this.$http.post('http://127.0.0.1:8000/commander/cart-add-quantity-final-composed-cart/' + composition_key +'/', {next: next}).then(response => {
 			this.final_composed_cart[index]['quantity'] += 1;
 			this.final_composed_cart[index]['total_price'] = (this.final_composed_cart[index]['quantity'] * this.final_composed_cart[index]['price']).toFixed(2);
+			this.final_composed_cart[index]['total_tva'] = (this.final_composed_cart[index]['quantity'] * this.final_composed_cart[index]['tva']).toFixed(2);
+			this.final_composed_cart[index]['total_ht'] = (this.final_composed_cart[index]['quantity'] * this.final_composed_cart[index]['ht_price']).toFixed(2);
 			// On créé le cookie pour stocker les données du panier.
 			localStorage.setItem("final_composed_cart", JSON.stringify(this.final_composed_cart));
 		}, response => {
@@ -227,6 +265,7 @@ var demo = new Vue({
 		});	
 	},
 
+	// Fonction qui permet de diminuer la quantité d'une compostion dans le panier finale.
 	removeFromFinalComposedCart: function(key) {
 
 		var next = window.location.href;
@@ -239,7 +278,8 @@ var demo = new Vue({
 			if (this.final_composed_cart[index]['quantity'] > 1) {
 				this.final_composed_cart[index]['quantity'] -= 1;
 				this.final_composed_cart[index]['total_price'] = (this.final_composed_cart[index]['quantity'] * this.final_composed_cart[index]['price']).toFixed(2);
-							
+				this.final_composed_cart[index]['total_tva'] = (this.final_composed_cart[index]['quantity'] * this.final_composed_cart[index]['tva']).toFixed(2);
+				this.final_composed_cart[index]['total_ht'] = (this.final_composed_cart[index]['quantity'] * this.final_composed_cart[index]['ht_price']).toFixed(2);		
 				// On créé le cookie pour stocker les données du panier.
 				localStorage.setItem("final_composed_cart", JSON.stringify(this.final_composed_cart));
 			}
@@ -376,8 +416,8 @@ var demo = new Vue({
 						if (this.cart[index]['quantity'] > 1) {
 							this.cart[index]['quantity'] -= 1;
 							this.cart[index]['total_price'] = (this.cart[index]['quantity'] * this.cart[index]['price']).toFixed(2);
-							this.cart[index]['ht_total_price'] = (this.cart[index]['quantity'] * this.cart[index]['price'] / this.cart[index]['taux_tva']).toFixed(2);
-							this.cart[index]['total_tva'] = (this.cart[index]['total_price'] - this.cart[index]['ht_total_price']).toFixed(2);
+							this.cart[index]['total_ht'] = (this.cart[index]['quantity'] * this.cart[index]['price'] / this.cart[index]['taux_tva']).toFixed(2);
+							this.cart[index]['total_tva'] = (this.cart[index]['total_price'] - this.cart[index]['total_ht']).toFixed(2);
 							// On créé le cookie pour stocker les données du panier.
 							localStorage.setItem("cart", JSON.stringify(this.cart));
 						}
@@ -525,13 +565,29 @@ var demo = new Vue({
 								id_last_item_composition = [];
 
 								// On calcule le prix total d'une composition finalisée
+								var total_tva_compostion = 0;
+								var total_ht_composition = 0;
 								var total_price_composition = 0;
 								this.items_composed_cart.forEach((d) => {
-									total_price_composition += Number(d.price)
+									total_price_composition += Number(d.price);
+									total_tva_compostion += Number(d.total_tva);
+									total_ht_composition += Number(d.ht_price);
 								});
 
 								this.$http.post('http://127.0.0.1:8000/commander/add-composed-cart/' + sous_categories_articles + '/',{next: next, comment: comment}).then(response => {
-									this.final_composed_cart.push({'key': Object.keys(response.data.data).slice(-1)[0], 'quantity': 1, 'price': total_price_composition.toFixed(2), 'total_price': total_price_composition.toFixed(2), 'comment': comment, 'categorie_composition': sous_categories_articles_data, 'items': this.items_composed_cart}); // On intègre la composition dans le panier final_composed_cart en récupérant l'ID unique du panier généré par le backend et retourné dans la requête AJAX.
+									this.final_composed_cart.push({
+									'key': Object.keys(response.data.data).slice(-1)[0], 
+									'quantity': 1, 
+									'price': total_price_composition.toFixed(2),
+									'ht_price': total_ht_composition,
+									'tva': total_tva_compostion,
+									'total_tva': total_tva_compostion.toFixed(2),
+									'total_ht': total_ht_composition.toFixed(2),
+									'total_price': total_price_composition.toFixed(2), 
+									'comment': comment, 
+									'categorie_composition': sous_categories_articles_data, 
+									'items': this.items_composed_cart
+									}); // On intègre la composition dans le panier final_composed_cart en récupérant l'ID unique du panier généré par le backend et retourné dans la requête AJAX.
 									document.querySelector('textarea[name="comment"]').value = ''; //On vide le champ commenaire après la validation du formulaire.
 									
 									// Popup de l'ajout avec succès.
@@ -616,18 +672,115 @@ var demo = new Vue({
 
 	computed: {
 		total_cart: function() {
-			if (this.cart === undefined || this.cart.length == 0) {
+			var total_ready_cart = 0;
+
+			if ((this.cart === undefined || this.cart.length == 0) && (this.final_composed_cart === undefined || this.final_composed_cart.length == 0)) {
 				return "0,00"
 			}
 
-			else {
-				var total_ready_cart = 0;
+			else if ((this.cart !== undefined || this.cart.length > 0) && (this.final_composed_cart === undefined || this.final_composed_cart.length == 0)) {
+
 				this.cart.forEach(function(item) {				
 					total_ready_cart += Number(item['total_price']);
 				});
 				return total_ready_cart.toFixed(2) // toFixed ==> Arrondi à 2 chiffres après la virgule
+
 			}
-		}
+
+			else if ((this.cart === undefined || this.cart.length == 0) && (this.final_composed_cart !== undefined || this.final_composed_cart.length > 0)) {
+				
+				this.final_composed_cart.forEach(function(item) {				
+					total_ready_cart += Number(item['total_price']);
+				});
+				return total_ready_cart.toFixed(2) // toFixed ==> Arrondi à 2 chiffres après la virgule
+			}
+
+			else if ((this.cart !== undefined || this.cart.length > 0) && (this.final_composed_cart !== undefined || this.final_composed_cart.length > 0)) {
+
+				this.cart.forEach(function(item) {				
+					total_ready_cart += Number(item['total_price']);
+				});
+				this.final_composed_cart.forEach(function(item) {				
+					total_ready_cart += Number(item['total_price']);
+				});
+				return total_ready_cart.toFixed(2)				
+			}
+
+		},
+
+		total_ht_cart: function() {
+			var total_ready_cart = 0;
+
+			if ((this.cart === undefined || this.cart.length == 0) && (this.final_composed_cart === undefined || this.final_composed_cart.length == 0)) {
+				return "0,00"
+			}
+
+			else if ((this.cart !== undefined || this.cart.length > 0) && (this.final_composed_cart === undefined || this.final_composed_cart.length == 0)) {
+
+				this.cart.forEach(function(item) {				
+					total_ready_cart += Number(item['total_ht']);
+				});
+				return total_ready_cart.toFixed(2) // toFixed ==> Arrondi à 2 chiffres après la virgule
+
+			}
+
+			else if ((this.cart === undefined || this.cart.length == 0) && (this.final_composed_cart !== undefined || this.final_composed_cart.length > 0)) {
+				
+				this.final_composed_cart.forEach(function(item) {				
+					total_ready_cart += Number(item['total_ht']);
+				});
+				return total_ready_cart.toFixed(2) // toFixed ==> Arrondi à 2 chiffres après la virgule
+			}
+
+			else if ((this.cart !== undefined || this.cart.length > 0) && (this.final_composed_cart !== undefined || this.final_composed_cart.length > 0)) {
+
+				this.cart.forEach(function(item) {				
+					total_ready_cart += Number(item['total_ht']);
+				});
+				this.final_composed_cart.forEach(function(item) {				
+					total_ready_cart += Number(item['total_ht']);
+				});
+				return total_ready_cart.toFixed(2)				
+			}
+
+		},
+
+		total_tva_cart: function() {
+			var total_ready_cart = 0;
+
+			if ((this.cart === undefined || this.cart.length == 0) && (this.final_composed_cart === undefined || this.final_composed_cart.length == 0)) {
+				return "0,00"
+			}
+
+			else if ((this.cart !== undefined || this.cart.length > 0) && (this.final_composed_cart === undefined || this.final_composed_cart.length == 0)) {
+
+				this.cart.forEach(function(item) {				
+					total_ready_cart += Number(item['total_tva']);
+				});
+				return total_ready_cart.toFixed(2) // toFixed ==> Arrondi à 2 chiffres après la virgule
+
+			}
+
+			else if ((this.cart === undefined || this.cart.length == 0) && (this.final_composed_cart !== undefined || this.final_composed_cart.length > 0)) {
+				
+				this.final_composed_cart.forEach(function(item) {				
+					total_ready_cart += Number(item['total_tva']);
+				});
+				return total_ready_cart.toFixed(2) // toFixed ==> Arrondi à 2 chiffres après la virgule
+			}
+
+			else if ((this.cart !== undefined || this.cart.length > 0) && (this.final_composed_cart !== undefined || this.final_composed_cart.length > 0)) {
+
+				this.cart.forEach(function(item) {				
+					total_ready_cart += Number(item['total_tva']);
+				});
+				this.final_composed_cart.forEach(function(item) {				
+					total_ready_cart += Number(item['total_tva']);
+				});
+				return total_ready_cart.toFixed(2)				
+			}
+
+		},
 	},
 
 });
