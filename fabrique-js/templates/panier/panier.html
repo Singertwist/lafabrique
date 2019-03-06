@@ -3,7 +3,7 @@
 {% load thumbnail %}
 
 {% block panier %}
-<h1>Mon Panier</h1>[[total_ht_cart]] / [[total_tva_cart]]
+<h1>Mon Panier</h1>[[total_ht_cart]] / [[total_tva_cart]] / [[items_quantities]]
 <div class="composition-panier-final">
     <p v-if="cart.length == 0 && final_composed_cart.length == 0">Votre panier est vide.</p>
 
