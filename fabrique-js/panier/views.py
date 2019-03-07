@@ -23,7 +23,7 @@ def cart_add(request, product_id):
 			items = data['items']
 			for item in items:
 				product = get_object_or_404(Variations_Articles, id=item)
-				cart_data = cart.add(product=product, quantity=1)
+				cart.add(product=product, quantity=1)
 			
 			return JsonResponse({'data':items})
 		else:
@@ -175,7 +175,12 @@ def cart_modify_final_composed_cart(request, categorie_composed_cart, dict_key):
 	final_composed_cart.cart_modify_final_composed_cart(dict_key)
 	return redirect('articles_plats_composer', slug = categorie_composed_cart.slug , id = categorie_composed_cart.id)
 
-
+# Permet de retourner l'existence d'un panier ou d'un panier composition
+# Une requête get dans vue js va intérrroger l'URL afin de s'assurer que le panier / panier composition n'est pas vide
+# Si l'un ou les deux sont vides, alors le local storage sera vidé.
+def cart_existence(request):
+	cart = request.session.get('cart')
+	return JsonResponse({'cart': cart})
 
 	# product = get_object_or_404(Variations_Articles, id=product_id)
 	# cart = Cart(request)
