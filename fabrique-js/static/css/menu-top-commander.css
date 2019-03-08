@@ -50,6 +50,22 @@
 	padding-right: 20px;
 }
 
+/* Compteur du nombre d'items dans le panier */
+.menu-top-commander-texte-lien:nth-last-child(2) .items_counter {
+	border: solid 2px #FFF;
+	background-color: #CE3734;
+	color: #FFFFFF;
+	font-weight: bold;
+	border-radius: 30px;
+	width: 15px;
+	height: 15px;
+	font-size: 12px;
+	text-align: center;
+	padding: 2px;
+	margin-left: -10px;
+
+}
+
 .menu-top-commander-texte-lien:last-child  {
 	float: right;
 }

@@ -30,7 +30,6 @@ urlpatterns = [
     path('add-composed-cart/<int:categorie_composed_cart>/', views.add_to_final_composed_cart, name='add_to_final_composed_cart'),
     path('remove-composed-cart/<int:categorie_composed_cart>/', views.remove_composed_cart, name='remove_composed_cart'),
     path('cart-modify-final-composed-cart/<int:categorie_composed_cart>-<str:dict_key>/', views.cart_modify_final_composed_cart, name='cart_modify_final_composed_cart'),
-    path('cart_existence/', views.cart_existence, name='cart_existence' ),
 ]
 
 # urlpatterns = [

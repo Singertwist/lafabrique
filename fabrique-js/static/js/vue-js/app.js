@@ -20,17 +20,6 @@ var demo = new Vue({
 	},
 
 	beforeMount: function() {
-		// Fonction qui permet de tracer s'il n'y a pas de sessionid. Si pas de sessionid, on vide le local storage
-		this.$http.get('http://127.0.0.1:8000/commander/cart_existence').then((response) => {
-				if (response.data.cart === null || Object.keys(response.data.cart).length === 0) {
-					
-					localStorage.clear()
-				}
-
-			},
-		(response) => {
-			console.log("La requête n'a pas pu aboutir")
-		});
 	},
 
 	mounted: function() {
