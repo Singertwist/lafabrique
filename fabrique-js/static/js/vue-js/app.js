@@ -637,6 +637,17 @@ var demo = new Vue({
 			}
 		},
 
+		// Désactiver le bouton de validation du panier si panier vide (template panier.html)
+		checkEmptyCart : function(e) {
+			if (this.cart.length === 0  && this.final_composed_cart.length === 0) {
+				console.log("Le panier est vide, vous ne pouvez pas le valider");
+				e.preventDefault();
+			}
+			else {
+				console.log("Vous pouvez valider votre panier")
+			}
+		}
+
 	},
 
 	// Permet de surveiller l'ajout d'élément à la composition en cours. Si composition en cours, on demande si la personne veut réellement quitter la page.
@@ -823,139 +834,3 @@ var demo = new Vue({
 	},
 
 });
-
-	// addtoCart: function(id_article) {
-	// 	// Fonction qui permet de savoir si un article est présent ou non dans un panier.
-	// 	var found = this.cart.find(function(element) {
-	// 		return element === id_article;
-	// 		});
-
-	// 	if (found === id_article) { // Si l'article est présent dans le panier, je ne modifie que la quantité.
-	// 		// Fonction qui permet de récupérer l'index de l'article dans la liste.
-	// 		function findIndexIdArticle(element_index) {
-	// 			return element_index === id_article;
-	// 		}
-
-	// 		// La quantité à modifier se trouve dans l'object juste après l'ID Article
-	// 		var IndexIdArticle = this.cart.findIndex(findIndexIdArticle) + 1  // On récupérer l'index de l'article qui est déjà présent et on sélectionne le dictionnaire d'informations de l'article.
-	// 		this.cart[IndexIdArticle].quantity += 1 // On augmente la quantité de 1 à chaque fois que l'on clique sur le bouton.
-	// 		this.cart[IndexIdArticle].total_price = this.cart[IndexIdArticle].quantity * this.cart[IndexIdArticle].price
-	// 	}
-	// 	else {
-	// 		console.log("Article non présent dans le panier - Article ajouté");
-	// 		this.$http.get(this.url_site + 'commander/api/article/' + id_article ).then((response) => {
-	// 			this.cart.push(id_article,{ 'nom': response.data.article.nom, 'description': response.data.article.description, 'quantity': 1, 'price': Number(response.data.prix_vente_unitaire), 'total_price': Number(response.data.prix_vente_unitaire), 'image': response.data.article.image});
-	// 			},
-	// 		(response) => {
-	// 			console.log("Erreur - Aucun article ne correspond à l'ID")
-	// 		});
-	// 	}
-	// 	// Envoi de la requête POST au serveur pour ajouter une quantité.
-	// 	// this.$http.post(this.url_site + 'commander/add/' + id_article +'/');
-		
-	// 	},
-
-
-
-
-					// var id_article = 14;
-					// var dict_data = [14, 4, 1];
-					// 	this.$http.post(this.url_site + 'commander/add/' + id_article +'/', {items: dict_data}).then((response) => {
-					// 		console.log(response.data);
-					// 	}, response => {
-					// 		console.log("Erreur");
-					// 	})
-				// for (const item of this.items_composed_cart) {
-				// 	this.$http.post(this.url_site + 'commander/add/' + item.id_article +'/', {next: 'test', items: 'comment'}).then(async (response) => {
-				// 		const body = await response.text();
-				// 		if (response.status != 200) throw Error(body.message);
-				// 		// if everything is fine resiolve to true or for example your body content
-				// 		return Promise.resolve(true);
-				// 	}, response => {
-				// 		console.log("Erreur");
-				// 		return Promise.resolve(false);
-				// 	});					
-				// }
-
-				// for (const item of this.items_composed_cart) {
-				// 	this.$http.post(this.url_site + 'commander/add/' + item.id_article +'/').then(async (response) => {
-				// 		const body = await response.text();
-				// 		if (response.status != 200) throw Error(body.message);
-				// 		// if everything is fine resiolve to true or for example your body content
-				// 		return Promise.resolve(true);
-				// 	}, response => {
-				// 		console.log("Erreur");
-				// 		return Promise.resolve(false);
-				// 	});					
-				// }
-				// 	this.items_composed_cart.forEach((d) => {
-				// 		this.$http.post(this.url_site + 'commander/add/' + d.id_article +'/').then(async (response) => {
-				// 			const body = await response.text();
-				// 			if (response.status != 200) throw Error(body.message);
-				// 			// if everything is fine resiolve to true or for example your body content
-				// 			return Promise.resolve(true);
-				// 		}, response => {
-				// 			console.log("Erreur");
-				// 			return Promise.resolve(false);
-				// 		});
-				// });
-
-					// this.$http.post(this.url_site + 'commander/add-composed-cart/' + sous_categories_articles + '/',{next: next, comment: comment}).then(response => {
-					// 	this.final_composed_cart.push({'key': Object.keys(response.data.data).slice(-1)[0], 'quantity': 1, 'comment': comment, 'categorie_composition': sous_categories_articles_data, 'items': this.items_composed_cart}); // On intègre la composition dans le panier final_composed_cart en récupérant l'ID unique du panier généré par le backend et retourné dans la requête AJAX.
-					// 	document.querySelector('textarea[name="comment"]').value = ''; //On vide le champ commenaire après la validation du formulaire.
-						
-					// 	// Popup de l'ajout avec succès.
-					// 	this.cart_composition_alert_type = 'Sucess';
-					// 	this.cart_composition_alert = '<p>YAHOU !</p><p>Votre composition a bien été ajoutée à votre panier !</p>'
-					// 	this.active = true;
-
-					// 	// On met à jour les cookies de composition.
-					// 	// On créé le cookie pour stocker les données du panier composition et du groupby typologie article.
-					// 	this.items_composed_cart = []; // On vide le panier composition après la validation de la compositon.
-					// 	localStorage.setItem("items_composed_cart", JSON.stringify(this.items_composed_cart));
-					// 	this.groupedByTypologieItem = [];// On vide le groupby également une fois le panier validé.
-					// 	localStorage.setItem("groupedByTypologieItem", JSON.stringify(this.groupedByTypologieItem));
-
-					// 	// On sauvegarde le panier final_composition dans les cookies.
-					// 	localStorage.setItem("final_composed_cart", JSON.stringify(this.final_composed_cart));
-					// },
-					// (response) => {
-					// 	console.log("Erreur - Aucun article ne correspond à l'ID")
-					// });
-
-
-	// updated: function () {
-
-	// 	// On récupère le CSRF Token
-	// 	if (document.querySelector('input[name="csrfmiddlewaretoken"]') != null) {
-	// 		var csrftoken = document.querySelector('input[name="csrfmiddlewaretoken"]').getAttribute("value");
-	// 	}
-
-	// 	// S'il y a une composition en cours, on affiche un mssage d'erreur.
-	// 	var items_composed_cart_length = this.items_composed_cart.length;
-
-	// 	// On récupère les variables nécessaires à la requête POST
-	// 	var next = window.location.href; // On récupère l'URL de la page de soumission du formulaire.
-	// 	var sous_categories_articles = Number(next.slice(-1)); // On récupère dans l'URL le numéro de la catégorie (dernier digit de l'URL).
-
-	// 	window.onbeforeunload = function (e) {
-	// 		if(items_composed_cart_length !== 0)
-	// 			return "Si vous quittez ou rechargez la page, votre composition ne sera pas sauvegardée.";
-	// 	};
-
-	// 	// On vide les cookies créés et on réalise une requête POST pour vider côté serveur.
-	// 	window.onunload = e => {
-	// 		// console.log(csrftoken);
-	// 		// console.log(sous_categories_articles);
-	// 		this.$http.post(this.url_site + 'commander/remove-composed-cart/' + sous_categories_articles + '/',{next: next});
-	// 		$.ajax({
-	// 			type: 'POST',
-	// 			async: false,
-	// 			url: this.url_site + 'commander/remove-composed-cart/' + sous_categories_articles + '/',
-	// 			data : { 'csrfmiddlewaretoken' : csrftoken, 'next': next },
-
-	// 		});
-	// 		localStorage.removeItem('items_composed_cart');
-	// 		localStorage.removeItem('groupedByTypologieItem');
-	// 	};
-	// },

@@ -227,7 +227,7 @@
                 <a href="{% url 'articles_plats' menu_commander_categories.0.slug menu_commander_categories.0.ordre %}">Continuer vos Achats</a>
             </div>
             <div>
-                <a href=""><label for="date-picking-submit-form" tabindex="0">Valider le Panier</label></a> <!-- Nécessaire pour valider un formulaire avec boutton en dehors du formulaire -->
+                <a  @click="checkEmptyCart($event)" href=""><label for="date-picking-submit-form" tabindex="0">Valider le Panier</label></a> <!-- Nécessaire pour valider un formulaire avec boutton en dehors du formulaire -->
                 <!-- Info ici: https://stackoverflow.com/questions/7020659/submit-form-using-a-button-outside-the-form-tag -->
             </div>
         </div>     
