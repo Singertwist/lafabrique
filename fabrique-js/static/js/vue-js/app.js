@@ -10,6 +10,7 @@ var demo = new Vue({
 	el: '.site-content',
 	delimiters: ["[[","]]"],
 	data: {
+		url_site : 'http://127.0.0.1:8000/',
 		cart : [],
 		items_composed_cart : [],
 		final_composed_cart : [],
@@ -99,7 +100,7 @@ var demo = new Vue({
 
 			if (item_type === "false") { // Si s'agit d'un article prêt on exécute le code ci-dessous.
 				if (this.cart.findIndex(p => p.id_article === id_article) === -1) {		
-					this.$http.get('http://127.0.0.1:8000/commander/api/article/' + id_article, {items: [id_article]} ).then((response) => {
+					this.$http.get(this.url_site + 'commander/api/article/' + id_article, {items: [id_article]} ).then((response) => {
 						this.cart.push({ 
 							'id_article': id_article, 
 							'composer': response.data.article.article_composer, 
@@ -134,7 +135,7 @@ var demo = new Vue({
 					this.cart[index]['total_tva'] = (this.cart[index]['total_price'] - this.cart[index]['total_ht']).toFixed(2);
 				}
 				// Envoi de la requête POST au serveur pour ajouter une quantité.
-				this.$http.post('http://127.0.0.1:8000/commander/add/' + id_article +'/', {items: [id_article]} );
+				this.$http.post(this.url_site + 'commander/add/' + id_article +'/', {items: [id_article]} );
 
 				// On créé le cookie pour stocker les données du panier.
 				localStorage.setItem("cart", JSON.stringify(this.cart));
@@ -143,7 +144,7 @@ var demo = new Vue({
 
 			else { //S'il s'agit d'un article servant à composer un plat.
 				// typologie_article = Bases, Ingrédients, Plats Prêts
-				this.$http.get('http://127.0.0.1:8000/commander/api/article/' + id_article ).then((response) => {
+				this.$http.get(this.url_site + 'commander/api/article/' + id_article ).then((response) => {
 					
 					// On contrôle si l'article est présent ou non dans la composition. Impossible d'ajouter le même article deux fois.
 					if (this.items_composed_cart.findIndex(p => p.id_article === id_article) === -1) {
@@ -247,7 +248,7 @@ var demo = new Vue({
 
 		var index = this.final_composed_cart.findIndex(p => p.key === composition_key);
 
-		this.$http.post('http://127.0.0.1:8000/commander/cart-add-quantity-final-composed-cart/' + composition_key +'/', {next: next}).then(response => {
+		this.$http.post(this.url_site + 'commander/cart-add-quantity-final-composed-cart/' + composition_key +'/', {next: next}).then(response => {
 			this.final_composed_cart[index]['quantity'] += 1;
 			this.final_composed_cart[index]['total_price'] = (this.final_composed_cart[index]['quantity'] * this.final_composed_cart[index]['price']).toFixed(2);
 			this.final_composed_cart[index]['total_tva'] = (this.final_composed_cart[index]['quantity'] * this.final_composed_cart[index]['tva']).toFixed(2);
@@ -270,7 +271,7 @@ var demo = new Vue({
 
 		var index = this.final_composed_cart.findIndex(p => p.key === composition_key);
 
-		this.$http.post('http://127.0.0.1:8000/commander/remove-one-final-composed-cart/' + composition_key +'/', {next: next}).then(response => {
+		this.$http.post(this.url_site + 'commander/remove-one-final-composed-cart/' + composition_key +'/', {next: next}).then(response => {
 			// Si la quantité de l'article est supérieure à 1, on diminue la quantité d'un
 			if (this.final_composed_cart[index]['quantity'] > 1) {
 				this.final_composed_cart[index]['quantity'] -= 1;
@@ -309,7 +310,7 @@ var demo = new Vue({
 			else {
 				var index = this.final_composed_cart.findIndex(p => p.key === composition_key);
 
-				this.$http.get('http://127.0.0.1:8000/commander/remove-final-composed-cart/' + composition_key +'/').then(response => {
+				this.$http.get(this.url_site + 'commander/remove-final-composed-cart/' + composition_key +'/').then(response => {
 					this.final_composed_cart.splice(index, 1); // Si article est en quantité de 1, on le supprime du dictionnaire.			
 					// On créé le cookie pour stocker les données du panier.
 					localStorage.setItem("final_composed_cart", JSON.stringify(this.final_composed_cart));
@@ -352,7 +353,7 @@ var demo = new Vue({
 				console.log("Vous allez modifier votre panier");
 
 				// On envoie une requête GET au serveur avec le numéro de l'item à modifier.
-				this.$http.get('http://127.0.0.1:8000/commander/cart-modify-final-composed-cart/'+ id + '-' + composition_key +'/').then(response => {
+				this.$http.get(this.url_site + 'commander/cart-modify-final-composed-cart/'+ id + '-' + composition_key +'/').then(response => {
 					
 					// On créé un boucle et on réinjecte la création dans l'objet contenant la création.
 					for (var item of this.final_composed_cart[index].items) {
@@ -369,7 +370,7 @@ var demo = new Vue({
 					this.final_composed_cart.splice(index, 1); // Si article est en quantité de 1, on le supprime du dictionnaire.			
 					// On créé le cookie pour stocker les données du panier.
 					localStorage.setItem("final_composed_cart", JSON.stringify(this.final_composed_cart));
-					window.location.replace('http://127.0.0.1:8000/commander/composer/' + slug + '-' + id);
+					window.location.replace(this.url_site + 'commander/composer/' + slug + '-' + id);
 
 				}, response => {
 					this.cart_composition_alert = '<p>Une erreur interne s\'est produite !</p><p> Mais rassurez-vous, vous n\y êtes pour rien.</p>';
@@ -408,7 +409,7 @@ var demo = new Vue({
 				else {
 					var index = this.cart.findIndex(p => p.id_article === id_article);
 
-					this.$http.post('http://127.0.0.1:8000/commander/remove-one/' + id_article +'/').then(response => {
+					this.$http.post(this.url_site + 'commander/remove-one/' + id_article +'/').then(response => {
 						// Si la quantité de l'article est supérieure à 1, on diminue la quantité d'un
 						if (this.cart[index]['quantity'] > 1) {
 							this.cart[index]['quantity'] -= 1;
@@ -475,7 +476,7 @@ var demo = new Vue({
 				else {
 					var index = this.cart.findIndex(p => p.id_article === id_article);
 
-					this.$http.get('http://127.0.0.1:8000/commander/remove/' + id_article +'/').then(response => {
+					this.$http.get(this.url_site + 'commander/remove/' + id_article +'/').then(response => {
 						this.cart.splice(index, 1); // Si article est en quantité de 1, on le supprime du dictionnaire.			
 						// On créé le cookie pour stocker les données du panier.
 						localStorage.setItem("cart", JSON.stringify(this.cart));
@@ -541,7 +542,7 @@ var demo = new Vue({
 
 			// Si la composition est ok, alors on peut poster tous les éléments de la compositions vers composed_cart. Et ensuite réaliser le post vers final_composed_cart
 			else {
-				this.$http.get('http://127.0.0.1:8000/commander/api/sous-categories-article/' + sous_categories_articles ).then((response) => {
+				this.$http.get(this.url_site + 'commander/api/sous-categories-article/' + sous_categories_articles ).then((response) => {
 					var sous_categories_articles_data = response.data;
 					
 					// On créé un dictionnaire qui va recevoir les ID des différents articles de la composition.
@@ -555,7 +556,7 @@ var demo = new Vue({
 					var id_last_item_composition = dict_items_id_composition.slice(-1)[0]
 
 					// On réalise la requête
-						this.$http.post('http://127.0.0.1:8000/commander/add/' + id_last_item_composition +'/', {items: dict_items_id_composition}).then((response) => {
+						this.$http.post(this.url_site + 'commander/add/' + id_last_item_composition +'/', {items: dict_items_id_composition}).then((response) => {
 							if (response.status == 200) {
 								// Si la requête a été un succès on vide la compositon et la variable du dernier article ajouté.
 								dict_items_id_composition = [];
@@ -571,7 +572,7 @@ var demo = new Vue({
 									total_ht_composition += Number(d.ht_price);
 								});
 
-								this.$http.post('http://127.0.0.1:8000/commander/add-composed-cart/' + sous_categories_articles + '/',{next: next, comment: comment}).then(response => {
+								this.$http.post(this.url_site + 'commander/add-composed-cart/' + sous_categories_articles + '/',{next: next, comment: comment}).then(response => {
 									this.final_composed_cart.push({
 									'key': Object.keys(response.data.data).slice(-1)[0], 
 									'quantity': 1, 
@@ -643,14 +644,15 @@ var demo = new Vue({
 	updated: function () {
 
 		var items_composed_cart_length = this.items_composed_cart.length;
+		var url_site = this.url_site;
 
 		window.onbeforeunload = function (e) {
-			if(items_composed_cart_length !== 0 && location.href !== 'http://127.0.0.1:8000/commander/panier/')
+			if(items_composed_cart_length !== 0 && location.href !== url_site + 'commander/panier/')
 				return "Si vous quittez ou rechargez la page, votre composition ne sera pas sauvegardée.";
 		};
 
 		// On vide les cookies créés.
-		if(items_composed_cart_length !== 0 && location.href !== 'http://127.0.0.1:8000/commander/panier/') 
+		if(items_composed_cart_length !== 0 && location.href !== url_site + 'commander/panier/') 
 		{
 			window.onunload = e => {
 				this.items_composed_cart = [];
@@ -841,7 +843,7 @@ var demo = new Vue({
 	// 	}
 	// 	else {
 	// 		console.log("Article non présent dans le panier - Article ajouté");
-	// 		this.$http.get('http://127.0.0.1:8000/commander/api/article/' + id_article ).then((response) => {
+	// 		this.$http.get(this.url_site + 'commander/api/article/' + id_article ).then((response) => {
 	// 			this.cart.push(id_article,{ 'nom': response.data.article.nom, 'description': response.data.article.description, 'quantity': 1, 'price': Number(response.data.prix_vente_unitaire), 'total_price': Number(response.data.prix_vente_unitaire), 'image': response.data.article.image});
 	// 			},
 	// 		(response) => {
@@ -849,7 +851,7 @@ var demo = new Vue({
 	// 		});
 	// 	}
 	// 	// Envoi de la requête POST au serveur pour ajouter une quantité.
-	// 	// this.$http.post('http://127.0.0.1:8000/commander/add/' + id_article +'/');
+	// 	// this.$http.post(this.url_site + 'commander/add/' + id_article +'/');
 		
 	// 	},
 
@@ -858,13 +860,13 @@ var demo = new Vue({
 
 					// var id_article = 14;
 					// var dict_data = [14, 4, 1];
-					// 	this.$http.post('http://127.0.0.1:8000/commander/add/' + id_article +'/', {items: dict_data}).then((response) => {
+					// 	this.$http.post(this.url_site + 'commander/add/' + id_article +'/', {items: dict_data}).then((response) => {
 					// 		console.log(response.data);
 					// 	}, response => {
 					// 		console.log("Erreur");
 					// 	})
 				// for (const item of this.items_composed_cart) {
-				// 	this.$http.post('http://127.0.0.1:8000/commander/add/' + item.id_article +'/', {next: 'test', items: 'comment'}).then(async (response) => {
+				// 	this.$http.post(this.url_site + 'commander/add/' + item.id_article +'/', {next: 'test', items: 'comment'}).then(async (response) => {
 				// 		const body = await response.text();
 				// 		if (response.status != 200) throw Error(body.message);
 				// 		// if everything is fine resiolve to true or for example your body content
@@ -876,7 +878,7 @@ var demo = new Vue({
 				// }
 
 				// for (const item of this.items_composed_cart) {
-				// 	this.$http.post('http://127.0.0.1:8000/commander/add/' + item.id_article +'/').then(async (response) => {
+				// 	this.$http.post(this.url_site + 'commander/add/' + item.id_article +'/').then(async (response) => {
 				// 		const body = await response.text();
 				// 		if (response.status != 200) throw Error(body.message);
 				// 		// if everything is fine resiolve to true or for example your body content
@@ -887,7 +889,7 @@ var demo = new Vue({
 				// 	});					
 				// }
 				// 	this.items_composed_cart.forEach((d) => {
-				// 		this.$http.post('http://127.0.0.1:8000/commander/add/' + d.id_article +'/').then(async (response) => {
+				// 		this.$http.post(this.url_site + 'commander/add/' + d.id_article +'/').then(async (response) => {
 				// 			const body = await response.text();
 				// 			if (response.status != 200) throw Error(body.message);
 				// 			// if everything is fine resiolve to true or for example your body content
@@ -898,7 +900,7 @@ var demo = new Vue({
 				// 		});
 				// });
 
-					// this.$http.post('http://127.0.0.1:8000/commander/add-composed-cart/' + sous_categories_articles + '/',{next: next, comment: comment}).then(response => {
+					// this.$http.post(this.url_site + 'commander/add-composed-cart/' + sous_categories_articles + '/',{next: next, comment: comment}).then(response => {
 					// 	this.final_composed_cart.push({'key': Object.keys(response.data.data).slice(-1)[0], 'quantity': 1, 'comment': comment, 'categorie_composition': sous_categories_articles_data, 'items': this.items_composed_cart}); // On intègre la composition dans le panier final_composed_cart en récupérant l'ID unique du panier généré par le backend et retourné dans la requête AJAX.
 					// 	document.querySelector('textarea[name="comment"]').value = ''; //On vide le champ commenaire après la validation du formulaire.
 						
@@ -945,11 +947,11 @@ var demo = new Vue({
 	// 	window.onunload = e => {
 	// 		// console.log(csrftoken);
 	// 		// console.log(sous_categories_articles);
-	// 		this.$http.post('http://127.0.0.1:8000/commander/remove-composed-cart/' + sous_categories_articles + '/',{next: next});
+	// 		this.$http.post(this.url_site + 'commander/remove-composed-cart/' + sous_categories_articles + '/',{next: next});
 	// 		$.ajax({
 	// 			type: 'POST',
 	// 			async: false,
-	// 			url: 'http://127.0.0.1:8000/commander/remove-composed-cart/' + sous_categories_articles + '/',
+	// 			url: this.url_site + 'commander/remove-composed-cart/' + sous_categories_articles + '/',
 	// 			data : { 'csrfmiddlewaretoken' : csrftoken, 'next': next },
 
 	// 		});
