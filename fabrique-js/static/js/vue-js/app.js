@@ -7,7 +7,7 @@ if (document.querySelector('input[name="csrfmiddlewaretoken"]') != null) {
 }
 
 var demo = new Vue({
-	el: '.site-content',
+	el: '.container', //.site-content
 	delimiters: ["[[","]]"],
 	data: {
 		url_site : 'http://127.0.0.1:8000/',
@@ -52,32 +52,46 @@ var demo = new Vue({
 
 		// Fonction qui permet de rectracter le menu des différentes catégories de commandes quand on scrolle vers le bas.
 		// Permet d'ajouter ou d'enlever une class à la DIV existante.
+		if (document.getElementById("menu-top-commander-id") != null) {
+			window.document.body.onscroll = function() {
+				if (document.body.scrollTop > 300) {				
+					document.getElementById("menu-top-commander-id").setAttribute('class' , 'menu-top-commander menu-top-commander-smaller');
+					if (document.getElementById("fixed-cart-id") != null) {
+						document.getElementById("fixed-cart-id").setAttribute('class' , 'fixed-cart fixed-cart-smaller');
+					}
+				}
+				else {
+					document.getElementById("menu-top-commander-id").setAttribute('class' , 'menu-top-commander');
+					if (document.getElementById("fixed-cart-id") != null) {
+						document.getElementById("fixed-cart-id").setAttribute('class' , 'fixed-cart');
+					}
+				}
+			};
+		};
 
-		window.document.body.onscroll = function() {
-			if (document.body.scrollTop > 300) {				
-				document.getElementById("menu-top-commander-id").setAttribute('class' , 'menu-top-commander menu-top-commander-smaller');
-				if (document.getElementById("fixed-cart-id") != null) {
-					document.getElementById("fixed-cart-id").setAttribute('class' , 'fixed-cart fixed-cart-smaller');
-				}
-			}
-			else {
-				document.getElementById("menu-top-commander-id").setAttribute('class' , 'menu-top-commander');
-				if (document.getElementById("fixed-cart-id") != null) {
-					document.getElementById("fixed-cart-id").setAttribute('class' , 'fixed-cart');
-				}
-			}
+		// Fonction qui permet de rétracter le menu apparu / Fermeture du menu principal
+		document.getElementById("site-cache").onclick = function() {
+			document.body.setAttribute('class', '');
 		};
 	},
 
 	methods: {
 
-	// Méthode pour ajouter / supprimer des articles non composés
+	// Méthode pour désactiver une popup qui apparaît (message d'erreur, de succès)
 	removeactive: function(){
 		this.active = false;
 	},
 
+	// Méthode pour désactiver une popup qui apparaît (message d'erreur, de succès)
 	removedjangopopup: function(event) {
 		event.target.closest('.popup-messages-overlay').remove();
+	},
+
+	// Ouverture du menu principal
+
+	menuResponsiveShow: function(event) {
+		document.body.setAttribute('class' , 'with--sidebar');
+		
 	},
 
 	// Méthode pour ajouter au panier un article prêt ou un article servant à composer un plat.

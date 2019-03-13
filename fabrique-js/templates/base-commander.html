@@ -24,7 +24,7 @@
 <div class="container"> <!-- Nécessaire pour flex box -->
 
         <header class="header">
-            <a href="" class="header__icon"></a>
+            <a @click.prevent="menuResponsiveShow($event)" href="" class="header__icon"></a>
             <a href="" class="header__logo"></a>
             <nav class="menu">
                     <a href="{% url 'home' %}"><img class="logo" src="{% static 'img/icones/logo-white.png' %}" alt="logo-menu-lafabrique"></a>
@@ -167,7 +167,6 @@
     <div class="site-cache" id="site-cache"></div>
 </div>
 <!-- Nécessaire sinon, le menu responsive ne fonctionne pas -->
-<script type="text/javascript" src="{% static 'js/responsive-menu/app.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/vue-js/vue.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/vue-js/vue-ressource.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/vue-js/app.js' %}"></script>

@@ -16,6 +16,8 @@
     <!-- Script pour présentation dynamique "Notre concept" -->
     <script src="{% static 'js/aos-master/aos.js' %}"></script>
     <!-- Fin pour présentation dynamique "Notre concept" -->    
+
+    <!-- Nécessaire sinon, le menu responsive ne fonctionne pas -->
     <!-- Fin chargement javascript-->
 
 
@@ -26,7 +28,7 @@
         <div class="container"> <!-- Nécessaire pour flex box -->
 
             <header class="header">
-        		<a href="" class="header__icon"></a>
+        		<a @click.prevent="menuResponsiveShow($event)" href="" class="header__icon"></a>
         		<a href="" class="header__logo"></a>
                 <nav class="menu">
                         <a href="{% url 'home' %}"><img class="logo" src="{% static 'img/icones/logo-white.png' %}" alt="logo-menu-lafabrique"></a>
@@ -75,6 +77,9 @@
           });
     </script>
     <!-- Nécessaire sinon, le menu responsive ne fonctionne pas -->
+    <script type="text/javascript" src="{% static 'js/vue-js/vue.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/vue-js/app.js' %}"></script>
+    
     <script type="text/javascript" src="{% static 'js/responsive-menu/app.js' %}"></script>
     </body>
 </html>
