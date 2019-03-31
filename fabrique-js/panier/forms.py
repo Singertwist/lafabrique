@@ -20,7 +20,7 @@ class ComposedCartAddProductForm(forms.Form):
 	next =  forms.CharField(widget=forms.HiddenInput, max_length=2000)
 
 class DatePickerForm(forms.Form):
-	picking_date = forms.DateTimeField(label='Date et heure de retrait de la commande:')
+	picking_date = forms.DateTimeField(label='Date et heure de retrait de la commande:', widget=forms.HiddenInput)
 
 	def clean_picking_date(self):
 		date = self.cleaned_data["picking_date"]

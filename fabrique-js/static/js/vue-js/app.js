@@ -6,6 +6,8 @@ if (document.querySelector('input[name="csrfmiddlewaretoken"]') != null) {
 	})
 }
 
+Vue.component('vue-ctk-date-time-picker', window['vue-ctk-date-time-picker']);
+
 var demo = new Vue({
 	el: '.container', //.site-content
 	delimiters: ["[[","]]"],
@@ -18,6 +20,7 @@ var demo = new Vue({
 		active : false,
 		cart_composition_alert : '',
 		cart_composition_alert_type : '',
+		datepickervuejs: null,
 	},
 
 	beforeMount: function() {
@@ -690,6 +693,11 @@ var demo = new Vue({
 				// On créé le cookie pour stocker les données du panier regroupé par typologie (Base, Ingrédients)
 				localStorage.setItem("groupedByTypologieItem", JSON.stringify(this.groupedByTypologieItem));
 			};
+		};
+
+		// Remplissage de l'input date / heure du panier automatiquement
+		if (document.getElementById('id_picking_date') != null) {
+			document.getElementById('id_picking_date').value = this.datepickervuejs;
 		}
 	},
 

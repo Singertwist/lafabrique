@@ -199,7 +199,7 @@ div .bold-total-panier {
 	padding-top: 10px;
 }
 
-.composition-panier-final-info-date div {
+.composition-panier-final-info-date > div {
 	margin: 0px;
 	padding: 0px 0px 0px 5px;
 }

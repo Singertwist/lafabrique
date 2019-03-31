@@ -172,8 +172,20 @@
                     {{ date_picking_form.picking_date.errors }}
                     <p>{{ date_picking_form.picking_date.label_tag }}</p>
                     <form method="post" action="." >
-                      {{ date_picking_form.picking_date }}
-                      {% csrf_token %}
+                        <vue-ctk-date-time-picker
+                          :format="'YYYY-MM-DD HH:mm'"
+                          time-format="H:mm"
+                          color="#CE3734" 
+                          locale="fr" 
+                          :minute-interval="10"
+                          label="Choisissez une heure et date de retrait !" 
+                          v-model="datepickervuejs"
+                          :no-weekends-days="true"
+                          :disabled-hours=['0','1','2','3','4','5','6','7','8','19','20','21','22','23']
+                          range>
+                          </vue-ctk-date-time-picker>
+                          {{ date_picking_form.picking_date }}
+                          {% csrf_token %}
                       <input type="submit" id="date-picking-submit-form" value="Appliquer la date"></input>
                     </form>
 
@@ -234,8 +246,7 @@
     </div> 
 
 <!-- CSS date picker -->
-    <link rel="stylesheet" property="stylesheet" media="all" type="text/css" href="{% static 'css/date-picker/jquery-ui.css' %}" />
-    <link rel="stylesheet" property="stylesheet" media="all" type="text/css" href="{% static 'js/date-picker/css/jquery-ui-timepicker-addon.css' %}" />
+    <link rel="stylesheet" property="stylesheet" media="all" type="text/css" href="{% static 'css/ctk-date-picker/style.css' %}">
 <!-- Fin CSS date picker  -->
 
 {% endblock %}
