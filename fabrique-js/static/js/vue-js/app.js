@@ -273,7 +273,7 @@ var demo = new Vue({
 			// On créé le cookie pour stocker les données du panier.
 			localStorage.setItem("final_composed_cart", JSON.stringify(this.final_composed_cart));
 		}, response => {
-				this.cart_composition_alert = '<p>Une erreur interne s\'est produite !</p><p> Mais rassurez-vous, vous n\y êtes pour rien.</p>';
+				this.cart_composition_alert = '<p>Une erreur interne s\'est produite !</p><p> Mais rassurez-vous, vous n\'y êtes pour rien.</p>';
 				this.cart_composition_alert_type = 'Error';
 				this.active = true;
 
