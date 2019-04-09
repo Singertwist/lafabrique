@@ -76,6 +76,20 @@ var demo = new Vue({
 		document.getElementById("site-cache").onclick = function() {
 			document.body.setAttribute('class', '');
 		};
+
+		// Mise en forme des champs de paiement Cleave.js
+
+		if (document.getElementById("id_card_number") != null) {
+			var cleaveCreditCard = new Cleave('#id_card_number', {
+				creditCard: true
+			});
+
+			var cleaveMonthDateCreditCard = new Cleave('#id_card_validity_date', {
+				date: true,
+				datePattern: ['m', 'Y']
+			});
+		};
+
 	},
 
 	methods: {
@@ -663,7 +677,49 @@ var demo = new Vue({
 			else {
 				console.log("Vous pouvez valider votre panier")
 			}
-		}
+		},
+
+		// Gestion des paiements via l'API Stripe
+
+		// Validation du paiement via l'API
+
+		PaymentValidationStripe: function(event) {
+			var errorMessages = {
+				incorrect_number: "Le numéro de carte est incorrect.",
+				invalid_number: "Veuillez vérifier votre numéro de carte ou la date d'expiration.",
+				invalid_expiry_month: "Le mois d'expiration de la carte est invalide.",
+				invalid_expiry_year: "L'année d'expiration de la carte est invalide.",
+				invalid_cvc: "Le numéro secret de la carte est invalide.",
+				expired_card: "La carte a expiré.",
+				incorrect_cvc: "Le numéro secret de la carte est incorrecte.",
+				incorrect_zip: "Le code postal de la carte est incorrect.",
+				card_declined: "Le paiement a été refusé.",
+				missing: "There is no card on a customer that is being charged.",
+				processing_error: "Une erreur s'est produite pendant le traitement du paiement. Veuillez réessayer ou contacter le service client.",
+				rate_limit:  "An error occurred due to requests hitting the API too quickly. Please let us know if you're consistently running into this error.",
+				missing_payment_information: "Vos coordonnées bancaires sont manquantes."
+			};
+
+			var card = {
+				number: document.getElementById("id_card_number").value.replace(/\s+/g, ''), //$("#id_card_number").val(),
+				exp_month: document.getElementById("id_card_validity_date").value.substring(0,2), /*Extrait les 2 premiers caractères de la date de validité --> Année*/
+				exp_year: document.getElementById("id_card_validity_date").value.substring(3,5), /*Extraire les 2 dernier caractère de l'input de la date de valdiité --> Année*/
+				cvc: document.getElementById("id_cvv_number").value,
+			};
+
+			Stripe.createToken(card, function(status, response) {
+				if (status === 200) {
+					console.log(status, response);
+					document.getElementById("id_stripe_id").value = response.id
+					form = document.getElementById("cart-payment")
+					form.submit();
+				} 
+				else {
+					document.getElementById("stripe-error-card").style.display = 'block'; /*  Permet d'afficher le message d'erreur qui est en hidden dans le fichier css.*/
+					document.getElementById("stripe-error-card").innerHTML = errorMessages[response.error.code]
+				}
+			});
+		},
 
 	},
 
