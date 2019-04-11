@@ -139,11 +139,11 @@ var demo = new Vue({
 							'description': response.data.article.description, 
 							'quantity': 1, 
 							'price': Number(response.data.prix_vente_unitaire).toFixed(2),
-							'ht_price': Number(Number(response.data.prix_vente_unitaire) / Number(response.data.article.taux_TVA.taux_applicable)).toFixed(2),
+							'ht_price': Number(Number(response.data.prix_vente_unitaire) / Number(response.data.taux_TVA.taux_applicable)).toFixed(2),
 							'total_price': Number(response.data.prix_vente_unitaire).toFixed(2),
-							'total_ht': Number(Number(response.data.prix_vente_unitaire) / Number(response.data.article.taux_TVA.taux_applicable)).toFixed(2),
-							'total_tva': Number(Number(response.data.prix_vente_unitaire) - Number(response.data.prix_vente_unitaire) / Number(response.data.article.taux_TVA.taux_applicable)).toFixed(2),
-							'taux_tva': Number(response.data.article.taux_TVA.taux_applicable).toFixed(2), 
+							'total_ht': Number(Number(response.data.prix_vente_unitaire) / Number(response.data.taux_TVA.taux_applicable)).toFixed(2),
+							'total_tva': Number(Number(response.data.prix_vente_unitaire) - Number(response.data.prix_vente_unitaire) / Number(response.data.taux_TVA.taux_applicable)).toFixed(2),
+							'taux_tva': Number(response.data.taux_TVA.taux_applicable).toFixed(2), 
 							'image': response.data.article.image, 
 							'small_size_thumbnail': response.data.article.thumbnail_small_size, 
 							'middle_size_thumbnail': response.data.article.thumbnail_middle_size
@@ -194,12 +194,12 @@ var demo = new Vue({
 								'quantity': 1, 
 								'price': Number(response.data.prix_vente_unitaire), 
 								'total_price': Number(response.data.prix_vente_unitaire), 
-								'taux_tva': Number(response.data.article.taux_TVA.taux_applicable),  
+								'taux_tva': Number(response.data.taux_TVA.taux_applicable),  
 								'image': response.data.article.image, 
 								'small_size_thumbnail': response.data.article.thumbnail_small_size, 
 								'middle_size_thumbnail': response.data.article.thumbnail_middle_size,
-								'ht_price': Number(Number(response.data.prix_vente_unitaire) / Number(response.data.article.taux_TVA.taux_applicable)),
-								'total_tva': Number(Number(response.data.prix_vente_unitaire) - Number(response.data.prix_vente_unitaire) / Number(response.data.article.taux_TVA.taux_applicable)),
+								'ht_price': Number(Number(response.data.prix_vente_unitaire) / Number(response.data.taux_TVA.taux_applicable)),
+								'total_tva': Number(Number(response.data.prix_vente_unitaire) - Number(response.data.prix_vente_unitaire) / Number(response.data.taux_TVA.taux_applicable)),
 							});
 							console.log("L'ingrédient a bien été ajouté");
 							this.groupedByTypologieItem = this.items_composed_cart.groupBy('typologie_article'); // Création d'un regroupement par type article (type article d'ingrédient)
@@ -222,12 +222,12 @@ var demo = new Vue({
 								'quantity': 1, 
 								'price': Number(response.data.prix_vente_unitaire), 
 								'total_price': Number(response.data.prix_vente_unitaire), 
-								'taux_tva': Number(response.data.article.taux_TVA.taux_applicable), 
+								'taux_tva': Number(response.data.taux_TVA.taux_applicable), 
 								'image': response.data.article.image, 
 								'small_size_thumbnail': response.data.article.thumbnail_small_size, 
 								'middle_size_thumbnail': response.data.article.thumbnail_middle_size,
-								'ht_price': Number(Number(response.data.prix_vente_unitaire) / Number(response.data.article.taux_TVA.taux_applicable)),
-								'total_tva': Number(Number(response.data.prix_vente_unitaire) - Number(response.data.prix_vente_unitaire) / Number(response.data.article.taux_TVA.taux_applicable)),
+								'ht_price': Number(Number(response.data.prix_vente_unitaire) / Number(response.data.taux_TVA.taux_applicable)),
+								'total_tva': Number(Number(response.data.prix_vente_unitaire) - Number(response.data.prix_vente_unitaire) / Number(response.data.taux_TVA.taux_applicable)),
 							});
 							console.log("La base a bien été ajoutée");
 							this.groupedByTypologieItem = this.items_composed_cart.groupBy('typologie_article'); // Création d'un regroupement par type article.

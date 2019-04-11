@@ -12,7 +12,6 @@ class TauxTVASerializer(serializers.ModelSerializer):
 		fields = '__all__'
 
 class ArticlesSerializer(serializers.ModelSerializer):
-	taux_TVA = TauxTVASerializer()
 	class Meta:
 		model = Article
 		fields = '__all__'
@@ -21,6 +20,7 @@ class ArticlesSerializer(serializers.ModelSerializer):
 class VariationsArticlesSerializer(serializers.ModelSerializer):
 	article = ArticlesSerializer()
 	categories = SousCategoriesArticlesSerializer()
+	taux_TVA = TauxTVASerializer()
 	class Meta:
 		model = Variations_Articles
 		fields = '__all__'

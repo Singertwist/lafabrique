@@ -28,7 +28,7 @@ class Cart(object):
 		product_id = str(product.id)
 		if product.article.article_composer == False:
 			if product_id not in self.cart:
-				self.cart[product_id] = {'quantity': 1,'price': str(product.prix_vente_unitaire), 'tva': str(product.article.taux_TVA.taux_applicable)}
+				self.cart[product_id] = {'quantity': 1,'price': str(product.prix_vente_unitaire), 'tva': str(product.taux_TVA.taux_applicable)}
 
 			else:
 				self.cart[product_id]['quantity'] += quantity #Ajoute +1 à la quantité et met à jour le dictionnaire contenant la quantité. += signifie ajoute à la valeur initiale de quantité.
@@ -40,7 +40,7 @@ class Cart(object):
 				return "Only_one_base"
 			else:
 				if product_id not in self.composed_cart:
-					self.composed_cart[product_id] = {'quantity': 1,'price': str(product.prix_vente_unitaire), 'tva': str(product.article.taux_TVA.taux_applicable), 'base': str(product.type_article)}
+					self.composed_cart[product_id] = {'quantity': 1,'price': str(product.prix_vente_unitaire), 'tva': str(product.taux_TVA.taux_applicable), 'base': str(product.type_article)}
 
 				else:
 					return "Same_articles" # Si l'article est déjà présent dans le panier composition, retourne un message d'erreur.

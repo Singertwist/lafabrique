@@ -147,7 +147,7 @@ class Type_Variations_Articles(models.Model):
 
 class Taux_TVA(models.Model):
 	nom_taux_applicable = models.CharField(max_length=160, verbose_name='Taux TVA applicable')
-	taux_applicable = models.DecimalField(max_digits=4, decimal_places=2)
+	taux_applicable = models.DecimalField(max_digits=6, decimal_places=4)
 	timestamp = models.DateTimeField(auto_now=False, auto_now_add=True, verbose_name='Date de création')
 	updated = models.DateTimeField(auto_now=True, auto_now_add=False, verbose_name='Date de mise à jour')
 
@@ -175,7 +175,6 @@ class Article(models.Model):
 	disponible = models.BooleanField(verbose_name='Disponible / Non disponible')
 	article_composer = models.BooleanField(verbose_name='Article servant à composer un plat (cocher si oui)')
 	sous_categories_articles = models.ForeignKey(Type_Produit, verbose_name='Type d\'article', on_delete=models.PROTECT)
-	taux_TVA = models.ForeignKey(Taux_TVA, on_delete=models.PROTECT)
 	allergenes = models.ManyToManyField(Allergie, blank=True)
 	gluten_info = models.BooleanField(verbose_name='Contient du Gluten: Oui (cocher) / Non (ne pas cocher)')
 	vegeterien_info = models.BooleanField(verbose_name='Végéterien friendly: Oui (cocher) / Non (ne pas cocher)')
@@ -212,6 +211,7 @@ class Variations_Articles(models.Model):
 	type_article = models.ForeignKey(Type_Variations_Articles, on_delete=models.PROTECT)
 	article_une = models.BooleanField(verbose_name="Article en une? / Cocher si oui.")
 	prix_vente_unitaire = models.DecimalField(max_digits=19, decimal_places=2, validators=[MinValueValidator(Decimal('0.01'))])
+	taux_TVA = models.ForeignKey(Taux_TVA, on_delete=models.PROTECT)
 	variation_disponible = models.BooleanField(verbose_name='Variation Disponible / Non disponible')
 	unite_oeuvre = models.ForeignKey(Unite_Oeuvre, verbose_name='Unité d\'oeuvre', on_delete=models.PROTECT)
 	quantite_mise_en_oeuvre = models.DecimalField(max_digits=19, decimal_places=2, validators=[MinValueValidator(Decimal('0.01'))])
